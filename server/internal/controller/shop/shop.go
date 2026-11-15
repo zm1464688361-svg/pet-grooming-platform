@@ -274,6 +274,53 @@ func (c *Controller) RefundRetry(r *ghttp.Request) {
 	response.OKMsg(r, res.Message, res)
 }
 
+// AppNoShow POST /api/shop/app/noshow 标记未到店（店长）。
+func (c *Controller) AppNoShow(r *ghttp.Request) {
+	var req struct {
+		AppId  string `json:"appId"`
+		Reason string `json:"reason"`
+	}
+	if err := r.Parse(&req); err != nil || req.AppId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.MarkNoShow(r.Context(), req.AppId, req.Reason)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
+// ExceptionList GET /api/shop/exception/list 支付异常单列表（店长/客服）。
+func (c *Controller) ExceptionList(r *ghttp.Request) {
+	list, total, err := logicShop.ExceptionList(
+		r.Context(), r.Get("status").Int(), r.Get("page").Int(), r.Get("size").Int(),
+	)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
+// ExceptionProcess POST /api/shop/exception/process 处理异常单（店长/客服）。
+func (c *Controller) ExceptionProcess(r *ghttp.Request) {
+	var req struct {
+		ExcId string `json:"excId"`
+	}
+	if err := r.Parse(&req); err != nil || req.ExcId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.ProcessException(r.Context(), req.ExcId)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)
