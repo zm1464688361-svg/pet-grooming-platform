@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>前台核销台 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-2.5 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="workbench.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<div class="flex-1">
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">前台核销台</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">前台 何蕾 · 三重校验后核销</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[10px] font-medium">待核销 2</span>
+</div>
+<div class="mt-2.5 flex items-center gap-2 rounded-xl bg-[#f7fbf9] border border-[#eef4f1] px-3 py-2">
+<iconify-icon class="text-[#8aa398] text-sm" icon="mdi:magnify"></iconify-icon>
+<input class="flex-1 bg-transparent text-[11px] outline-none placeholder:text-[#b6c7bf]" id="verifyInput" placeholder="输入预约号后 4 位或扫描预约码" type="text"/>
+<button class="text-[10px] px-2 py-1 rounded-full bg-[#38a878] text-white font-medium" onclick="searchBooking()" type="button">查询</button>
+</div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-28">
+<!-- 待核销列表 -->
+<section class="mt-3">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-[12px] font-bold text-[#1d3a2e]">今日待核销</h2>
+<span class="text-[10px] text-[#a2b5ab]">按时段开始时间排序</span>
+</div>
+<div class="space-y-2">
+<button class="w-full text-left rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#d9efe3]" data-key="0001" onclick="selectBooking('0001', '豆豆', '柯基', '14:00 - 15:00', true)" type="button">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#eaf7f0] grid place-items-center"><iconify-icon class="text-[#38a878]" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">豆豆 · 柯基</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115001 · 14:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-medium">已确认</span>
+</div>
+<p class="text-[9px] text-[#38a878] mt-2">点击展开三重校验 →</p>
+</button>
+<button class="w-full text-left rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-key="0012" onclick="selectBooking('0012', '可乐', '比熊', '14:00 - 15:00', false)" type="button">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#fdeee5] grid place-items-center"><iconify-icon class="text-[#e07a4b]" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">可乐 · 比熊</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115012 · 14:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-medium">已确认</span>
+</div>
+<p class="text-[9px] text-[#a2b5ab] mt-2">点击展开三重校验 →</p>
+</button>
+</div>
+</section>
+<!-- 三重校验 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" id="verifyPanel">
+<div class="flex items-center justify-between">
+<h2 class="text-[12px] font-bold text-[#1d3a2e]">三重校验</h2>
+<span class="text-[10px] text-[#a2b5ab]">预约 <span class="text-[#22402f] font-medium" id="currentCode">BK20261115001</span></span>
+</div>
+<div class="mt-3 space-y-2" id="verifyItems">
+<div class="flex items-start gap-2.5 rounded-xl bg-[#f7fbf9] px-3 py-2.5">
+<span class="w-5 h-5 rounded-full bg-[#38a878] grid place-items-center shrink-0 mt-0.5"><iconify-icon class="text-white text-xs" icon="mdi:check"></iconify-icon></span>
+<div>
+<p class="text-[11px] font-medium text-[#22402f]">预约归属本店</p>
+<p class="text-[9px] text-[#8aa398] mt-0.5">shop_001 毛球家宠物洗护 · 望京店</p>
+</div>
+</div>
+<div class="flex items-start gap-2.5 rounded-xl bg-[#f7fbf9] px-3 py-2.5">
+<span class="w-5 h-5 rounded-full bg-[#38a878] grid place-items-center shrink-0 mt-0.5"><iconify-icon class="text-white text-xs" icon="mdi:check"></iconify-icon></span>
+<div>
+<p class="text-[11px] font-medium text-[#22402f]">预约状态为「已确认」</p>
+<p class="text-[9px] text-[#8aa398] mt-0.5" id="statusHint">已支付 ¥99.00，未被核销、未取消</p>
+</div>
+</div>
+<div class="flex items-start gap-2.5 rounded-xl bg-[#f7fbf9] px-3 py-2.5">
+<span class="w-5 h-5 rounded-full bg-[#38a878] grid place-items-center shrink-0 mt-0.5"><iconify-icon class="text-white text-xs" icon="mdi:check"></iconify-icon></span>
+<div>
+<p class="text-[11px] font-medium text-[#22402f]">未过服务时段</p>
+<p class="text-[9px] text-[#8aa398] mt-0.5">当前 13:52 · 时段 14:00 - 15:00 尚未开始</p>
+</div>
+</div>
+</div>
+<div class="mt-3 rounded-xl bg-[#fafcfb] border border-[#eef4f1] px-3 py-2.5 text-[10px] text-[#7d958a]" id="bookingBrief">
+<span class="font-medium text-[#22402f]">豆豆 · 柯基</span> · 宠主 林小满 · 138****6621 · 服务项目：宠物洗护
+        </div>
+<button class="mt-3 w-full py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.26)]" id="verifyBtn" onclick="doVerify()" type="button">校验通过，确认核销</button>
+<p class="text-[9px] text-[#b6c7bf] text-center mt-1.5">并发请求下只会产生一个唯一核销结果</p>
+</section>
+<!-- 核销结果 -->
+<section class="hidden mt-3 rounded-2xl bg-white border border-[#cfeadd] p-4" id="resultSuccess">
+<div class="flex items-start gap-2.5">
+<span class="w-9 h-9 rounded-full bg-[#e8f6ef] grid place-items-center shrink-0"><iconify-icon class="text-[#2f8a63]" icon="mdi:check-bold"></iconify-icon></span>
+<div>
+<p class="text-[13px] font-bold text-[#2f8a63]">核销成功</p>
+<p class="text-[10px] text-[#7d958a] mt-1 leading-relaxed">BK20261115001 已更新为「已核销（待服务）」，已核销收入 +¥99.00，C 端预约详情同步更新。</p>
+</div>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<a class="py-2 rounded-full bg-[#f0f7f3] text-[10px] font-medium text-[#3f8f6b] text-center" href="service.html">通知服务人员</a>
+<a class="py-2 rounded-full border border-[#e6f0eb] text-[10px] text-[#4a6357] text-center" href="booking-detail.html">查看 C 端详情</a>
+</div>
+</section>
+<section class="hidden mt-3 rounded-2xl bg-white border border-[#f3dcd4] p-4" id="resultFail">
+<div class="flex items-start gap-2.5">
+<span class="w-9 h-9 rounded-full bg-[#fdeee5] grid place-items-center shrink-0"><iconify-icon class="text-[#c9563a]" icon="mdi:close"></iconify-icon></span>
+<div>
+<p class="text-[13px] font-bold text-[#c9563a]">核销失败：预约已超过服务时段</p>
+<p class="text-[10px] text-[#7d958a] mt-1 leading-relaxed">该预约时段 14:00 - 15:00 已结束，不能核销。如宠主确实到店，请由店长改为补录处理或标记未到店。</p>
+</div>
+</div>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<a class="py-2 rounded-full bg-[#fdf3e3] text-[10px] font-medium text-[#c98a3c] text-center" href="no-show.html">标记未到店</a>
+<a class="py-2 rounded-full border border-[#e6f0eb] text-[10px] text-[#4a6357] text-center" href="bookings-admin.html">返回预约查询</a>
+</div>
+</section>
+<!-- 今日核销记录 -->
+<section class="mt-4">
+<h2 class="text-[12px] font-bold text-[#1d3a2e] mb-2">今日已核销</h2>
+<div class="rounded-2xl bg-white divide-y divide-[#f2f7f4] shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="px-3.5 py-2.5 flex items-center justify-between">
+<div><p class="text-[11px] font-medium text-[#22402f]">奶糖 · 英短</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">BK20261115002 · 11-15 09:58</p></div>
+<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63]">核销成功</span>
+</div>
+<div class="px-3.5 py-2.5 flex items-center justify-between">
+<div><p class="text-[11px] font-medium text-[#22402f]">团团 · 边牧</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">BK20261115004 · 11-15 09:31</p></div>
+<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#fdeee5] text-[#c9563a]">核销失败 · 状态不符</span>
+</div>
+</div>
+</section>
+</main>
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:view-dashboard-outline"></iconify-icon>
+<span class="text-[10px]">工作台</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="frontdesk.html">
+<iconify-icon class="text-[22px]" icon="mdi:qrcode-scan"></iconify-icon>
+<span class="text-[10px] font-medium">核销台</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="bookings-admin.html">
+<iconify-icon class="text-[22px]" icon="mdi:clipboard-search-outline"></iconify-icon>
+<span class="text-[10px]">预约查询</span>
+</a>
+</nav>
+</div>
+<script>
+    var currentBooking = { code: 'BK20261115001', pet: '豆豆 · 柯基', owner: '林小满 · 138****6621', valid: true, timeOk: true };
+    var verified = false;
+
+    function selectBooking(last4, pet, breed, slot, timeOk) {
+      verified = false;
+      currentBooking = {
+        code: 'BK20261115' + last4,
+        pet: pet + ' · ' + breed,
+        owner: last4 === '0012' ? '赵一鸣 · 139****3308' : '林小满 · 138****6621',
+        valid: true,
+        timeOk: timeOk
+      };
+      document.getElementById('currentCode').textContent = currentBooking.code;
+      document.getElementById('bookingBrief').innerHTML = '<span class="font-medium text-[#22402f]">' + pet + ' · ' + breed + '</span> · 宠主 ' + currentBooking.owner + ' · 时段 ' + slot;
+      document.getElementById('resultSuccess').classList.add('hidden');
+      document.getElementById('resultFail').classList.add('hidden');
+      var btn = document.getElementById('verifyBtn');
+      btn.className = 'mt-3 w-full py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.26)]';
+      btn.textContent = '校验通过，确认核销';
+      document.getElementById('verifyPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function searchBooking() {
+      var input = document.getElementById('verifyInput').value.trim();
+      if (input === '') {
+        document.getElementById('verifyPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      if (input.indexOf('0012') >= 0) {
+        selectBooking('0012', '可乐', '比熊', '14:00 - 15:00', true);
+      } else {
+        selectBooking('0001', '豆豆', '柯基', '14:00 - 15:00', true);
+      }
+    }
+
+    function doVerify() {
+      if (verified) { return; }
+      var btn = document.getElementById('verifyBtn');
+      btn.textContent = '校验中…';
+      setTimeout(function () {
+        verified = true;
+        if (currentBooking.timeOk) {
+          document.getElementById('resultSuccess').classList.remove('hidden');
+          document.getElementById('resultFail').classList.add('hidden');
+          btn.textContent = '已核销（唯一结果）';
+          btn.className = 'mt-3 w-full py-3 rounded-full bg-[#dfe7e3] text-[#9aaba3] text-[13px] font-semibold cursor-not-allowed';
+        } else {
+          document.getElementById('resultFail').classList.remove('hidden');
+          document.getElementById('resultSuccess').classList.add('hidden');
+          btn.textContent = '重新校验';
+          btn.className = 'mt-3 w-full py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold';
+          verified = false;
+        }
+      }, 600);
+    }
+  </script>
+</body>
+</html>

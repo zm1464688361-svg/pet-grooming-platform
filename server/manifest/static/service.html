@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>服务进度 · 服务人员端</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-2.5 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="workbench.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<div class="flex-1">
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">服务进度</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">美容师 小雅 · 今日 3 单</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#fdeee5] text-[#d97c46] text-[10px] font-medium">服务中 1</span>
+</div>
+<div class="flex gap-2 mt-2.5">
+<button class="tab-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium" onclick="switchTab('today', this)">今日服务</button>
+<button class="tab-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]" onclick="switchTab('history', this)">宠物档案</button>
+</div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<!-- 今日服务 -->
+<div id="tabToday">
+<!-- 待服务 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border-l-4 border-[#38a878]">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-[#eaf7f0] grid place-items-center"><iconify-icon class="text-[#38a878] text-xl" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[13px] font-bold text-[#22402f]">豆豆 · 柯基 · 12.5kg</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115001 · 14:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-semibold">已核销 · 待服务</span>
+</div>
+<div class="mt-2.5 rounded-lg bg-[#f7fbf9] px-2.5 py-2 text-[10px] text-[#7d958a] leading-relaxed">
+<span class="text-[#3f8f6b] font-medium">门店备注：</span>豆豆怕吹风机，请使用低风速；脚垫毛保留。
+          </div>
+<div class="mt-2.5 flex items-center gap-2 text-[10px] text-[#a2b5ab]">
+<iconify-icon class="text-xs" icon="mdi:information-outline"></iconify-icon>
+            需先核销完成，才能登记服务开始
+          </div>
+<button class="mt-3 w-full py-2.5 rounded-full bg-[#38a878] text-white text-[12px] font-semibold" id="startBtn" onclick="startService()" type="button">登记服务开始</button>
+</section>
+<!-- 服务中 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border-l-4 border-[#3a6fb0]">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-[#fdeee5] grid place-items-center"><iconify-icon class="text-[#e07a4b] text-xl" icon="mdi:cat"></iconify-icon></div>
+<div>
+<p class="text-[13px] font-bold text-[#22402f]">奶糖 · 英短 · 4.2kg</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115002 · 10:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e9f1fe] text-[#3a6fb0] text-[9px] font-semibold">服务中</span>
+</div>
+<div class="mt-2.5 flex items-center justify-between rounded-lg bg-[#f5f8fd] px-2.5 py-2">
+<span class="text-[10px] text-[#6d86a8]">开始时间 11:02</span>
+<span class="text-[10px] text-[#3a6fb0] font-medium">已进行 2 小时 50 分</span>
+</div>
+<button class="mt-3 w-full py-2.5 rounded-full bg-[#3a6fb0] text-white text-[12px] font-semibold" id="finishBtn" onclick="finishService()" type="button">登记服务完成</button>
+<p class="text-[9px] text-[#b6c7bf] text-center mt-1.5">完成后由服务进度驱动，不重复记收入</p>
+</section>
+<!-- 服务完成 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-[#f2f7f4] grid place-items-center"><iconify-icon class="text-[#7d958a] text-xl" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[13px] font-bold text-[#22402f]">团团 · 边牧 · 18kg</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115004 · 09:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#f0f2f1] text-[#7d958a] text-[9px] font-semibold">服务完成</span>
+</div>
+<p class="text-[10px] text-[#a2b5ab] mt-2.5">开始 09:05 · 完成 10:08 · 服务 63 分钟</p>
+<button class="mt-2.5 text-[10px] text-[#38a878] font-medium" onclick="switchTab('history', document.querySelectorAll('.tab-btn')[1])" type="button">查看宠物历史记录 →</button>
+</section>
+<!-- 顺序约束说明 -->
+<section class="mt-3 rounded-2xl bg-[#f3effc] border border-[#e5dcf8] p-3.5">
+<p class="text-[11px] font-semibold text-[#6a5599] flex items-center gap-1.5">
+<iconify-icon class="text-base" icon="mdi:sort-variant"></iconify-icon>
+            登记顺序约束
+          </p>
+<p class="text-[10px] leading-relaxed text-[#8574ab] mt-1">核销 → 服务开始 → 服务完成，不可跳步或重复登记。已取消 / 未到店的预约不会出现在本列表，服务与取消互斥。</p>
+</section>
+</div>
+<!-- 宠物档案 -->
+<div class="hidden" id="tabHistory">
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-2xl bg-[#eaf7f0] grid place-items-center"><iconify-icon class="text-[#38a878] text-2xl" icon="mdi:dog"></iconify-icon></div>
+<div class="flex-1">
+<p class="text-[14px] font-bold text-[#22402f]">豆豆</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">柯基 · 2 岁 · 12.5kg · 宠主 林小满</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#fff4e8] text-[#d98a3a] text-[9px] font-medium">怕吹风</span>
+</div>
+<div class="mt-3 grid grid-cols-3 gap-2 text-center">
+<div class="rounded-lg bg-[#f7fbf9] py-2"><p class="text-[15px] font-bold text-[#22402f]">5</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">累计洗护</p></div>
+<div class="rounded-lg bg-[#f7fbf9] py-2"><p class="text-[15px] font-bold text-[#22402f]">11/08</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">上次到店</p></div>
+<div class="rounded-lg bg-[#f7fbf9] py-2"><p class="text-[15px] font-bold text-[#22402f]">无</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">过敏记录</p></div>
+</div>
+</section>
+<div class="mt-3 flex items-center justify-between">
+<h2 class="text-[12px] font-bold text-[#1d3a2e]">历史洗护记录</h2>
+<span class="text-[10px] text-[#a2b5ab]" id="pageHint">第 1 / 2 页</span>
+</div>
+<div class="mt-2 space-y-2" id="historyList"></div>
+<div class="mt-3 flex gap-2">
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] text-[#a2b5ab]" id="prevPage" onclick="changePage(-1)" type="button">上一页</button>
+<button class="flex-1 py-2 rounded-full bg-[#f0f7f3] text-[11px] font-medium text-[#3f8f6b]" id="nextPage" onclick="changePage(1)" type="button">下一页</button>
+</div>
+</div>
+</main>
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:view-dashboard-outline"></iconify-icon>
+<span class="text-[10px]">工作台</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="service.html">
+<iconify-icon class="text-[22px]" icon="mdi:content-cut"></iconify-icon>
+<span class="text-[10px] font-medium">服务进度</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="bookings-admin.html">
+<iconify-icon class="text-[22px]" icon="mdi:clipboard-search-outline"></iconify-icon>
+<span class="text-[10px]">预约查询</span>
+</a>
+</nav>
+</div>
+<script>
+    var histories = [
+      { date: '2026-11-08 16:00', staff: '小雅', note: '基础全套 · 状态良好，耳道略脏已清洁', tag: '服务完成' },
+      { date: '2026-10-12 14:00', staff: '小雅', note: '基础全套 · 打结较多，已加强梳理', tag: '服务完成' },
+      { date: '2026-09-20 10:00', staff: '阿康', note: '基础全套 · 第一次到店，配合度好', tag: '服务完成' },
+      { date: '2026-08-30 15:00', staff: '小雅', note: '基础全套 · 指甲偏长，已修剪', tag: '服务完成' },
+      { date: '2026-07-18 11:00', staff: '阿康', note: '基础全套 · 建议 6 周后再次洗护', tag: '服务完成' },
+      { date: '2026-06-06 15:00', staff: '小雅', note: '基础全套 · 首次建档记录', tag: '服务完成' }
+    ];
+    var page = 1;
+    var pageSize = 3;
+
+    function renderHistory() {
+      var start = (page - 1) * pageSize;
+      var slice = histories.slice(start, start + pageSize);
+      var html = '';
+      slice.forEach(function (h) {
+        html += '<div class="rounded-xl bg-white px-3.5 py-3 shadow-[0_3px_10px_rgba(45,110,85,0.05)]">'
+          + '<div class="flex items-center justify-between"><span class="text-[11px] font-semibold text-[#22402f]">' + h.date + '</span>'
+          + '<span class="text-[9px] px-1.5 py-0.5 rounded bg-[#f0f2f1] text-[#7d958a]">' + h.tag + '</span></div>'
+          + '<p class="text-[10px] text-[#7d958a] mt-1 leading-relaxed">' + h.note + '</p>'
+          + '<p class="text-[9px] text-[#b6c7bf] mt-1">服务人员：' + h.staff + '</p>'
+          + '</div>';
+      });
+      document.getElementById('historyList').innerHTML = html;
+      var totalPages = Math.ceil(histories.length / pageSize);
+      document.getElementById('pageHint').textContent = '第 ' + page + ' / ' + totalPages + ' 页';
+      var prev = document.getElementById('prevPage');
+      var next = document.getElementById('nextPage');
+      if (page === 1) {
+        prev.className = 'flex-1 py-2 rounded-full bg-[#f7fbf9] text-[11px] text-[#c3d3cb] cursor-not-allowed';
+      } else {
+        prev.className = 'flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] text-[#4a6357]';
+      }
+      if (page === totalPages) {
+        next.className = 'flex-1 py-2 rounded-full bg-[#f7fbf9] text-[11px] text-[#c3d3cb] cursor-not-allowed';
+      } else {
+        next.className = 'flex-1 py-2 rounded-full bg-[#f0f7f3] text-[11px] font-medium text-[#3f8f6b]';
+      }
+    }
+
+    function changePage(delta) {
+      var totalPages = Math.ceil(histories.length / pageSize);
+      var nextPage = page + delta;
+      if (nextPage < 1 || nextPage > totalPages) { return; }
+      page = nextPage;
+      renderHistory();
+    }
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(function (b) {
+        b.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]';
+      });
+      btn.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
+      var today = document.getElementById('tabToday');
+      var historyTab = document.getElementById('tabHistory');
+      if (tab === 'today') {
+        today.classList.remove('hidden');
+        historyTab.classList.add('hidden');
+      } else {
+        today.classList.add('hidden');
+        historyTab.classList.remove('hidden');
+        renderHistory();
+      }
+    }
+
+    function startService() {
+      var btn = document.getElementById('startBtn');
+      btn.textContent = '服务已开始（服务中）';
+      btn.className = 'mt-3 w-full py-2.5 rounded-full bg-[#dfe7e3] text-[#9aaba3] text-[12px] font-semibold cursor-not-allowed';
+      btn.onclick = null;
+    }
+
+    function finishService() {
+      var btn = document.getElementById('finishBtn');
+      btn.textContent = '已完成登记（收入不重复记）';
+      btn.className = 'mt-3 w-full py-2.5 rounded-full bg-[#dfe7e3] text-[#9aaba3] text-[12px] font-semibold cursor-not-allowed';
+      btn.onclick = null;
+    }
+
+    renderHistory();
+  </script>
+</body>
+</html>

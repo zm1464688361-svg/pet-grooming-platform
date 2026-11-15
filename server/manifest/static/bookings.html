@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>我的预约 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-2 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="home.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">我的预约</h1>
+<a class="ml-auto text-[10px] px-2.5 py-1.5 rounded-full bg-[#f0f7f3] text-[#4a8f6f] flex items-center gap-1" href="workbench.html">
+<iconify-icon class="text-xs" icon="mdi:store-cog-outline"></iconify-icon>
+          门店端
+        </a>
+</div>
+<div class="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1" id="filterBar"></div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<div class="mt-3 flex items-center justify-between">
+<p class="text-[11px] text-[#8aa398]">同一预约号在门店端同步可见</p>
+<span class="text-[10px] text-[#a2b5ab]" id="totalCount">共 0 笔</span>
+</div>
+<div class="mt-2 space-y-3" id="cards"><div class="text-[12px] text-[#8aa398] text-center py-8">加载中…</div></div>
+<div class="mt-4 rounded-2xl bg-white border border-[#eef4f1] p-3.5">
+<p class="text-[11px] font-semibold text-[#4a6357] flex items-center gap-1.5">
+<iconify-icon class="text-[#38a878]" icon="mdi:swap-horizontal"></iconify-icon>
+          状态与门店端实时一致
+        </p>
+<p class="text-[10px] leading-relaxed text-[#8aa398] mt-1.5">门店核销、服务登记、取消审批与退款重试都会写回这条预约记录，你可以在详情页看到完整事件日志。</p>
+<a class="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-[#38a878]" href="workbench.html">打开门店端工作台 <iconify-icon class="text-sm" icon="mdi:arrow-right"></iconify-icon></a>
+</div>
+<p class="text-[9px] text-[#b6c7bf] mt-2 text-center">门店端各角色页面：<a class="text-[#7d958a] underline" href="slots.html">时段</a> · <a class="text-[#7d958a] underline" href="ledger.html">台账</a> · <a class="text-[#7d958a] underline" href="frontdesk.html">核销</a> · <a class="text-[#7d958a] underline" href="service.html">服务</a> · <a class="text-[#7d958a] underline" href="cancel-review.html">审批</a> · <a class="text-[#7d958a] underline" href="refund-tracking.html">退款</a> · <a class="text-[#7d958a] underline" href="payment-issue.html">异常单</a></p>
+</main>
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-1.5 pt-1 pb-1.5 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="home.html">
+<iconify-icon class="text-[22px]" icon="mdi:home-variant-outline"></iconify-icon>
+<span class="text-[10px]">首页</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="bookings.html">
+<iconify-icon class="text-[22px]" icon="mdi:calendar-blank"></iconify-icon>
+<span class="text-[10px] font-medium">我的预约</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:store-cog-outline"></iconify-icon>
+<span class="text-[10px]">门店端</span>
+</a>
+</nav>
+</div>
+<script>
+const FILTERS = [
+  { key: 'all', label: '全部' },
+  { key: '1', label: '待支付' },
+  { key: '2', label: '已确认' },
+  { key: '6', label: '服务中' },
+  { key: '7', label: '已完成' },
+  { key: 'stop', label: '取消/退款' },
+];
+let all = [];
+
+function badgeColor(s) {
+  if (s === 1) return 'bg-[#fff4e8] text-[#d98a3a]';
+  if (s === 2) return 'bg-[#e8f6ef] text-[#2f8a63]';
+  if (s === 3) return 'bg-[#fdf3e3] text-[#c98a3c]';
+  if (s === 6) return 'bg-[#e9f1fe] text-[#3a6fb0]';
+  if (s === 7) return 'bg-[#f0f2f1] text-[#7d958a]';
+  return 'bg-[#fdeeea] text-[#c9563a]';
+}
+function inStop(s) { return [3, 4, 8, 9].includes(s); }
+
+function cardHtml(a) {
+  const href = a.status === 1 ? `lock.html?appId=${a.appId}` : `booking-detail.html?appId=${a.appId}`;
+  return `
+  <a class="card block rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] ${a.status === 1 ? 'border border-[#fbe7d5]' : ''}" data-status="${a.status}" href="${href}">
+    <div class="flex items-center justify-between">
+      <span class="text-[10px] text-[#a2b5ab]">${a.appId}</span>
+      <span class="px-2 py-0.5 rounded-full ${badgeColor(a.status)} text-[10px] font-semibold">${STATUS[a.status]}</span>
+    </div>
+    <div class="flex items-center gap-3 mt-2.5">
+      <div class="w-11 h-11 rounded-xl bg-[#eaf7f0] grid place-items-center shrink-0">
+        <iconify-icon class="text-[#38a878] text-xl" icon="mdi:dog"></iconify-icon>
+      </div>
+      <div class="flex-1">
+        <p class="text-[13px] font-bold text-[#22402f]">${a.petName} · 宠物洗护</p>
+        <p class="text-[11px] text-[#7d958a] mt-0.5">${fmtDT(a.startTime)}</p>
+      </div>
+      <span class="text-[13px] font-bold text-[#22402f]">¥${fmtYuan(a.price)}</span>
+    </div>
+    ${a.status === 1 ? '<div class="mt-3 pt-2.5 border-t border-dashed border-[#eef2f0] flex items-center justify-between"><span class="text-[10px] text-[#d98a3a]">名额锁定中，请尽快支付</span><span class="text-[11px] font-medium text-[#e07a4b]">继续支付</span></div>' : ''}
+    ${a.status === 3 ? '<div class="mt-3 pt-2.5 border-t border-dashed border-[#eef2f0]"><span class="text-[10px] text-[#c98a3c]">距时段开始不足 2 小时，已转人工审批</span></div>' : ''}
+  </a>`;
+}
+
+function renderFilter(key, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = 'filter-btn shrink-0 px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]';
+  });
+  (btn || document.querySelector(`.filter-btn[data-key="${key}"]`)).className =
+    'filter-btn shrink-0 px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
+  const list = all.filter(a => key === 'all' || (key === 'stop' ? inStop(a.status) : String(a.status) === key));
+  const el = document.getElementById('cards');
+  el.innerHTML = list.length ? list.map(cardHtml).join('') : '<div class="text-[12px] text-[#8aa398] text-center py-8">该状态下暂无预约</div>';
+}
+
+async function load() {
+  await call('/api/user/app/list', {}, d => {
+    all = d.list || [];
+    document.getElementById('filterBar').innerHTML = FILTERS.map((f, i) => {
+      const n = f.key === 'all' ? all.length : f.key === 'stop' ? all.filter(a => inStop(a.status)).length : all.filter(a => String(a.status) === f.key).length;
+      return `<button class="filter-btn shrink-0 px-3 py-1.5 rounded-full ${i === 0 ? 'bg-[#38a878] text-white text-[11px] font-medium' : 'bg-[#f2f7f4] text-[#5b7a6d] text-[11px]'}" data-key="${f.key}" onclick="renderFilter('${f.key}', this)">${f.label} ${n}</button>`;
+    }).join('');
+    renderFilter('all');
+    document.getElementById('totalCount').textContent = `共 ${all.length} 笔`;
+  });
+}
+load();
+</script>
+</body>
+</html>

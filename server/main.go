@@ -18,6 +18,7 @@ func main() {
 	s.SetPort(8000)
 	s.SetIndexFolder(false)
 	s.AddStaticPath("/public", "public")
+	s.SetStaticPath("/ui", "manifest/static") // 前端页面（原型图实现）
 
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.GET("/health", cmd.Health)
@@ -29,6 +30,7 @@ func main() {
 			group.GET("/pet/list", ctl.PetList)       // 用户宠物
 			group.GET("/app/list", ctl.MyAppList)     // 我的预约
 			group.GET("/app/detail", ctl.MyAppDetail) // 预约详情
+			group.GET("/refund/list", ctl.MyRefunds)  // 我的退款单
 			group.POST("/app/book", ctl.Book)         // 预约下单
 			group.POST("/app/cancel", ctl.Cancel)     // 取消预约
 			// 其余 C 端路由在各 Task 中逐步注册

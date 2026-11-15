@@ -73,6 +73,16 @@ func (c *Controller) Cancel(r *ghttp.Request) {
 }
 
 // MyAppList GET /api/user/app/list 我的预约列表（分页）。
+// MyRefunds GET /api/user/refund/list 我的退款单（退款状态独立于预约状态）。
+func (c *Controller) MyRefunds(r *ghttp.Request) {
+	list, err := logicUser.ListMyRefunds(r.Context(), auth.UserIdFrom(r.Context()))
+	if err != nil {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	response.OK(r, g.Map{"list": list})
+}
+
 func (c *Controller) MyAppList(r *ghttp.Request) {
 	var req struct {
 		Page int `json:"page"`

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>名额锁定中 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+  @keyframes pulseRing{0%{transform:scale(0.95);opacity:.55}70%{transform:scale(1.08);opacity:.18}100%{transform:scale(0.95);opacity:.55}}
+  .pulse-ring{animation:pulseRing 2.4s ease-in-out infinite}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-[#eef4f1]">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="booking.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">名额已锁定</h1>
+<span class="ml-auto text-[11px] px-2 py-1 rounded-full bg-[#fff4e8] text-[#d98a3a] font-medium">待支付</span>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-32">
+<!-- 倒计时 -->
+<section class="mt-4 rounded-3xl bg-gradient-to-br from-[#e2f6ec] via-[#effaf5] to-[#dff3ea] p-5 text-center relative overflow-hidden">
+<div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/50 pulse-ring"></div>
+<div class="relative">
+<div class="w-12 h-12 mx-auto rounded-full bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#38a878] text-2xl" icon="mdi:timer-sand"></iconify-icon>
+</div>
+<p class="text-[12px] text-[#5b7a6d] mt-2.5">请在锁定时间内完成支付</p>
+<p class="text-[40px] leading-none font-bold text-[#1d3a2e] tracking-tight mt-2" id="countdown">05:00</p>
+<p class="text-[11px] text-[#7d958a] mt-2">超时订单将自动关闭，名额同步释放</p>
+</div>
+</section>
+<!-- 预约摘要 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-[13px] font-bold text-[#1d3a2e]">本次预约</h2>
+<span class="text-[10px] text-[#a2b5ab]" id="appNo">预约号</span>
+</div>
+<div class="space-y-2.5 text-[12px]">
+<div class="flex justify-between"><span class="text-[#8aa398]">门店</span><span class="font-medium text-[#22402f]">毛球家宠物洗护 · 望京店</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">时段</span><span class="font-medium text-[#22402f]" id="slotText">今天 14:00 - 15:00</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">宠物</span><span class="font-medium text-[#22402f]" id="petText">豆豆 · 柯基</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">服务项目</span><span class="font-medium text-[#22402f]">宠物洗护 · 基础全套</span></div>
+<div class="flex justify-between items-center pt-2.5 border-t border-dashed border-[#e6f0eb]">
+<span class="text-[#8aa398]">预约款（全额预付）</span>
+<span class="text-[17px] font-bold text-[#e07a4b] priceText">¥99.00</span>
+</div>
+</div>
+<div class="mt-3 rounded-xl bg-[#f7fbf9] px-3 py-2 flex items-start gap-2">
+<iconify-icon class="text-[#38a878] text-sm mt-0.5 shrink-0" icon="mdi:lock-outline"></iconify-icon>
+<p class="text-[10px] text-[#7d958a] leading-relaxed">名额已为你占用，该时段剩余名额显示为 1 → 0（锁定中）。支付成功后转为已确认。</p>
+</div>
+</section>
+<!-- 支付渠道 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[13px] font-bold text-[#1d3a2e] mb-3">支付方式</h2>
+<div class="flex items-center gap-3 rounded-xl border-2 border-[#38a878] bg-[#f1fbf6] px-3 py-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#38a878] grid place-items-center">
+<iconify-icon class="text-white" icon="mdi:cellphone-lock"></iconify-icon>
+</div>
+<div class="flex-1">
+<p class="text-[12px] font-semibold text-[#22402f]">模拟支付渠道</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">沙箱环境 · 不会产生真实扣款</p>
+</div>
+<iconify-icon class="text-[#38a878] text-lg" icon="mdi:check-circle"></iconify-icon>
+</div>
+</section>
+<div class="hidden mt-3 rounded-2xl bg-[#fdf0ec] border border-[#f8d8cd] p-3.5" id="timeoutTip">
+<p class="text-[12px] font-semibold text-[#c9563a] flex items-center gap-1.5">
+<iconify-icon class="text-base" icon="mdi:alert-circle-outline"></iconify-icon>
+          锁定已超时
+        </p>
+<p class="text-[11px] text-[#b8735f] mt-1 leading-relaxed">订单已自动关闭，名额已释放回该时段。你可以在首页重新发起预约。</p>
+</div>
+</main>
+<div class="shrink-0 bg-white border-t border-[#eef4f1] px-4 pt-3 pb-4">
+<button class="w-full py-3.5 rounded-full bg-[#38a878] text-white text-[14px] font-semibold shadow-[0_8px_18px_rgba(56,168,120,0.3)]" id="payBtn" onclick="payNow()" type="button">立即支付 <span class="priceText">¥99.00</span></button>
+<button class="w-full py-2.5 mt-1.5 text-[12px] text-[#8aa398]" id="cancelBtn" onclick="cancelLock()" type="button">取消本次预约</button>
+</div>
+<div class="hidden absolute inset-0 bg-black/30 z-20 flex items-center justify-center" id="payingMask">
+<div class="bg-white rounded-2xl px-6 py-5 flex flex-col items-center gap-2 shadow-xl">
+<iconify-icon class="text-[#38a878] text-2xl animate-spin" icon="mdi:loading"></iconify-icon>
+<p class="text-[12px] text-[#4a6357]">正在请求模拟支付渠道…</p>
+</div>
+</div>
+<div class="hidden absolute inset-0 bg-black/35 z-30 flex items-end" id="cancelSheet">
+<div class="w-full bg-white rounded-t-3xl p-5 pb-6">
+<div class="w-10 h-1 rounded-full bg-[#e0e8e4] mx-auto mb-4"></div>
+<h3 class="text-[15px] font-bold text-[#1d3a2e] text-center">确认取消本次预约？</h3>
+<p class="text-[11px] text-[#8aa398] text-center mt-1.5 leading-relaxed">取消后预约订单关闭，已锁定的名额立即释放回该时段。</p>
+<div class="mt-4 flex gap-3">
+<button class="flex-1 py-3 rounded-full bg-[#f2f7f4] text-[13px] font-medium text-[#4a6357]" onclick="closeCancelSheet()" type="button">继续支付</button>
+<button class="flex-1 py-3 rounded-full bg-[#e07a4b] text-[13px] font-semibold text-white" onclick="confirmCancel()" type="button">取消预约</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+let remaining = 300;
+let timer = null;
+let locked = false;
+let appId = new URLSearchParams(location.search).get('appId') || '';
+let paymentId = '';
+
+function render() {
+  const m = Math.floor(remaining / 60), s = remaining % 60;
+  const el = document.getElementById('countdown');
+  el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  if (remaining <= 60) el.classList.add('text-[#e07a4b]');
+}
+
+function timeout() {
+  locked = true;
+  clearInterval(timer);
+  document.getElementById('countdown').textContent = '00:00';
+  document.getElementById('timeoutTip').classList.remove('hidden');
+  const payBtn = document.getElementById('payBtn');
+  payBtn.textContent = '订单已关闭';
+  payBtn.className = 'w-full py-3.5 rounded-full bg-[#dfe7e3] text-[#9aaba3] text-[14px] font-semibold cursor-not-allowed';
+  payBtn.onclick = null;
+  const cancelBtn = document.getElementById('cancelBtn');
+  cancelBtn.textContent = '返回首页重新预约';
+  cancelBtn.onclick = () => { window.location.href = 'home.html'; };
+}
+
+async function payNow() {
+  if (locked) return;
+  clearInterval(timer);
+  document.getElementById('payingMask').classList.remove('hidden');
+  try {
+    // 1. 发起支付（30s 防重锁；重复发起返回同一支付单）
+    if (!paymentId) {
+      const r = await call('/api/pay/create', { method: 'POST', body: { appId } }, () => {});
+      paymentId = r.data.paymentId;
+    }
+    // 2. 模拟渠道支付成功回调
+    await call('/api/pay/mock/notify', { method: 'POST', role: 'user', body: { paymentId, transactionId: 'txn_' + appId + '_' + Date.now(), success: true, amount: 9900 } }, () => {});
+    toast('支付成功');
+    setTimeout(() => { window.location.href = 'booking-detail.html?appId=' + appId; }, 700);
+  } catch (e) {
+    document.getElementById('payingMask').classList.add('hidden');
+    if (e.code === 50001 || e.code === 50000) {} else if (e.message && e.message.includes('超时')) { timeout(); }
+    // 支付失败可重试（30s 锁内提示）
+  }
+}
+
+function cancelLock() { document.getElementById('cancelSheet').classList.remove('hidden'); }
+function closeCancelSheet() { document.getElementById('cancelSheet').classList.add('hidden'); }
+
+async function confirmCancel() {
+  clearInterval(timer);
+  try {
+    await call('/api/user/app/cancel', { method: 'POST', body: { appId, idemKey: 'ui-' + Date.now() } }, d => toast(d.message || '取消成功'));
+    setTimeout(() => { window.location.href = 'bookings.html'; }, 700);
+  } catch (e) {
+    closeCancelSheet();
+    if (e.code === 40006 || e.code === 40011) { setTimeout(() => { window.location.href = 'bookings.html'; }, 800); }
+  }
+}
+
+async function init() {
+  if (!appId) { window.location.href = 'bookings.html'; return; }
+  // 订单详情 + 倒计时（服务端 lockExpireAt）
+  await call('/api/user/app/detail?appId=' + appId, {}, d => {
+    document.getElementById('slotText').textContent = fmtDT(d.startTime) + ' - ' + fmtHM(d.endTime);
+    document.getElementById('petText').textContent = d.petName;
+    document.querySelectorAll('.priceText').forEach(e => e.textContent = '¥' + fmtYuan(d.price));
+    document.getElementById('appNo').textContent = '预约号 ' + d.appId;
+    if (d.status !== 1) {
+      // 非待支付：直接跳详情
+      setTimeout(() => { window.location.href = 'booking-detail.html?appId=' + appId; }, 300);
+      return;
+    }
+    if (d.lockExpireAt) {
+      remaining = Math.max(0, Math.floor((new Date(d.lockExpireAt) - Date.now()) / 1000));
+      if (remaining <= 0) timeout();
+    }
+    render();
+    timer = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) { timeout(); return; }
+      render();
+    }, 1000);
+  });
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>预约详情 BK20261115001 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-[#eef4f1]">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="bookings.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">预约详情</h1>
+<a class="ml-auto text-[10px] px-2.5 py-1.5 rounded-full bg-[#f0f7f3] text-[#4a8f6f] flex items-center gap-1" href="frontdesk.html">
+<iconify-icon class="text-xs" icon="mdi:storefront-outline"></iconify-icon>
+        门店端对照
+      </a>
+</header>
+<nav class="shrink-0 bg-white px-4 py-2 border-b border-[#eef4f1] flex gap-1.5 overflow-x-auto no-scrollbar">
+<a class="shrink-0 px-2.5 py-1 rounded-full bg-[#f7fbf9] text-[10px] text-[#7d958a]" href="cancel-review.html">门店取消审批</a>
+<a class="shrink-0 px-2.5 py-1 rounded-full bg-[#f7fbf9] text-[10px] text-[#7d958a]" href="bookings-admin.html">店长预约查询</a>
+<a class="shrink-0 px-2.5 py-1 rounded-full bg-[#f7fbf9] text-[10px] text-[#7d958a]" href="refund-tracking.html">客服退款跟进</a>
+</nav>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-28">
+<!-- 状态主卡 -->
+<section class="mt-3 rounded-3xl bg-gradient-to-br from-[#ddf4e8] via-[#eefaf4] to-[#e2f5ec] p-5">
+<div class="flex items-start justify-between">
+<div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/85 text-[#2f8a63] text-[11px] font-semibold" id="statusPill">
+<iconify-icon class="text-sm" icon="mdi:check-decagram"></iconify-icon>
+              已确认 · 待核销
+            </span>
+<p class="text-[18px] font-bold text-[#1d3a2e] mt-2.5" id="statusTitle">今天 14:00 到店</p>
+<p class="text-[11px] text-[#5b7a6d] mt-1" id="statusDesc">请提前 5 分钟到店，向前台出示预约号</p>
+</div>
+<div class="w-14 h-14 rounded-2xl bg-white/70 grid place-items-center shrink-0">
+<iconify-icon class="text-[30px] text-[#38a878]" icon="mdi:calendar-check"></iconify-icon>
+</div>
+</div>
+<div class="mt-4 rounded-2xl bg-white/80 px-3.5 py-3 flex items-center justify-between">
+<div>
+<p class="text-[10px] text-[#8aa398]">预约号（门店端同步）</p>
+<p class="text-[14px] font-bold tracking-wide text-[#22402f] mt-0.5" id="appNo">-</p>
+</div>
+<span class="text-[10px] px-2 py-1 rounded-full bg-[#eaf7f0] text-[#3f8f6b]">shop_001 · 望京店</span>
+</div>
+</section>
+<!-- 预约信息 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[13px] font-bold text-[#1d3a2e] mb-3">预约信息</h2>
+<div class="space-y-2.5 text-[12px]">
+<div class="flex justify-between"><span class="text-[#8aa398]">服务时段</span><span class="font-medium text-[#22402f]" id="infoTime">-</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">服务项目</span><span class="font-medium text-[#22402f]" id="infoItem">宠物洗护 · 基础全套</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">宠物</span><span class="font-medium text-[#22402f]" id="infoPet">-</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">门店备注</span><span class="font-medium text-[#22402f]" id="infoShopRemark">-</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">我的备注</span><span class="font-medium text-[#22402f]" id="infoUserRemark">-</span></div>
+<div class="flex justify-between items-center pt-2.5 border-t border-dashed border-[#e6f0eb]">
+<span class="text-[#8aa398]">预约款</span>
+<span class="text-[16px] font-bold text-[#e07a4b]" id="infoPrice">-</span>
+</div>
+</div>
+</section>
+<!-- 门店备注 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-[13px] font-bold text-[#1d3a2e]">门店双向备注</h2>
+<span class="text-[10px] text-[#a2b5ab]">与店长端互通</span>
+</div>
+<div class="rounded-xl bg-[#f7fbf9] px-3 py-2.5 space-y-2">
+<div class="flex gap-2">
+<span class="text-[9px] shrink-0 px-1.5 py-0.5 rounded bg-[#eaf7f0] text-[#3f8f6b] h-fit mt-0.5">门店</span>
+<p class="text-[11px] text-[#5b7a6d] leading-relaxed">豆豆怕吹风机，请使用低风速。已安排美容师小雅接待。</p>
+</div>
+<div class="flex gap-2">
+<span class="text-[9px] shrink-0 px-1.5 py-0.5 rounded bg-[#fff1e6] text-[#d98a3a] h-fit mt-0.5">宠主</span>
+<p class="text-[11px] text-[#5b7a6d] leading-relaxed">好的，麻烦不要剪太短，保留脚垫毛。</p>
+</div>
+</div>
+</section>
+<!-- 事件日志 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-[13px] font-bold text-[#1d3a2e]">预约日志</h2>
+<span class="text-[10px] text-[#a2b5ab]">按时间正序</span>
+</div>
+<ol class="relative pl-5 space-y-3.5" id="eventLog">
+<span class="absolute left-[5px] top-1.5 bottom-1.5 w-px bg-[#e4efea]"></span>
+</ol>
+</section>
+<div class="mt-3 flex items-start gap-2 px-1">
+<iconify-icon class="text-[#a2b5ab] text-sm mt-0.5 shrink-0" icon="mdi:information-outline"></iconify-icon>
+<p class="text-[10px] leading-relaxed text-[#a2b5ab]">取消规则：时段开始前 2 小时以上可自助取消并自动受理；不足 2 小时提交后需客服人工审核，审批期间预约冻结。</p>
+</div>
+</main>
+<div class="shrink-0 bg-white border-t border-[#eef4f1] px-4 py-3 flex gap-3" id="cancelBtnBar">
+<button class="flex-1 py-3 rounded-full border border-[#e6d6cf] text-[13px] font-medium text-[#a8674f]" onclick="openCancel()" type="button">申请取消</button>
+<a class="flex-1 py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold text-center" href="refund.html" id="refundLink">查看退款单</a>
+</div>
+<div class="hidden absolute inset-0 bg-black/35 z-30 flex items-end" id="cancelSheet">
+<div class="w-full bg-white rounded-t-3xl p-5 pb-6">
+<div class="w-10 h-1 rounded-full bg-[#e0e8e4] mx-auto mb-4"></div>
+<h3 class="text-[15px] font-bold text-[#1d3a2e] text-center">申请取消预约</h3>
+<div class="mt-3 rounded-xl bg-[#f7fbf9] p-3">
+<p class="text-[11px] text-[#5b7a6d] leading-relaxed">当前距时段开始 1 小时 58 分，<span class="text-[#c98a3c] font-semibold">不足 2 小时</span>，提交后将转客服人工审核。</p>
+<p class="text-[10px] text-[#a2b5ab] mt-1.5">审批期间预约冻结，审核通过后退款单生成，退款状态独立于预约状态。</p>
+</div>
+<label class="block text-[11px] text-[#8aa398] mt-3 mb-1.5">取消原因</label>
+<textarea class="w-full rounded-xl border border-[#e6f0eb] bg-[#fafcfb] px-3 py-2 text-[12px] outline-none focus:border-[#38a878] resize-none" id="cancelReason" placeholder="例如：临时加班，无法按时带豆豆到店" rows="2"></textarea>
+<div class="mt-4 flex gap-3">
+<button class="flex-1 py-3 rounded-full bg-[#f2f7f4] text-[13px] font-medium text-[#4a6357]" onclick="closeCancel()" type="button">再想想</button>
+<button class="flex-1 py-3 rounded-full bg-[#e07a4b] text-[13px] font-semibold text-white" onclick="submitCancel()" type="button">提交审核</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+let appId = new URLSearchParams(location.search).get('appId') || '';
+const STATUS_DESC = {
+  1: ['待支付', 'mdi:clock-outline', 'bg-[#fdf3e3] text-[#c98a3c]', '名额锁定中，请在锁定时间内完成支付'],
+  2: ['已确认 · 待核销', 'mdi:check-decagram', 'bg-white/85 text-[#2f8a63]', '请提前 5 分钟到店，向前台出示预约号'],
+  3: ['待审核取消 · 审核中', 'mdi:clock-outline', 'bg-[#fdf3e3] text-[#c98a3c]', '客服审批中，预约已冻结，请留意通知'],
+  4: ['已取消', 'mdi:close-circle-outline', 'bg-[#fdeee5] text-[#b8683f]', '本次预约已取消，名额已释放'],
+  5: ['已核销 · 待服务', 'mdi:check-decagram', 'bg-white/85 text-[#2f8a63]', '到店核销完成，等待服务开始'],
+  6: ['服务中', 'mdi:dog', 'bg-[#e9f1fe] text-[#3a6fb0]', '美容师正在服务中'],
+  7: ['服务完成', 'mdi:check-all', 'bg-[#f0f2f1] text-[#7d958a]', '服务已完成，感谢信任'],
+  8: ['未到店', 'mdi:close-circle-outline', 'bg-[#fdeee5] text-[#b8683f]', '时段结束后未核销，已标记未到店'],
+  9: ['已关闭', 'mdi:close-circle-outline', 'bg-[#fdeee5] text-[#b8683f]', '订单已关闭（超时未支付）'],
+};
+
+function applyStatus(s) {
+  const [name, icon, pillCls, desc] = STATUS_DESC[s] || STATUS_DESC[9];
+  const pill = document.getElementById('statusPill');
+  pill.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full ' + pillCls + ' text-[11px] font-semibold';
+  pill.innerHTML = `<iconify-icon icon="${icon}" class="text-sm"></iconify-icon> ${name}`;
+  document.getElementById('statusDesc').textContent = desc;
+}
+
+function renderLog(d, s) {
+  const items = [];
+  items.push(['提交预约 · 名额锁定', fmtDT(d.createdAt), true]);
+  if (s >= 2) items.push(['支付成功 ¥' + fmtYuan(d.price) + ' · 预约已确认', '', true]);
+  if (s >= 5) items.push(['门店到店核销', '', true]);
+  if (s === 6 || s >= 7) items.push(['服务开始', '', true]);
+  if (s >= 7) items.push(['服务完成 · 计入已完成服务收入', '', true]);
+  if (s === 4) items.push(['预约已取消', d.cancelReason ? '原因：' + d.cancelReason : '', true]);
+  if (s === 3) items.push(['取消申请待客服审核', '名额已冻结', true]);
+  if (s === 8) items.push(['店长标记未到店', d.cancelReason || '', true]);
+  items.push(['后续事件', '等待门店端更新', false]);
+  document.getElementById('eventLog').innerHTML = items.map(([t, sub, done]) => `
+    <li class="relative">
+      <span class="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full ${done ? 'bg-[#38a878] ring-4 ring-[#eaf7f0]' : 'border-2 border-[#cddcd5] bg-white ring-4 ring-white'}"></span>
+      <p class="text-[12px] font-medium ${done ? 'text-[#22402f]' : 'text-[#a2b5ab]'}">${t}</p>
+      ${sub ? `<p class="text-[10px] text-[#a2b5ab] mt-0.5">${sub}</p>` : ''}
+    </li>`).join('');
+}
+
+function openCancel() { document.getElementById('cancelSheet').classList.remove('hidden'); }
+function closeCancel() { document.getElementById('cancelSheet').classList.add('hidden'); }
+
+async function submitCancel() {
+  const reason = document.getElementById('cancelReason').value.trim();
+  await call('/api/user/app/cancel', { method: 'POST', body: { appId, idemKey: 'ui-' + Date.now(), reason } },
+    d => { toast(d.message || '已提交'); closeCancel(); setTimeout(() => location.reload(), 700); });
+}
+
+async function init() {
+  if (!appId) { window.location.href = 'bookings.html'; return; }
+  await call('/api/user/app/detail?appId=' + appId, {}, d => {
+    const s = d.status;
+    applyStatus(s);
+    document.getElementById('appNo').textContent = d.appId;
+    document.getElementById('infoTime').textContent = fmtDT(d.startTime) + ' - ' + fmtHM(d.endTime);
+    document.getElementById('infoPet').textContent = d.petName;
+    document.getElementById('infoShopRemark').textContent = d.shopRemark || '无';
+    document.getElementById('infoUserRemark').textContent = d.userRemark || '无';
+    document.getElementById('infoPrice').textContent = '¥' + fmtYuan(d.price);
+    renderLog(d, s);
+    // 按钮可见性
+    const canCancel = [1, 2].includes(s);
+    const cancelBtn = document.querySelector('#cancelBtnBar button');
+    if (!canCancel) cancelBtn.classList.add('hidden');
+    // 待支付：提供继续支付
+    if (s === 1) {
+      document.getElementById('refundLink').href = 'lock.html?appId=' + appId;
+      document.getElementById('refundLink').textContent = '继续支付';
+    }
+  });
+}
+init();
+</script>
+</body>
+</html>

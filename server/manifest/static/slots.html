@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>时段管理 · 店长端</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-[#eef4f1]">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="workbench.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<div class="flex-1">
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">时段管理</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">店长 陈可 · shop_001</p>
+</div>
+<button class="px-3 py-2 rounded-full bg-[#38a878] text-white text-[11px] font-semibold flex items-center gap-1" onclick="openCreate()" type="button">
+<iconify-icon class="text-sm" icon="mdi:plus"></iconify-icon>
+        新建时段
+      </button>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<div class="mt-3 flex gap-2">
+<button class="slot-filter px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium" onclick="filterSlot('today', this)">今天 11/15</button>
+<button class="slot-filter px-3 py-1.5 rounded-full bg-white text-[#5b7a6d] text-[11px]" onclick="filterSlot('tomorrow', this)">明天 11/16</button>
+<button class="slot-filter px-3 py-1.5 rounded-full bg-white text-[#5b7a6d] text-[11px]" onclick="filterSlot('all', this)">全部已发布</button>
+</div>
+<div class="mt-3 rounded-2xl bg-[#eaf7f0] px-3.5 py-2.5 flex items-center gap-2">
+<iconify-icon class="text-[#2f8a63] text-sm shrink-0" icon="mdi:information-outline"></iconify-icon>
+<p class="text-[10px] leading-relaxed text-[#3f7a5f]">每时段最多接待 3 只；名额在订单创建成功时占用，未支付保留 5 分钟。已开始/结束的时段不在 C 端展示。</p>
+</div>
+<div class="mt-3 space-y-3" id="slotCards">
+<!-- 进行中时段（10:00 已开始，门店端可见但不可编辑） -->
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-day="today" data-occupied="3">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[15px] font-bold text-[#22402f]">10:00 - 11:00</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">2026-11-15 · 已开始</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#f0f2f1] text-[#8aa398] text-[10px] font-medium">进行中 · 不可编辑</span>
+</div>
+<div class="mt-3 flex items-center gap-2">
+<div class="flex-1">
+<div class="flex justify-between text-[10px] mb-1"><span class="text-[#5b7a6d]">已占用 3 只</span><span class="text-[#a2b5ab]">剩余 0 / 容量 3</span></div>
+<div class="h-2 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-full bg-[#cdd6d2]"></div></div>
+</div>
+</div>
+<div class="mt-3 flex items-center gap-2 text-[10px]">
+<span class="px-2 py-1 rounded-md bg-[#f7fbf9] text-[#7d958a]">3 单已核销 2 单已确认</span>
+<span class="ml-auto text-[#a2b5ab]">发布人：陈可</span>
+</div>
+</div>
+<!-- 14:00 可约 1 -->
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#d9efe3]" data-day="today" data-occupied="2">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[15px] font-bold text-[#22402f]">14:00 - 15:00</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">2026-11-15 · 容量 3 只</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[10px] font-medium flex items-center gap-1">
+<iconify-icon class="text-xs" icon="mdi:check-circle"></iconify-icon>已发布
+            </span>
+</div>
+<div class="mt-3">
+<div class="flex justify-between text-[10px] mb-1"><span class="text-[#e07a4b] font-medium">已占用 2 只（含 1 单锁定中）</span><span class="text-[#2f8a63] font-semibold">剩余 1</span></div>
+<div class="h-2 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-2/3 bg-[#7ad2a9]"></div></div>
+</div>
+<div class="mt-3 grid grid-cols-3 gap-2 text-center">
+<div class="rounded-lg bg-[#f7fbf9] py-1.5"><p class="text-[9px] text-[#a2b5ab]">已确认</p><p class="text-[12px] font-bold text-[#22402f]">2</p></div>
+<div class="rounded-lg bg-[#f7fbf9] py-1.5"><p class="text-[9px] text-[#a2b5ab]">待核销</p><p class="text-[12px] font-bold text-[#e07a4b]">2</p></div>
+<div class="rounded-lg bg-[#f7fbf9] py-1.5"><p class="text-[9px] text-[#a2b5ab]">可约</p><p class="text-[12px] font-bold text-[#2f8a63]">1</p></div>
+</div>
+<div class="mt-3 flex gap-2">
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]" onclick="pauseSlot(this)" type="button">暂停预约</button>
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]" onclick="openEdit('14:00 - 15:00')" type="button">编辑容量</button>
+<button class="px-3 py-2 rounded-full border border-[#f3dcd4] text-[11px] font-medium text-[#c9563a]" onclick="deleteSlot(this)" type="button">删除</button>
+</div>
+</div>
+<!-- 16:00 -->
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-day="today" data-occupied="1">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[15px] font-bold text-[#22402f]">16:00 - 17:00</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">2026-11-15 · 容量 3 只</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[10px] font-medium flex items-center gap-1">
+<iconify-icon class="text-xs" icon="mdi:check-circle"></iconify-icon>已发布
+            </span>
+</div>
+<div class="mt-3">
+<div class="flex justify-between text-[10px] mb-1"><span class="text-[#5b7a6d]">已占用 1 只</span><span class="text-[#2f8a63] font-semibold">剩余 2</span></div>
+<div class="h-2 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-1/3 bg-[#7ad2a9]"></div></div>
+</div>
+<div class="mt-3 flex gap-2">
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]" onclick="pauseSlot(this)" type="button">暂停预约</button>
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]" onclick="openEdit('16:00 - 17:00')" type="button">编辑容量</button>
+<button class="px-3 py-2 rounded-full border border-[#f3dcd4] text-[11px] font-medium text-[#c9563a]" onclick="deleteSlot(this)" type="button">删除</button>
+</div>
+</div>
+<!-- 明天 草稿 -->
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-day="tomorrow" data-occupied="0">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[15px] font-bold text-[#22402f]">10:00 - 11:00</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">2026-11-16 · 容量 3 只</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#f2f7f4] text-[#7d958a] text-[10px] font-medium">未发布（草稿）</span>
+</div>
+<div class="mt-3">
+<div class="flex justify-between text-[10px] mb-1"><span class="text-[#5b7a6d]">已占用 0 只</span><span class="text-[#7d958a]">剩余 3</span></div>
+<div class="h-2 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-0 bg-[#7ad2a9]"></div></div>
+</div>
+<div class="mt-3 flex gap-2">
+<button class="flex-1 py-2 rounded-full bg-[#38a878] text-[11px] font-semibold text-white" onclick="publishSlot(this)" type="button">发布时段</button>
+<button class="flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]" onclick="openEdit('10:00 - 11:00（明天）')" type="button">编辑</button>
+</div>
+</div>
+</div>
+<div class="mt-4 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[12px] font-bold text-[#1d3a2e] mb-2">发布规则</h2>
+<ul class="space-y-1.5 text-[10px] text-[#8aa398] leading-relaxed">
+<li class="flex gap-1.5"><span class="text-[#38a878]">·</span>暂停后 C 端立即隐藏该时段并置灰，已有预约不受影响。</li>
+<li class="flex gap-1.5"><span class="text-[#38a878]">·</span>删除仅限无有效预约的时段，含有预约时需先与客服确认处理。</li>
+<li class="flex gap-1.5"><span class="text-[#38a878]">·</span>编辑容量不得低于已占用数量（当前最多 3）。</li>
+</ul>
+</div>
+</main>
+<div class="hidden absolute left-1/2 -translate-x-1/2 bottom-24 z-40 px-4 py-2.5 rounded-full bg-[#22402f] text-white text-[11px] shadow-lg" id="toast"></div>
+<div class="hidden absolute inset-0 bg-black/35 z-30 flex items-end" id="createSheet">
+<div class="w-full bg-white rounded-t-3xl p-5 pb-6">
+<div class="w-10 h-1 rounded-full bg-[#e0e8e4] mx-auto mb-4"></div>
+<h3 class="text-[15px] font-bold text-[#1d3a2e] text-center" id="sheetTitle">新建可预约时段</h3>
+<div class="mt-4 space-y-3">
+<div>
+<label class="text-[11px] text-[#8aa398]">日期</label>
+<div class="mt-1.5 flex gap-2">
+<button class="px-3 py-2 rounded-lg bg-[#eaf7f0] text-[11px] text-[#2f8a63] font-medium" type="button">11月16日</button>
+<button class="px-3 py-2 rounded-lg bg-[#f7fbf9] text-[11px] text-[#7d958a]" type="button">11月17日</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="text-[11px] text-[#8aa398]">开始时间</label>
+<input class="mt-1.5 w-full rounded-xl border border-[#e6f0eb] bg-[#fafcfb] px-3 py-2 text-[12px] outline-none focus:border-[#38a878]" type="time" value="14:00"/>
+</div>
+<div>
+<label class="text-[11px] text-[#8aa398]">结束时间</label>
+<input class="mt-1.5 w-full rounded-xl border border-[#e6f0eb] bg-[#fafcfb] px-3 py-2 text-[12px] outline-none focus:border-[#38a878]" type="time" value="15:00"/>
+</div>
+</div>
+<div>
+<label class="text-[11px] text-[#8aa398]">每时段容量（只）</label>
+<input class="mt-1.5 w-full rounded-xl border border-[#e6f0eb] bg-[#fafcfb] px-3 py-2 text-[12px] outline-none focus:border-[#38a878]" id="capacityInput" max="6" min="1" type="number" value="3"/>
+</div>
+</div>
+<div class="mt-4 flex gap-3">
+<button class="flex-1 py-3 rounded-full bg-[#f2f7f4] text-[13px] font-medium text-[#4a6357]" onclick="closeSheet()" type="button">取消</button>
+<button class="flex-1 py-3 rounded-full bg-[#38a878] text-[13px] font-semibold text-white" onclick="saveSlot()" type="button">保存并发布</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(function () { toast.classList.add('hidden'); }, 2200);
+    }
+
+    function filterSlot(day, btn) {
+      document.querySelectorAll('.slot-filter').forEach(function (b) {
+        b.className = 'slot-filter px-3 py-1.5 rounded-full bg-white text-[#5b7a6d] text-[11px]';
+      });
+      btn.className = 'slot-filter px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
+      document.querySelectorAll('#slotCards > div').forEach(function (card) {
+        var cardDay = card.getAttribute('data-day');
+        if (day === 'all' || cardDay === day) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    function pauseSlot(btn) {
+      if (btn.textContent === '暂停预约') {
+        btn.textContent = '恢复预约';
+        btn.className = 'flex-1 py-2 rounded-full bg-[#fff4e8] border border-[#f7e2c0] text-[11px] font-medium text-[#c98a3c]';
+        showToast('已暂停预约，C 端该时段将置灰');
+      } else {
+        btn.textContent = '暂停预约';
+        btn.className = 'flex-1 py-2 rounded-full border border-[#e6f0eb] text-[11px] font-medium text-[#4a6357]';
+        showToast('已恢复预约，C 端可正常下单');
+      }
+    }
+
+    function publishSlot(btn) {
+      btn.textContent = '已发布';
+      btn.className = 'flex-1 py-2 rounded-full bg-[#eef2f0] text-[11px] font-medium text-[#a2b5ab] cursor-default';
+      btn.onclick = null;
+      showToast('时段已发布，C 端可见');
+    }
+
+    function deleteSlot(btn) {
+      var card = btn.closest('[data-day]');
+      var occupied = card ? card.getAttribute('data-occupied') : null;
+      if (occupied && parseInt(occupied, 10) > 0) {
+        showToast('该时段已有 ' + occupied + ' 单预约，需先与客服确认处理');
+        return;
+      }
+      if (window.confirm('确认删除该时段？删除后 C 端立即不可见。')) {
+        card.classList.add('hidden');
+        showToast('时段已删除');
+      }
+    }
+
+    function openCreate() {
+      document.getElementById('sheetTitle').textContent = '新建可预约时段';
+      document.getElementById('capacityInput').value = '3';
+      document.getElementById('createSheet').classList.remove('hidden');
+    }
+
+    function openEdit(name) {
+      document.getElementById('sheetTitle').textContent = '编辑时段 · ' + name;
+      document.getElementById('capacityInput').value = '3';
+      document.getElementById('createSheet').classList.remove('hidden');
+    }
+
+    function closeSheet() {
+      document.getElementById('createSheet').classList.add('hidden');
+    }
+
+    function saveSlot() {
+      closeSheet();
+      showToast('时段已保存并发布');
+    }
+  </script>
+</body>
+</html>
