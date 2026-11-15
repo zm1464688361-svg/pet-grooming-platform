@@ -7,6 +7,7 @@
 <title>取消审批 · 客服端</title>
 <script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
 <script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
 <style>
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{scrollbar-width:none}
@@ -35,95 +36,11 @@
 <!-- 待审批 -->
 <div id="tabPending">
 <p class="mt-3 text-[10px] text-[#a2b5ab]">审批期间该预约已冻结，不可核销 / 不可开始服务</p>
-<section class="mt-2 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#f7e2c0]">
-<div class="flex items-start justify-between">
-<div class="flex items-center gap-2.5">
-<div class="w-10 h-10 rounded-xl bg-[#fdf3e3] grid place-items-center shrink-0"><iconify-icon class="text-[#c98a3c] text-xl" icon="mdi:cat"></iconify-icon></div>
-<div>
-<p class="text-[13px] font-bold text-[#22402f]">奶糖 · 英短 · 苏禾</p>
-<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261113021 · 11/16 10:00 时段</p>
-</div>
-</div>
-<span class="px-2 py-1 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[9px] font-semibold">待审核取消</span>
-</div>
-<div class="mt-3 rounded-xl bg-[#faf7f1] px-3 py-2.5 space-y-1.5 text-[10px]">
-<div class="flex justify-between"><span class="text-[#a2b5ab]">申请时间</span><span class="text-[#4a6357]">11-15 12:31:08</span></div>
-<div class="flex justify-between"><span class="text-[#a2b5ab]">距时段开始</span><span class="text-[#c9563a] font-medium">21 小时 28 分</span></div>
-<div class="flex justify-between"><span class="text-[#a2b5ab]">取消原因</span><span class="text-[#4a6357]">临时出差，改期再约</span></div>
-<div class="flex justify-between"><span class="text-[#a2b5ab]">预约款</span><span class="text-[#22402f] font-semibold">¥99.00</span></div>
-</div>
-<p class="text-[9px] text-[#b6c7bf] mt-2 leading-relaxed">提示：该申请距时段开始已超过 2 小时，正常应走自动受理；本单为门店主动转人工复核场景。</p>
-</section>
-<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<h2 class="text-[12px] font-bold text-[#1d3a2e] mb-2.5">审批前校验</h2>
-<div class="space-y-2 text-[11px]">
-<div class="flex items-center gap-2">
-<span class="w-4 h-4 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[10px]" icon="mdi:check"></iconify-icon></span>
-<span class="text-[#4a6357]">预约状态为「待审核取消」，处于冻结中</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-4 h-4 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[10px]" icon="mdi:check"></iconify-icon></span>
-<span class="text-[#4a6357]">未核销、未登记服务开始</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="w-4 h-4 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[10px]" icon="mdi:check"></iconify-icon></span>
-<span class="text-[#4a6357]">无重复审批记录</span>
-</div>
-</div>
-</section>
-<section class="mt-3 grid grid-cols-2 gap-2.5" id="approveActions">
-<button class="py-3 rounded-2xl bg-[#38a878] text-white text-[12px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.24)]" onclick="approveCancel()" type="button">
-            同意取消
-            <span class="block text-[9px] font-normal opacity-80 mt-0.5">释放名额并生成退款单</span>
-</button>
-<button class="py-3 rounded-2xl bg-[#fff4e8] border border-[#f7e2c0] text-[#c98a3c] text-[12px] font-semibold" onclick="rejectCancel()" type="button">
-            驳回申请
-            <span class="block text-[9px] font-normal opacity-80 mt-0.5">恢复已确认，不释放名额</span>
-</button>
-</section>
-<section class="hidden mt-3 rounded-2xl bg-white border border-[#cfeadd] p-4" id="approveResult">
-<p class="text-[12px] font-bold text-[#2f8a63] flex items-center gap-1.5">
-<iconify-icon class="text-base" icon="mdi:check-circle-outline"></iconify-icon>
-            已同意取消 · 审批完成
-          </p>
-<ul class="mt-2 space-y-1 text-[10px] text-[#7d958a] leading-relaxed">
-<li>· 预约状态：待审核取消 → 已取消</li>
-<li>· 名额：11/16 10:00 时段释放 1 个（剩余 3）</li>
-<li>· 退款单 RF20261115003 已生成，状态「退款中」</li>
-<li>· 本审批不可撤销，如需恢复请让宠主重新预约</li>
-</ul>
-<div class="mt-2.5 flex gap-2">
-<a class="px-3 py-1.5 rounded-full bg-[#f0f7f3] text-[10px] font-medium text-[#3f8f6b]" href="refund-tracking.html">跟踪退款单</a>
-<a class="px-3 py-1.5 rounded-full border border-[#e6f0eb] text-[10px] text-[#4a6357]" href="booking-detail.html">C 端详情</a>
-</div>
-</section>
-<section class="hidden mt-3 rounded-2xl bg-white border border-[#f7e2c0] p-4" id="rejectResult">
-<p class="text-[12px] font-bold text-[#c98a3c] flex items-center gap-1.5">
-<iconify-icon class="text-base" icon="mdi:information-outline"></iconify-icon>
-            已驳回取消申请
-          </p>
-<p class="text-[10px] text-[#7d958a] mt-1.5 leading-relaxed">预约恢复为「已确认」，名额保持占用，请通知宠主按原时段到店。本次审批已结束，不可再次提交同一申请。</p>
-<a class="mt-2.5 inline-flex px-3 py-1.5 rounded-full bg-[#f0f7f3] text-[10px] font-medium text-[#3f8f6b]" href="bookings-admin.html">查看预约状态</a>
-</section>
+<div id="pendingList"><div class="text-[11px] text-[#8aa398] text-center py-6">加载中…</div></div>
 </div>
 <!-- 已处理 -->
 <div class="hidden" id="tabDone">
-<div class="mt-3 space-y-2">
-<div class="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<div class="flex items-center justify-between">
-<span class="text-[11px] font-semibold text-[#22402f]">BK20261115008 · 团子</span>
-<span class="px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px]">同意取消</span>
-</div>
-<p class="text-[10px] text-[#8aa398] mt-1">11-15 10:12 · 周宁 · 自动受理后复核，退款已成功</p>
-</div>
-<div class="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<div class="flex items-center justify-between">
-<span class="text-[11px] font-semibold text-[#22402f]">BK20261115005 · 旺财</span>
-<span class="px-2 py-0.5 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[9px]">驳回申请</span>
-</div>
-<p class="text-[10px] text-[#8aa398] mt-1">11-15 09:47 · 周宁 · 距时段 1 小时，宠主未到店理由不成立</p>
-</div>
-</div>
+<div class="mt-3 space-y-2" id="doneList"><div class="text-[11px] text-[#8aa398] text-center py-4">加载中…</div></div>
 <div class="mt-3 rounded-2xl bg-[#f3effc] border border-[#e5dcf8] p-3.5">
 <p class="text-[10px] leading-relaxed text-[#8574ab]">审批记录不可修改；同意取消后如退款失败，只影响退款单状态，预约保持已取消，名额不恢复。</p>
 </div>
@@ -149,35 +66,84 @@
 </nav>
 </div>
 <script>
-    function switchTab(tab, btn) {
-      document.querySelectorAll('.tab-btn').forEach(function (b) {
-        b.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]';
-      });
-      btn.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
-      var pending = document.getElementById('tabPending');
-      var done = document.getElementById('tabDone');
-      if (tab === 'pending') {
-        pending.classList.remove('hidden');
-        done.classList.add('hidden');
-      } else {
-        pending.classList.add('hidden');
-        done.classList.remove('hidden');
-      }
-    }
+async function loadPending() {
+  await call('/api/shop/audit/list?page=1&size=20', { role: 'staff' }, d => {
+    const list = d.list || [];
+    const btns = document.querySelectorAll('.tab-btn');
+    btns[0].textContent = '待审批 ' + list.length;
+    document.getElementById('pendingList').innerHTML = list.length ? list.map(a => {
+      const gap = Math.max(0, Math.floor((new Date(a.startTime) - Date.now()) / 3600000));
+      return `
+      <section class="mt-2 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#f7e2c0]">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-xl bg-[#fdf3e3] grid place-items-center shrink-0"><iconify-icon class="text-[#c98a3c] text-xl" icon="mdi:cat"></iconify-icon></div>
+            <div>
+              <p class="text-[13px] font-bold text-[#22402f]">${a.petName} · ${a.userPhone}</p>
+              <p class="text-[10px] text-[#a2b5ab] mt-0.5">${a.appId} · ${fmtDT(a.startTime)}</p>
+            </div>
+          </div>
+          <span class="px-2 py-1 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[9px] font-semibold">待审核取消</span>
+        </div>
+        <div class="mt-3 rounded-xl bg-[#faf7f1] px-3 py-2.5 space-y-1.5 text-[10px]">
+          <div class="flex justify-between"><span class="text-[#a2b5ab]">申请时间</span><span class="text-[#4a6357]">${fmtDT(a.cancelApplyAt)}</span></div>
+          <div class="flex justify-between"><span class="text-[#a2b5ab]">距时段开始</span><span class="text-[#c9563a] font-medium">${gap} 小时（不足 2h 转人工）</span></div>
+          <div class="flex justify-between"><span class="text-[#a2b5ab]">取消原因</span><span class="text-[#4a6357]">${a.cancelReason || '-'}</span></div>
+          <div class="flex justify-between"><span class="text-[#a2b5ab]">预约款</span><span class="text-[#22402f] font-semibold">¥${fmtYuan(a.price)}</span></div>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-2.5">
+          <button class="py-3 rounded-2xl bg-[#38a878] text-white text-[12px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.24)]" onclick="doAudit('approve','${a.appId}',this)" type="button">
+            同意取消<span class="block text-[9px] font-normal opacity-80 mt-0.5">释放名额并生成退款单</span>
+          </button>
+          <button class="py-3 rounded-2xl bg-[#fff4e8] border border-[#f7e2c0] text-[#c98a3c] text-[12px] font-semibold" onclick="doAudit('reject','${a.appId}',this)" type="button">
+            驳回申请<span class="block text-[9px] font-normal opacity-80 mt-0.5">恢复已确认，不释放名额</span>
+          </button>
+        </div>
+      </section>`;
+    }).join('') : '<div class="text-[11px] text-[#8aa398] text-center py-6">暂无待审批申请</div>';
+  });
+}
 
-    function approveCancel() {
-      document.getElementById('approveResult').classList.remove('hidden');
-      document.getElementById('rejectResult').classList.add('hidden');
-      document.getElementById('approveActions').classList.add('hidden');
-      document.getElementById('approveResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+async function loadDone() {
+  await call('/api/shop/app/list?status=4&page=1&size=20', { role: 'staff' }, d => {
+    const list = (d.list || []).slice(0, 5);
+    document.getElementById('doneList').innerHTML = (list.length ? list.map(a => `
+      <div class="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-semibold text-[#22402f]">${a.appId} · ${a.petName}</span>
+          <span class="px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px]">已取消（退款单已生成）</span>
+        </div>
+        <p class="text-[10px] text-[#8aa398] mt-1">${fmtDT(a.startTime)} · 名额已释放</p>
+      </div>`).join('') : '<div class="text-[11px] text-[#8aa398] text-center py-4">暂无已处理记录</div>') +
+      '<div class="mt-3 rounded-2xl bg-[#f3effc] border border-[#e5dcf8] p-3.5"><p class="text-[10px] leading-relaxed text-[#8574ab]">审批记录不可修改；同意取消后如退款失败，只影响退款单状态，预约保持已取消，名额不恢复。</p></div>';
+    document.querySelectorAll('.tab-btn')[1].textContent = '已处理 ' + (d.total || 0);
+  });
+}
 
-    function rejectCancel() {
-      document.getElementById('rejectResult').classList.remove('hidden');
-      document.getElementById('approveResult').classList.add('hidden');
-      document.getElementById('approveActions').classList.add('hidden');
-      document.getElementById('rejectResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  </script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]';
+  });
+  btn.className = 'tab-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
+  document.getElementById('tabPending').classList.toggle('hidden', tab !== 'pending');
+  document.getElementById('tabDone').classList.toggle('hidden', tab !== 'done');
+  if (tab === 'done') loadDone();
+}
+
+async function doAudit(action, appId, btn) {
+  btn.disabled = true;
+  const reason = action === 'reject' ? prompt('请填写驳回原因（记录到操作日志）：') || '' : undefined;
+  try {
+    const path = action === 'approve' ? '/api/shop/audit/approve' : '/api/shop/audit/reject';
+    const body = action === 'approve' ? { appId } : { appId, reason };
+    await call(path, { method: 'POST', role: 'staff', body }, (d, msg) => {
+      toast(msg || '已处理');
+      loadPending();
+    });
+  } catch (e) { btn.disabled = false; }
+}
+
+loadPending();
+</script>
 </body>
 </html>

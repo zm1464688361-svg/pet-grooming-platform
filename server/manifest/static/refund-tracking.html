@@ -7,6 +7,7 @@
 <title>退款跟进 · 客服端</title>
 <script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
 <script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
 <style>
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{scrollbar-width:none}
@@ -24,7 +25,7 @@
 <h1 class="text-[15px] font-bold text-[#1d3a2e]">退款跟进</h1>
 <p class="text-[10px] text-[#8aa398] mt-0.5">客服 周宁 · 只改退款单状态</p>
 </div>
-<span class="px-2 py-1 rounded-full bg-[#fdeee5] text-[#c9563a] text-[10px] font-medium">退款失败 1</span>
+<span class="px-2 py-1 rounded-full bg-[#fdeee5] text-[#c9563a] text-[10px] font-medium" id="failBadge">失败/待退 -</span>
 </div>
 </header>
 <main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
@@ -32,15 +33,15 @@
 <section class="mt-3 grid grid-cols-3 gap-2">
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
 <p class="text-[9px] text-[#8aa398]">应退金额</p>
-<p class="text-[16px] font-bold text-[#22402f] mt-1 leading-none">¥198</p>
+<p class="text-[16px] font-bold text-[#22402f] mt-1 leading-none" id="sumTotal">-</p>
 </div>
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
 <p class="text-[9px] text-[#8aa398]">已退成功</p>
-<p class="text-[16px] font-bold text-[#2f8a63] mt-1 leading-none">¥99</p>
+<p class="text-[16px] font-bold text-[#2f8a63] mt-1 leading-none" id="sumOk">-</p>
 </div>
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
 <p class="text-[9px] text-[#8aa398]">失败待重试</p>
-<p class="text-[16px] font-bold text-[#c9563a] mt-1 leading-none">¥99</p>
+<p class="text-[16px] font-bold text-[#c9563a] mt-1 leading-none" id="sumFail">-</p>
 </div>
 </section>
 <!-- 退款失败单 -->
@@ -49,53 +50,7 @@
 <h2 class="text-[12px] font-bold text-[#1d3a2e]">退款单列表</h2>
 <span class="text-[10px] text-[#a2b5ab]">退款状态独立于预约状态</span>
 </div>
-<div class="space-y-2.5">
-<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#f3dcd4]" id="failedCard">
-<div class="flex items-start justify-between">
-<div>
-<p class="text-[12px] font-bold text-[#22402f]">RF20261115003</p>
-<p class="text-[10px] text-[#a2b5ab] mt-0.5">关联 BK20261113021 · 奶糖</p>
-</div>
-<span class="px-2 py-1 rounded-full bg-[#fdeee5] text-[#c9563a] text-[9px] font-semibold" id="refundStatus">退款失败</span>
-</div>
-<div class="mt-2.5 grid grid-cols-2 gap-2 text-[10px]">
-<div class="rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#a2b5ab]">退款金额</span><p class="text-[12px] font-bold text-[#22402f] mt-0.5">¥99.00</p></div>
-<div class="rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#a2b5ab]">失败次数</span><p class="text-[12px] font-bold text-[#c9563a] mt-0.5" id="retryCount">1 次</p></div>
-</div>
-<div class="mt-2 rounded-lg bg-[#fdf6f2] px-2.5 py-2">
-<p class="text-[9px] text-[#b8683f] font-medium">失败原因</p>
-<p class="text-[10px] text-[#a97a63] mt-0.5 leading-relaxed">CHANNEL_TIMEOUT · 模拟渠道响应超时，原支付单仍可退</p>
-</div>
-<div class="mt-2.5 flex gap-2">
-<button class="flex-1 py-2.5 rounded-full bg-[#38a878] text-white text-[11px] font-semibold" id="retryBtn" onclick="retryRefund()" type="button">重试退款</button>
-<a class="flex-1 py-2.5 rounded-full border border-[#e6f0eb] text-[11px] text-[#4a6357] text-center" href="refund.html">C 端退款页</a>
-</div>
-<p class="hidden mt-2 text-[10px] text-[#2f8a63] bg-[#eef9f3] rounded-lg px-2.5 py-2 leading-relaxed" id="retryTip">重试请求已提交，仅更新退款单状态；预约仍为「已取消」，名额不恢复。</p>
-</div>
-<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<div class="flex items-start justify-between">
-<div>
-<p class="text-[12px] font-bold text-[#22402f]">RF20261115002</p>
-<p class="text-[10px] text-[#a2b5ab] mt-0.5">关联 BK20261115008 · 团子</p>
-</div>
-<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-semibold">退款成功</span>
-</div>
-<div class="mt-2 flex items-center justify-between text-[10px] text-[#8aa398]">
-<span>11-15 10:12 到账 · 模拟渠道</span>
-<span class="text-[12px] font-bold text-[#22402f]">¥99.00</span>
-</div>
-</div>
-<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<div class="flex items-start justify-between">
-<div>
-<p class="text-[12px] font-bold text-[#22402f]">RF20261115001</p>
-<p class="text-[10px] text-[#a2b5ab] mt-0.5">关联 BK20261114002 · 可乐</p>
-</div>
-<span class="px-2 py-1 rounded-full bg-[#f0f2f1] text-[#7d958a] text-[9px] font-semibold">已关闭（重复单）</span>
-</div>
-<p class="text-[10px] text-[#a2b5ab] mt-2">原单已退款成功，本单为渠道重复回调自动关闭。</p>
-</div>
-</div>
+<div class="space-y-2.5" id="refundCards"><div class="text-[11px] text-[#8aa398] text-center py-4">加载中…</div></div>
 </section>
 <!-- 口径说明 -->
 <section class="mt-3 rounded-2xl bg-[#f3effc] border border-[#e5dcf8] p-3.5">
@@ -130,30 +85,61 @@
 </nav>
 </div>
 <script>
-    var attempt = 1;
+function refundCard(r) {
+  const failed = r.status === 3, pending = r.status === 1;
+  const pill = failed ? '<span class="px-2 py-1 rounded-full bg-[#fdeee5] text-[#c9563a] text-[9px] font-semibold">退款失败</span>'
+    : pending ? '<span class="px-2 py-1 rounded-full bg-[#e9f1fe] text-[#3a6fb0] text-[9px] font-semibold">退款中</span>'
+    : '<span class="px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-semibold">退款成功</span>';
+  return `
+  <div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] ${failed ? 'border border-[#f3dcd4]' : ''}">
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-[12px] font-bold text-[#22402f]">${r.refundId}</p>
+        <p class="text-[10px] text-[#a2b5ab] mt-0.5">关联 ${r.appId} · ${r.petName}</p>
+      </div>
+      ${pill}
+    </div>
+    <div class="mt-2.5 grid grid-cols-2 gap-2 text-[10px]">
+      <div class="rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#a2b5ab]">退款金额</span><p class="text-[12px] font-bold text-[#22402f] mt-0.5">¥${fmtYuan(r.amount)}</p></div>
+      <div class="rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#a2b5ab]">重试次数</span><p class="text-[12px] font-bold ${failed ? 'text-[#c9563a]' : 'text-[#22402f]'} mt-0.5">${r.retryCount} 次</p></div>
+    </div>
+    ${r.failMsg ? `<div class="mt-2 rounded-lg bg-[#fdf6f2] px-2.5 py-2"><p class="text-[9px] text-[#b8683f] font-medium">失败原因</p><p class="text-[10px] text-[#a97a63] mt-0.5 leading-relaxed">${r.failMsg}</p></div>` : ''}
+    ${r.refundedAt ? `<div class="mt-2 flex items-center justify-between text-[10px] text-[#8aa398]"><span>${fmtDT(r.refundedAt)} 到账 · 模拟渠道</span><span class="text-[12px] font-bold text-[#22402f]">¥${fmtYuan(r.amount)}</span></div>` : ''}
+    ${failed || pending ? `
+    <div class="mt-2.5 flex gap-2">
+      <button class="flex-1 py-2.5 rounded-full bg-[#38a878] text-white text-[11px] font-semibold" onclick="retryRefund('${r.refundId}',this)" type="button">重试退款</button>
+      <a class="flex-1 py-2.5 rounded-full border border-[#e6f0eb] text-[11px] text-[#4a6357] text-center" href="refund.html">C 端退款页</a>
+    </div>
+    <p class="mt-2 text-[10px] text-[#8574ab] leading-relaxed">重试仅更新退款单状态；预约仍为「已取消」，名额不恢复。</p>` : ''}
+  </div>`;
+}
 
-    function retryRefund() {
-      var btn = document.getElementById('retryBtn');
-      btn.textContent = '重试请求中…';
-      btn.className = 'flex-1 py-2.5 rounded-full bg-[#dfe7e3] text-[11px] font-semibold text-[#9aaba3]';
-      setTimeout(function () {
-        attempt = attempt + 1;
-        document.getElementById('retryCount').textContent = attempt + ' 次';
-        document.getElementById('refundStatus').textContent = '退款处理中';
-        document.getElementById('refundStatus').className = 'px-2 py-1 rounded-full bg-[#e9f1fe] text-[#3a6fb0] text-[9px] font-semibold';
-        document.getElementById('retryTip').classList.remove('hidden');
-        btn.textContent = '已提交，等待渠道回调';
-        btn.onclick = null;
-      }, 800);
-    }
+async function loadRefunds() {
+  await call('/api/shop/refund/list?page=1&size=20', { role: 'staff' }, d => {
+    const list = d.list || [];
+    document.getElementById('refundCards').innerHTML = list.length ? list.map(refundCard).join('') : '<div class="text-[11px] text-[#8aa398] text-center py-4">暂无退款单</div>';
+    const ok = list.filter(r => r.status === 2).reduce((s, r) => s + r.amount, 0);
+    const fail = list.filter(r => r.status !== 2).reduce((s, r) => s + r.amount, 0);
+    document.getElementById('sumOk').textContent = '¥' + fmtYuan(ok);
+    document.getElementById('sumFail').textContent = '¥' + fmtYuan(fail);
+    document.getElementById('sumTotal').textContent = '¥' + fmtYuan(ok + fail);
+    const n = list.filter(r => r.status !== 2).length;
+    document.getElementById('failBadge').textContent = `失败/待退 ${n}`;
+  });
+}
 
-    (function init() {
-      var query = new URLSearchParams(window.location.search);
-      if (query.get('retried') === '1') {
-        document.getElementById('refundStatus').textContent = '退款处理中';
-        document.getElementById('refundStatus').className = 'px-2 py-1 rounded-full bg-[#e9f1fe] text-[#3a6fb0] text-[9px] font-semibold';
-      }
-    })();
-  </script>
+async function retryRefund(refundId, btn) {
+  btn.textContent = '重试请求中…';
+  btn.disabled = true;
+  try {
+    await call('/api/shop/refund/retry', { method: 'POST', role: 'staff', body: { refundId } }, (d, msg) => {
+      toast(msg || '已重新发起退款');
+      loadRefunds();
+    });
+  } catch (e) { btn.disabled = false; }
+}
+
+loadRefunds();
+</script>
 </body>
 </html>

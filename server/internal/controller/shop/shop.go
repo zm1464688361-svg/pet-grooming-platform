@@ -331,6 +331,18 @@ func (c *Controller) LedgerDaily(r *ghttp.Request) {
 	response.OK(r, g.Map{"summary": sum, "slots": slots})
 }
 
+// RefundAdminList GET /api/shop/refund/list 退款单列表（客服/店长）。
+func (c *Controller) RefundAdminList(r *ghttp.Request) {
+	list, total, err := logicShop.AdminRefundList(
+		r.Context(), r.Get("status").Int(), r.Get("page").Int(), r.Get("size").Int(),
+	)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)

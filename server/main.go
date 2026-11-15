@@ -57,6 +57,7 @@ func main() {
 			group.GET("/exception/list", shopAPI.ExceptionList)        // 支付异常单列表（店长/客服）
 			group.POST("/exception/process", shopAPI.ExceptionProcess) // 处理异常单（店长/客服）
 			group.GET("/ledger/daily", shopAPI.LedgerDaily)            // 日清台账（店长）
+			group.GET("/refund/list", shopAPI.RefundAdminList)         // 退款单列表（客服/店长）
 			// B 端其余路由在各 Task 中逐步注册
 		})
 		payAPI := payCtl.New()

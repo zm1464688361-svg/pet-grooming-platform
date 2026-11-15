@@ -7,6 +7,7 @@
 <title>门店端工作台 · 毛球家宠物洗护</title>
 <script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
 <script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<script src="app.js"></script>
 <style>
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{scrollbar-width:none}
@@ -31,7 +32,7 @@
 </div>
 <div class="mt-3 flex items-center gap-2 rounded-xl bg-[#f7fbf9] px-3 py-2">
 <iconify-icon class="text-[#38a878] text-sm" icon="mdi:calendar-today"></iconify-icon>
-<span class="text-[11px] text-[#5b7a6d]">营业日 2026-11-15 · 周日</span>
+<span class="text-[11px] text-[#5b7a6d]" id="bizDay">营业日</span>
 <span class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63] font-medium">营业中</span>
 </div>
 </header>
@@ -40,15 +41,15 @@
 <section class="mt-3 grid grid-cols-3 gap-2">
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
 <p class="text-[10px] text-[#8aa398]">今日预约</p>
-<p class="text-[20px] font-bold text-[#1d3a2e] mt-1 leading-none">6<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">单</span></p>
+<p class="text-[20px] font-bold text-[#1d3a2e] mt-1 leading-none" id="cntToday">-<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">单</span></p>
 </div>
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
-<p class="text-[10px] text-[#8aa398]">已核销收入</p>
-<p class="text-[20px] font-bold text-[#2f8a63] mt-1 leading-none">¥198</p>
+<p class="text-[10px] text-[#8aa398]">已完成服务收入</p>
+<p class="text-[20px] font-bold text-[#2f8a63] mt-1 leading-none" id="cntRevenue">-</p>
 </div>
 <div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
 <p class="text-[10px] text-[#8aa398]">待处理</p>
-<p class="text-[20px] font-bold text-[#e07a4b] mt-1 leading-none">5<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">项</span></p>
+<p class="text-[20px] font-bold text-[#e07a4b] mt-1 leading-none" id="cntPending">-<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">项</span></p>
 </div>
 </section>
 <!-- 待办处理清单 -->
@@ -80,7 +81,7 @@
 <p class="text-[12px] font-semibold text-[#22402f]">待审批取消申请</p>
 <p class="text-[10px] text-[#8aa398] mt-0.5">BK20261113021 · 距时段不足 2 小时</p>
 </div>
-<span class="w-6 h-6 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[11px] font-bold grid place-items-center">1</span>
+<span class="w-6 h-6 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[11px] font-bold grid place-items-center" id="badgeAudit">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
 </a>
 <a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="refund-tracking.html">
@@ -102,7 +103,7 @@
 <p class="text-[12px] font-semibold text-[#22402f]">支付异常单待处理</p>
 <p class="text-[10px] text-[#8aa398] mt-0.5">EX20261115001 · 渠道已扣款未回调</p>
 </div>
-<span class="w-6 h-6 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[11px] font-bold grid place-items-center">1</span>
+<span class="w-6 h-6 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[11px] font-bold grid place-items-center" id="badgeExc">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
 </a>
 </div>
@@ -111,7 +112,7 @@
 <section class="mt-4">
 <h2 class="text-[14px] font-bold text-[#1d3a2e] mb-2.5">切换角色</h2>
 <div class="grid grid-cols-2 gap-2.5">
-<a class="rounded-2xl bg-gradient-to-br from-[#e6f6ee] to-[#f6fcf9] p-3.5 border border-[#d9efe3]" href="slots.html">
+<a class="rounded-2xl bg-gradient-to-br from-[#e6f6ee] to-[#f6fcf9] p-3.5 border border-[#d9efe3]" href="slots.html" onclick="setStaff('manager_01')">
 <div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
 <iconify-icon class="text-[#2f8a63] text-lg" icon="mdi:account-tie"></iconify-icon>
 </div>
@@ -119,7 +120,7 @@
 <p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">时段发布 · 未到店标记<br/>当日台账 · 支付异常</p>
 <div class="mt-2 flex items-center gap-1 text-[10px] text-[#2f8a63] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
 </a>
-<a class="rounded-2xl bg-gradient-to-br from-[#e9f1fe] to-[#f7faff] p-3.5 border border-[#dae6fa]" href="frontdesk.html">
+<a class="rounded-2xl bg-gradient-to-br from-[#e9f1fe] to-[#f7faff] p-3.5 border border-[#dae6fa]" href="frontdesk.html" onclick="setStaff('front_01')">
 <div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
 <iconify-icon class="text-[#3a6fb0] text-lg" icon="mdi:account-voice"></iconify-icon>
 </div>
@@ -127,7 +128,7 @@
 <p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">预约检索 · 三重校验核销<br/>核销结果反馈</p>
 <div class="mt-2 flex items-center gap-1 text-[10px] text-[#3a6fb0] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
 </a>
-<a class="rounded-2xl bg-gradient-to-br from-[#fdf0e7] to-[#fffaf6] p-3.5 border border-[#f7e2d3]" href="service.html">
+<a class="rounded-2xl bg-gradient-to-br from-[#fdf0e7] to-[#fffaf6] p-3.5 border border-[#f7e2d3]" href="service.html" onclick="setStaff('svc_01')">
 <div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
 <iconify-icon class="text-[#d97c46] text-lg" icon="mdi:content-cut"></iconify-icon>
 </div>
@@ -135,7 +136,7 @@
 <p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">开始 / 完成登记<br/>宠物历史记录</p>
 <div class="mt-2 flex items-center gap-1 text-[10px] text-[#d97c46] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
 </a>
-<a class="rounded-2xl bg-gradient-to-br from-[#f3effc] to-[#fbf9ff] p-3.5 border border-[#e5dcf8]" href="cancel-review.html">
+<a class="rounded-2xl bg-gradient-to-br from-[#f3effc] to-[#fbf9ff] p-3.5 border border-[#e5dcf8]" href="cancel-review.html" onclick="setStaff('cs_01')">
 <div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
 <iconify-icon class="text-[#7a63b0] text-lg" icon="mdi:headset"></iconify-icon>
 </div>
@@ -151,20 +152,7 @@
 <h2 class="text-[13px] font-bold text-[#1d3a2e]">今日时段占用</h2>
 <a class="text-[10px] text-[#38a878]" href="slots.html">管理时段</a>
 </div>
-<div class="space-y-2.5">
-<div>
-<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">10:00 - 11:00</span><span class="text-[#a2b5ab]">已约 3 / 3 · 剩余 0</span></div>
-<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-full bg-[#cdd6d2]"></div></div>
-</div>
-<div>
-<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">14:00 - 15:00</span><span class="text-[#e07a4b]">已约 2 / 3 · 剩余 1</span></div>
-<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-2/3 bg-[#7ad2a9]"></div></div>
-</div>
-<div>
-<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">16:00 - 17:00</span><span class="text-[#2f8a63]">已约 1 / 3 · 剩余 2</span></div>
-<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-1/3 bg-[#7ad2a9]"></div></div>
-</div>
-</div>
+<div class="space-y-2.5" id="occupancy"><div class="text-[11px] text-[#8aa398]">加载中…</div></div>
 </section>
 <!-- 其他入口 -->
 <section class="mt-4 grid grid-cols-3 gap-2">
@@ -182,6 +170,38 @@
 </a>
 </section>
 </main>
+<script>
+function setStaff(id) { localStorage.setItem('demo_staff', id); }
+
+async function loadWorkbench() {
+  document.getElementById('bizDay').textContent = '营业日 ' + new Date().toLocaleDateString('zh-CN') + ' · 周' + '日一二三四五六'[new Date().getDay()];
+  try {
+    const [ledger, audit, exc, slots] = await Promise.all([
+      api('/api/shop/ledger/daily', { role: 'staff' }),
+      api('/api/shop/audit/list?page=1&size=1', { role: 'staff' }),
+      api('/api/shop/exception/list?status=1&page=1&size=1', { role: 'staff' }),
+      api('/api/user/slot/list', { role: 'user' }),
+    ]);
+    const d = ledger.data || {};
+    document.getElementById('cntToday').textContent = d.summary ? (d.summary.ValidCount + d.summary.FinishedCount) : '-';
+    document.getElementById('cntRevenue').textContent = d.summary ? '¥' + fmtYuan(d.summary.RevenueAmount) : '-';
+    const pending = (audit.data ? audit.data.total : 0) + (exc.data ? exc.data.total : 0);
+    document.getElementById('cntPending').textContent = pending;
+    document.getElementById('badgeAudit').textContent = audit.data ? audit.data.total : 0;
+    document.getElementById('badgeExc').textContent = exc.data ? exc.data.total : 0;
+    const list = (slots.data && (slots.data.slots || slots.data)) || [];
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('occupancy').innerHTML = list.filter(s => s.startTime.slice(0, 10) === today).map(s => {
+      const occ = 3 - s.remaining, pct = Math.round(occ / 3 * 100);
+      return `<div>
+        <div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">${fmtHM(s.startTime)} - ${fmtHM(s.endTime)}</span><span class="${s.remaining === 0 ? 'text-[#a2b5ab]' : s.remaining === 1 ? 'text-[#e07a4b]' : 'text-[#2f8a63]'}">已约 ${occ} / 3 · 剩余 ${s.remaining}</span></div>
+        <div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full" style="width:${pct}%;background:${s.remaining === 0 ? '#cdd6d2' : '#7ad2a9'}"></div></div>
+      </div>`;
+    }).join('') || '<div class="text-[11px] text-[#8aa398]">今日暂无时段</div>';
+  } catch (e) { /* 概览失败不影响导航 */ }
+}
+loadWorkbench();
+</script>
 <nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
 <a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="home.html">
 <iconify-icon class="text-[22px]" icon="mdi:home-variant-outline"></iconify-icon>
