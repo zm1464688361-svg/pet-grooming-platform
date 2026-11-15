@@ -1,0 +1,28 @@
+# 服务配置
+server:
+  address: ":8000"
+
+logger:
+  level: "all"
+  stdout: true
+
+# 数据库（MySQL 真值源）
+database:
+  default:
+    link: "mysql:root:asdfghjkl@tcp(127.0.0.1:3306)/pet_grooming?charset=utf8mb4&parseTime=true&loc=Local"
+
+# Redis（名额缓存）
+redis:
+  default:
+    address: "127.0.0.1:6379"
+    db: 0
+
+# 业务常量（与 .agent 约束一致，禁止修改口径）
+business:
+  shopId: "shop_001"
+  itemId: "item_wash_001"
+  priceCent: 9900          # 预约款固定 9900 分
+  maxCapacity: 3           # 单时段容量固定 3
+  lockMinutes: 5           # 待支付锁定 5 分钟
+  cancelWindowHours: 2     # 取消窗口 2 小时（秒级比较，恰好 2h 按 ≥2h）
+  payLockSeconds: 30       # 支付幂等锁 30 秒

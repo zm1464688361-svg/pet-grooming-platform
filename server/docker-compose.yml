@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: pet-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  # 本机 MySQL 可用时无需启动；如需容器化 MySQL 取消以下注释
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: pet-mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: asdfghjkl
+  #     MYSQL_DATABASE: pet_grooming
+  #   ports:
+  #     - "3306:3306"
+  #   command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  #   restart: unless-stopped

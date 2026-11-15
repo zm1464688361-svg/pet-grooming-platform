@@ -1,0 +1,14 @@
+# Go
+server/*.exe
+server/main
+*.test
+*.out
+
+# 本地临时文件
+.agent/_c_unpacked/
+.agent/_b_unpacked/
+.agent/_需求提取.txt
+
+# IDE
+.idea/
+.vscode/
