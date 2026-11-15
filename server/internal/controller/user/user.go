@@ -2,6 +2,8 @@
 package user
 
 import (
+	"errors"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
@@ -44,4 +46,35 @@ func (c *Controller) PetList(r *ghttp.Request) {
 		return
 	}
 	response.OK(r, pets)
+}
+
+// Book POST /api/user/app/book 创建预约（幂等键可选）。
+func (c *Controller) Book(r *ghttp.Request) {
+	var req struct {
+		PetId      string `json:"petId"`
+		SlotId     string `json:"slotId"`
+		IdemKey    string `json:"idemKey"`
+		UserRemark string `json:"userRemark"`
+	}
+	if err := r.Parse(&req); err != nil {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicUser.Book(r.Context(), &logicUser.BookInput{
+		UserId:     auth.UserIdFrom(r.Context()), // 登录态注入，不信任前端
+		PetId:      req.PetId,
+		SlotId:     req.SlotId,
+		IdemKey:    req.IdemKey,
+		UserRemark: req.UserRemark,
+	})
+	if err != nil {
+		var biz *logicUser.BizError
+		if errors.As(err, &biz) {
+			response.Fail(r, biz.Code)
+			return
+		}
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
 }
