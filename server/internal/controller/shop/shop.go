@@ -161,6 +161,23 @@ func (c *Controller) PetHistory(r *ghttp.Request) {
 	response.OK(r, g.Map{"list": list, "total": total})
 }
 
+// AppVerify POST /api/shop/app/verify 到店核销（前台/店长）。
+func (c *Controller) AppVerify(r *ghttp.Request) {
+	var req struct {
+		AppId string `json:"appId"`
+	}
+	if err := r.Parse(&req); err != nil || req.AppId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.VerifyAppointment(r.Context(), req.AppId)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)

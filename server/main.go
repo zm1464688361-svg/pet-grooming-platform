@@ -44,6 +44,7 @@ func main() {
 			group.POST("/slot/delete", shopAPI.SlotDelete)  // 删除时段（店长）
 			group.GET("/app/list", shopAPI.AppointmentList) // 预约查询（全角色）
 			group.GET("/pet/history", shopAPI.PetHistory)   // 宠物历史（只读）
+			group.POST("/app/verify", shopAPI.AppVerify)    // 到店核销（前台/店长）
 			// B 端其余路由在各 Task 中逐步注册
 		})
 		payAPI := payCtl.New()
