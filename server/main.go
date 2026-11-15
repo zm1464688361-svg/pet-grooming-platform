@@ -18,9 +18,13 @@ func main() {
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.GET("/health", cmd.Health)
 		group.Middleware(cmd.CORS)
+		ctl := userCtl.New()
 		group.Group("/api/user", func(group *ghttp.RouterGroup) {
 			group.Middleware(cmd.UserIdAuth)
-			group.Bind(userCtl.New())
+			group.GET("/slot/list", ctl.SlotList)   // 可约时段与服务项目
+			group.GET("/pet/list", ctl.PetList)     // 用户宠物
+			group.POST("/app/book", ctl.Book)       // 预约下单
+			// 其余 C 端路由在各 Task 中逐步注册
 		})
 		group.Group("/api/shop", func(group *ghttp.RouterGroup) {
 			group.Middleware(cmd.StaffAuth)
