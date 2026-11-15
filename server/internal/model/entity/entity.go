@@ -125,13 +125,13 @@ type OperLog struct {
 }
 
 type PayException struct {
-	ExcId         string     `json:"excId" orm:"exc_id"`
-	ShopId        string     `json:"shopId" orm:"shop_id"`
-	AppId         string     `json:"appId" orm:"app_id"`
-	TransactionId string     `json:"transactionId" orm:"transaction_id"`
-	Amount        int64      `json:"amount" orm:"amount"`
-	ExcType       int        `json:"excType" orm:"exc_type"`
-	RefundId      string     `json:"refundId" orm:"refund_id"`
-	Status        int        `json:"status" orm:"status"`
-	CreatedAt     time.Time  `json:"createdAt" orm:"created_at"`
+	ExcId         string    `json:"excId" orm:"exc_id"`
+	ShopId        string    `json:"shopId" orm:"shop_id"`
+	AppId         string    `json:"appId" orm:"app_id"`
+	TransactionId string    `json:"transactionId" orm:"transaction_id"`
+	Amount        int64     `json:"amount" orm:"amount"`
+	ExcType       int       `json:"excType" orm:"exc_type"`
+	RefundId      string    `json:"refundId" orm:"refund_id"`
+	Status        int       `json:"status" orm:"status"`
+	CreatedAt     time.Time `json:"createdAt" orm:"created_at"`
 }
