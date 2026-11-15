@@ -1,0 +1,48 @@
+覆盖率验收证据（测试 Agent）
+============================
+
+覆盖时间：2026-11-15 23:58
+执行方式：`go test -p 1 -coverpkg=./... -coverprofile=cover_all.out ./...`（包间串行，避免集成测试与单元测试共享 MySQL/Redis 的数据竞争）
+总语句覆盖率（go tool cover -func）：**82.3%**
+
+### 各包语句覆盖率（穿透统计，去重聚合）
+
+| 包 | 覆盖率 | 未覆盖语句 |
+|---|---|---|
+| internal/consts | 100% | 0 |
+| internal/model/biz | 100% | 0 |
+| internal/cmd（中间件/路由） | 94.4% | 4 |
+| internal/logic/auth | 93.1% | 2 |
+| internal/controller/pay | 88.9% | 3 |
+| internal/boot（配置装配） | 88.9% | 2 |
+| internal/model/response | 87.5% | 1 |
+| internal/controller/shop | 90.1% | 19 |
+| internal/logic/shop | 81.7% | 109 |
+| internal/logic/quota | 81.4% | 11 |
+| internal/logic/timer | 81.0% | 8 |
+| internal/logic/pay | 78.9% | 23 |
+| internal/logic/user | 79.6% | 43 |
+| internal/controller/user | 74.7% | 20 |
+| main.go（服务启动） | 0% | 12 |
+
+### 未覆盖语句性质说明（未做排除/弱化）
+
+未覆盖语句全部为以下两类，均无法在依赖健康的真实 MySQL/Redis 环境下触达：
+1. `if err != nil` 的 DB/Redis 故障防御分支（Scan/One/Insert/Update/Do 返回错误的路径）。
+   项目未引入接口级 mock 基建，真实依赖正常时这些分支不可达。
+2. `main.go` 的服务启动装配语句（`s.Run()` 阻塞调用，不可在进程内测试）。
+
+测试执行策略说明：
+- 集成测试（internal/cmd，启动真实 HTTP 服务覆盖全部路由与中间件）与各 logic 包单元测试
+  并行运行会产生测试数据竞争，质量门禁统一使用 `go test -p 1`（包间串行）。
+- 已尝试 `go test -race`：本机无 CGO 工具链（gcc 缺失），见 docs/plans/assumptions.md 假设 7；
+  并发安全由 Lua 原子脚本、DB 条件更新（影响行数判定）与并发单元测试（10 goroutine 抢 3 名额等）保障。
+
+### 结论
+- 整体语句覆盖率 82.3%（含 main.go 启动语句；剔除则约 82.7%）。
+- 覆盖率 85% 硬门槛尚未完全达成，登记为遗留项：需引入 DB/Redis 接口 mock 或故障注入
+  基建后补测防御分支，预计可达 90%+。已尽力覆盖全部可达分支（集成测试覆盖全部 24 条
+  HTTP 路由 + 全部 handler 错误分支 + ghost 对象路径 + 参数解析错误路径）。
+- 覆盖率驱动修复 1 个真实缺陷：quota.RebuildQuota 的 `Array("pet_id", &petIds)` 双参数形式
+  把指针误作 where 条件，对账重建恒为空集（违反"MySQL 真值源对账重建"红线）。已修复并有
+  回归测试 TestRebuildQuotaWithOrders。

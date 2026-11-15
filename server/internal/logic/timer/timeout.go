@@ -32,7 +32,12 @@ type entityApp struct {
 
 // Start 启动超时扫描定时任务（每 30 秒）。
 func Start(ctx context.Context) {
-	_, err := gcron.Add(ctx, "@every 30s", func(jobCtx context.Context) {
+	registerTimeoutJob(ctx, "@every 30s", "timeout_close")
+}
+
+// registerTimeoutJob 注册扫描任务（间隔与任务名参数化，测试可用更短间隔）。
+func registerTimeoutJob(ctx context.Context, interval, name string) {
+	_, err := gcron.Add(ctx, interval, func(jobCtx context.Context) {
 		closed, err := CloseTimeoutOnce(jobCtx)
 		if err != nil {
 			glog.Errorf(ctx, "[timer] timeout close scan failed: %v", err)
@@ -41,7 +46,7 @@ func Start(ctx context.Context) {
 		if closed > 0 {
 			glog.Infof(ctx, "[timer] timeout closed %d orders", closed)
 		}
-	}, "timeout_close")
+	}, name)
 	if err != nil {
 		glog.Errorf(ctx, "[timer] register cron failed: %v", err)
 	}
