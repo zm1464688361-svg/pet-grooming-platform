@@ -36,12 +36,14 @@ func main() {
 		group.Group("/api/shop", func(group *ghttp.RouterGroup) {
 			group.Middleware(cmd.StaffAuth)
 			shopAPI := shopCtl.New()
-			group.GET("/slot/list", shopAPI.SlotList)      // 时段列表（分页）
-			group.POST("/slot/create", shopAPI.SlotCreate) // 发布时段（店长）
-			group.POST("/slot/pause", shopAPI.SlotPause)   // 暂停时段（店长）
-			group.POST("/slot/resume", shopAPI.SlotResume) // 恢复时段（店长）
-			group.POST("/slot/update", shopAPI.SlotUpdate) // 修改时段（店长）
-			group.POST("/slot/delete", shopAPI.SlotDelete) // 删除时段（店长）
+			group.GET("/slot/list", shopAPI.SlotList)       // 时段列表（分页）
+			group.POST("/slot/create", shopAPI.SlotCreate)  // 发布时段（店长）
+			group.POST("/slot/pause", shopAPI.SlotPause)    // 暂停时段（店长）
+			group.POST("/slot/resume", shopAPI.SlotResume)  // 恢复时段（店长）
+			group.POST("/slot/update", shopAPI.SlotUpdate)  // 修改时段（店长）
+			group.POST("/slot/delete", shopAPI.SlotDelete)  // 删除时段（店长）
+			group.GET("/app/list", shopAPI.AppointmentList) // 预约查询（全角色）
+			group.GET("/pet/history", shopAPI.PetHistory)   // 宠物历史（只读）
 			// B 端其余路由在各 Task 中逐步注册
 		})
 		payAPI := payCtl.New()

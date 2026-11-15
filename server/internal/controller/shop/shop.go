@@ -123,6 +123,44 @@ func (c *Controller) SlotDelete(r *ghttp.Request) {
 	response.OKMsg(r, "时段已删除", nil)
 }
 
+// AppointmentList GET /api/shop/app/list 预约查询（全角色，分页默认 20）。
+func (c *Controller) AppointmentList(r *ghttp.Request) {
+	var req struct {
+		Date    string `json:"date"`
+		Status  int    `json:"status"`
+		PetName string `json:"petName"`
+		Keyword string `json:"keyword"`
+		Page    int    `json:"page"`
+		Size    int    `json:"size"`
+	}
+	_ = r.Parse(&req)
+	list, total, err := logicShop.QueryAppointments(
+		r.Context(), req.Date, req.Status, req.PetName, req.Keyword, req.Page, req.Size,
+	)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
+// PetHistory GET /api/shop/pet/history 宠物在本店历史预约（只读）。
+func (c *Controller) PetHistory(r *ghttp.Request) {
+	petId := r.Get("petId").String()
+	if petId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	page := r.Get("page").Int()
+	size := r.Get("size").Int()
+	list, total, err := logicShop.PetHistory(r.Context(), petId, page, size)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)
