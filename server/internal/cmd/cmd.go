@@ -24,7 +24,6 @@ func UserIdAuth(r *ghttp.Request) {
 		r.Response.WriteJson(g.Map{"code": 40001, "message": "未登录"})
 		return
 	}
-	r.SetCtx(r.Context())
 	r.Middleware.Next()
 }
 

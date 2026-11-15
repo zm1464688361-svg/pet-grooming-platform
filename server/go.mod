@@ -1,6 +1,6 @@
 module pet-grooming
 
-go 1.27.1
+go 1.24
 
 require github.com/gogf/gf/v2 v2.10.4
 

@@ -6,10 +6,10 @@ logger:
   level: "all"
   stdout: true
 
-# 数据库（MySQL 真值源）
+# 数据库（MySQL 真值源）：密码通过环境变量 MYSQL_PASSWORD 注入，不得入库
 database:
   default:
-    link: "mysql:root:asdfghjkl@tcp(127.0.0.1:3306)/pet_grooming?charset=utf8mb4&parseTime=true&loc=Local"
+    link: "mysql:root:${MYSQL_PASSWORD}@tcp(127.0.0.1:3306)/pet_grooming?charset=utf8mb4&parseTime=true&loc=Local"
 
 # Redis（名额缓存）
 redis:

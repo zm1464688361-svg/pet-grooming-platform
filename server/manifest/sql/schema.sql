@@ -79,15 +79,18 @@ CREATE TABLE IF NOT EXISTS `appointment` (
   `noshow_reason`    VARCHAR(255) NULL,         -- 非空约束：未到店原因必填
   `created_at`       DATETIME NOT NULL,
   `updated_at`       DATETIME NOT NULL,
+  -- 软唯一键：仅有效状态(1/2/3)参与唯一约束，终态(4/5/6/7/8/9)不阻塞同宠物重新预约同一时段
+  `valid_flag`       TINYINT GENERATED ALWAYS AS (IF(`status` IN (1,2,3), 1, NULL)) STORED,
   PRIMARY KEY (`app_id`),
-  UNIQUE KEY `uk_pet_slot` (`pet_id`, `slot_id`),   -- 同宠物同时段仅一笔有效预约
+  UNIQUE KEY `uk_pet_slot` (`pet_id`, `slot_id`, `valid_flag`),   -- 同宠物同时段仅一笔有效预约
   KEY `idx_slot_status` (`slot_id`, `status`),
   KEY `idx_user` (`user_id`),
   KEY `idx_shop_created` (`shop_id`, `created_at`),
   CONSTRAINT `ck_noshow_reason` CHECK (`noshow_reason` IS NULL OR CHAR_LENGTH(`noshow_reason`) > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 支付单：一单一笔成功支付（按预约维度唯一）
+-- 支付单：按预约维度唯一（uk_app 提供"同一预约仅一笔支付单"的 DB 层兜底）；
+-- 真实资金流水以 payment_log（uk_txn）为准，本表是业务侧支付结果记录
 CREATE TABLE IF NOT EXISTS `payment` (
   `payment_id`     VARCHAR(64) NOT NULL,
   `app_id`         VARCHAR(64) NOT NULL,
@@ -113,7 +116,8 @@ CREATE TABLE IF NOT EXISTS `payment_log` (
   KEY `idx_app` (`app_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 退款单：refund_type 1取消退款 2重复支付退款 3支付异常退款；status 1待退款 2退款成功 3退款失败
+-- 退款单：refund_type 1取消退款 2重复支付退款 3支付异常退款（假设登记见 docs/plans/assumptions.md）；
+-- status 1待退款 2退款成功 3退款失败；本店过滤口径经 appointment JOIN（refund 不冗余 shop_id）
 CREATE TABLE IF NOT EXISTS `refund` (
   `refund_id`   VARCHAR(64) NOT NULL,
   `app_id`      VARCHAR(64) NOT NULL,

@@ -16,19 +16,16 @@ func main() {
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.GET("/health", cmd.Health)
 		group.Middleware(cmd.CORS)
-		group.Group("/api/user", func(user *ghttp.RouterGroup) {
-			user.Middleware(cmd.UserIdAuth)
+		group.Group("/api/user", func(group *ghttp.RouterGroup) {
+			group.Middleware(cmd.UserIdAuth)
 			// C 端路由在各 Task 中逐步注册
-			_ = user
 		})
-		group.Group("/api/shop", func(shop *ghttp.RouterGroup) {
-			shop.Middleware(cmd.StaffAuth)
+		group.Group("/api/shop", func(group *ghttp.RouterGroup) {
+			group.Middleware(cmd.StaffAuth)
 			// B 端路由在各 Task 中逐步注册
-			_ = shop
 		})
-		group.Group("/api/pay", func(pay *ghttp.RouterGroup) {
+		group.Group("/api/pay", func(group *ghttp.RouterGroup) {
 			// 模拟支付渠道与回调路由在各 Task 中注册
-			_ = pay
 		})
 	})
 
