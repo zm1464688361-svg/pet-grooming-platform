@@ -212,6 +212,68 @@ func (c *Controller) ServiceFinish(r *ghttp.Request) {
 	response.OKMsg(r, res.Message, res)
 }
 
+// AuditList GET /api/shop/audit/list 取消审批列表（客服/店长，申请时间正序）。
+func (c *Controller) AuditList(r *ghttp.Request) {
+	list, total, err := logicShop.AuditList(r.Context(), r.Get("page").Int(), r.Get("size").Int())
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
+// AuditApprove POST /api/shop/audit/approve 审批同意（客服/店长）。
+func (c *Controller) AuditApprove(r *ghttp.Request) {
+	var req struct {
+		AppId string `json:"appId"`
+	}
+	if err := r.Parse(&req); err != nil || req.AppId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.AuditApprove(r.Context(), req.AppId)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
+// AuditReject POST /api/shop/audit/reject 审批驳回（客服/店长）。
+func (c *Controller) AuditReject(r *ghttp.Request) {
+	var req struct {
+		AppId  string `json:"appId"`
+		Reason string `json:"reason"`
+	}
+	if err := r.Parse(&req); err != nil || req.AppId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.AuditReject(r.Context(), req.AppId, req.Reason)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
+// RefundRetry POST /api/shop/refund/retry 退款重试（仅客服）。
+func (c *Controller) RefundRetry(r *ghttp.Request) {
+	var req struct {
+		RefundId string `json:"refundId"`
+	}
+	if err := r.Parse(&req); err != nil || req.RefundId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicShop.RefundRetry(r.Context(), req.RefundId)
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)

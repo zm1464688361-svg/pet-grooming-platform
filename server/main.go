@@ -47,6 +47,10 @@ func main() {
 			group.POST("/app/verify", shopAPI.AppVerify)             // 到店核销（前台/店长）
 			group.POST("/app/service/start", shopAPI.ServiceStart)   // 登记开始（服务/店长）
 			group.POST("/app/service/finish", shopAPI.ServiceFinish) // 登记完成（服务/店长）
+			group.GET("/audit/list", shopAPI.AuditList)              // 取消审批列表（客服/店长）
+			group.POST("/audit/approve", shopAPI.AuditApprove)       // 审批同意（客服/店长）
+			group.POST("/audit/reject", shopAPI.AuditReject)         // 审批驳回（客服/店长）
+			group.POST("/refund/retry", shopAPI.RefundRetry)         // 退款重试（仅客服）
 			// B 端其余路由在各 Task 中逐步注册
 		})
 		payAPI := payCtl.New()
