@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 
+	_ "pet-grooming/internal/boot"
 	"pet-grooming/internal/cmd"
 )
 
