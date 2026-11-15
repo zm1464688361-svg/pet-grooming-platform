@@ -1,8 +1,13 @@
 # Go
 server/*.exe
+server/*.exe~
 server/main
 *.test
 *.out
+
+# 运行日志（本地）
+server/_server.log
+server/_server.err
 
 # 本地临时文件
 .agent/_c_unpacked/
