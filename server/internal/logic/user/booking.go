@@ -9,7 +9,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/gogf/gf/v2/database/gdb"
@@ -19,23 +18,16 @@ import (
 
 	"pet-grooming/internal/consts"
 	"pet-grooming/internal/logic/quota"
+	"pet-grooming/internal/model/biz"
 )
 
-// BizError 业务校验错误（携带 C 端错误码）。
-type BizError struct {
-	Code int
-}
-
-// Error 实现为错误码字符串，便于上层映射文案。
-func (e *BizError) Error() string { return strconv.Itoa(e.Code) }
+// BizError 业务校验错误（别名，统一使用 model/biz）。
+type BizError = biz.Error
 
 // NewBiz 构造业务错误。
 func NewBiz(code int) error {
-	glog.Infof(gctxNew(), "[book] biz reject code=%d", code)
-	return &BizError{Code: code}
+	return biz.New(code)
 }
-
-func gctxNew() context.Context { return context.Background() }
 
 // BookInput 预约入参。
 type BookInput struct {

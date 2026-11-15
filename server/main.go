@@ -7,6 +7,7 @@ import (
 
 	_ "pet-grooming/internal/boot"
 	"pet-grooming/internal/cmd"
+	payCtl "pet-grooming/internal/controller/pay"
 	userCtl "pet-grooming/internal/controller/user"
 	"pet-grooming/internal/logic/timer"
 )
@@ -32,8 +33,12 @@ func main() {
 			group.Middleware(cmd.StaffAuth)
 			// B 端路由在各 Task 中逐步注册
 		})
+		payAPI := payCtl.New()
 		group.Group("/api/pay", func(group *ghttp.RouterGroup) {
-			// 模拟支付渠道与回调路由在各 Task 中注册
+			group.POST("/mock/notify", payAPI.MockNotify) // 模拟渠道回调（无登录态）
+			payAuth := group.Group("")
+			payAuth.Middleware(cmd.UserIdAuth)
+			payAuth.POST("/create", payAPI.Create) // 发起支付（C 端登录态）
 		})
 	})
 
