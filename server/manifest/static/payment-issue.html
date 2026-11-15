@@ -79,6 +79,7 @@ function excCard(e) {
     <div class="mt-2.5 space-y-1.5 text-[10px]">
       <div class="flex justify-between"><span class="text-[#a2b5ab]">渠道流水号</span><span class="text-[#4a6357]">${e.transactionId}</span></div>
       <div class="flex justify-between"><span class="text-[#a2b5ab]">渠道扣款</span><span class="text-[#22402f] font-semibold">¥${fmtYuan(e.amount)}（已扣）</span></div>
+      <div class="flex justify-between"><span class="text-[#a2b5ab]">系统预约状态</span><span class="text-[#c98a3c]">${e.appStatusName || '已关闭'}</span></div>
       <div class="flex justify-between"><span class="text-[#a2b5ab]">异常类型</span><span class="text-[#7a63b0]">${EXC_TYPE[e.excType] || '其他'}</span></div>
     </div>
     <div class="mt-2 rounded-lg bg-[#faf8ff] px-2.5 py-2">

@@ -55,11 +55,19 @@ function refundCard(r) {
     </div>
     ${r.failMsg ? `<div class="mt-4 rounded-xl bg-[#fdf6f2] px-3 py-2.5"><p class="text-[11px] font-semibold text-[#b8683f]">失败原因</p><p class="text-[11px] text-[#a97a63] mt-1 leading-relaxed">${r.failMsg}。退款失败不影响预约状态，也不会恢复名额。</p></div>` : ''}
     ${r.refundedAt ? `<div class="mt-4 rounded-xl bg-[#f0faf5] px-3 py-2.5"><p class="text-[11px] text-[#2f8a63] font-medium">退款成功时间：${fmtDT(r.refundedAt)}（原路退回）</p></div>` : ''}
-    <div class="mt-4 space-y-2.5 text-[12px]">
-      <div class="flex justify-between pt-2.5 border-t border-dashed border-[#e6f0eb]"><span class="text-[#8aa398]">申请时间</span><span class="font-medium text-[#22402f]">${fmtDT(r.createdAt)}</span></div>
-    </div>
   </section>
-  <a class="mt-3 flex items-center justify-between rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" href="booking-detail.html?appId=${r.appId}">
+  <section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#eef4f1]">
+      <h2 class="text-[13px] font-bold text-[#1d3a2e] mb-3">金额与口径</h2>
+      <div class="space-y-2.5 text-[12px]">
+        <div class="flex justify-between"><span class="text-[#8aa398]">预约款（已支付）</span><span class="font-medium text-[#22402f]">¥${fmtYuan(r.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-[#8aa398]">核销收入</span><span class="font-medium text-[#a2b5ab]">¥0.00（未核销）</span></div>
+        <div class="flex justify-between"><span class="text-[#8aa398]">应退金额</span><span class="font-medium text-[#22402f]">¥${fmtYuan(r.amount)}</span></div>
+        <div class="flex justify-between"><span class="text-[#8aa398]">已退金额</span><span class="font-semibold ${r.status === 2 ? 'text-[#c9563a]' : 'text-[#22402f]'}">¥${r.status === 2 ? fmtYuan(r.amount) : '0.00'}</span></div>
+        <div class="flex justify-between pt-2.5 border-t border-dashed border-[#e6f0eb]"><span class="text-[#8aa398]">申请时间</span><span class="font-medium text-[#22402f]">${fmtDT(r.createdAt)}</span></div>
+      </div>
+      <p class="text-[9px] text-[#b6c7bf] mt-2 leading-relaxed">核销收入按服务完成(status=7)计入；未核销订单取消为全额退款，金额口径与门店台账独立核算。</p>
+    </section>
+    <a class="mt-3 flex items-center justify-between rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" href="booking-detail.html?appId=${r.appId}">
     <div>
       <p class="text-[10px] text-[#a2b5ab]">关联预约</p>
       <p class="text-[12px] font-semibold text-[#22402f] mt-0.5">${r.appId} · ${r.petName}</p>

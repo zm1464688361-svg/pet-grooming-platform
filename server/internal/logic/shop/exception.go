@@ -35,6 +35,7 @@ type ExceptionRow struct {
 	ExcType       int       `json:"excType"`
 	Status        int       `json:"status"`
 	CreatedAt     time.Time `json:"createdAt"`
+	AppStatusName string    `json:"appStatusName"` // 关联预约的当前状态文案
 }
 
 type entityPayException struct {
@@ -79,6 +80,15 @@ func ExceptionList(ctx context.Context, status, page, size int) ([]*ExceptionRow
 
 	list := make([]*ExceptionRow, 0, len(rows))
 	for _, r := range rows {
+		appStatusName := "已关闭"
+		appStatus, err := g.DB().Model("appointment").
+			Where("app_id", r.AppId).
+			Value("status")
+		if err == nil && !appStatus.IsNil() {
+			if name, ok := consts.AppointmentStatusNames[appStatus.Int()]; ok {
+				appStatusName = name
+			}
+		}
 		list = append(list, &ExceptionRow{
 			ExcId:         r.ExcId,
 			AppId:         r.AppId,
@@ -87,6 +97,7 @@ func ExceptionList(ctx context.Context, status, page, size int) ([]*ExceptionRow
 			ExcType:       r.ExcType,
 			Status:        r.Status,
 			CreatedAt:     r.CreatedAt,
+			AppStatusName: appStatusName,
 		})
 	}
 	return list, total, nil

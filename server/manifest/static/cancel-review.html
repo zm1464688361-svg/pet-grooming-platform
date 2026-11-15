@@ -91,6 +91,14 @@ async function loadPending() {
           <div class="flex justify-between"><span class="text-[#a2b5ab]">取消原因</span><span class="text-[#4a6357]">${a.cancelReason || '-'}</span></div>
           <div class="flex justify-between"><span class="text-[#a2b5ab]">预约款</span><span class="text-[#22402f] font-semibold">¥${fmtYuan(a.price)}</span></div>
         </div>
+        <div class="mt-3 rounded-xl bg-white border border-[#eef4f1] px-3 py-2.5">
+          <p class="text-[11px] font-bold text-[#1d3a2e]">审批前校验</p>
+          <div class="space-y-1.5 mt-1.5 text-[10px]">
+            <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[9px]" icon="mdi:check"></iconify-icon></span><span class="text-[#4a6357]">预约状态为「待审核取消」，处于冻结中</span></div>
+            <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[9px]" icon="mdi:check"></iconify-icon></span><span class="text-[#4a6357]">未核销、未登记服务开始</span></div>
+            <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded-full bg-[#38a878] grid place-items-center shrink-0"><iconify-icon class="text-white text-[9px]" icon="mdi:check"></iconify-icon></span><span class="text-[#4a6357]">无重复审批记录（审批一次性且不可逆）</span></div>
+          </div>
+        </div>
         <div class="mt-3 grid grid-cols-2 gap-2.5">
           <button class="py-3 rounded-2xl bg-[#38a878] text-white text-[12px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.24)]" onclick="doAudit('approve','${a.appId}',this)" type="button">
             同意取消<span class="block text-[9px] font-normal opacity-80 mt-0.5">释放名额并生成退款单</span>

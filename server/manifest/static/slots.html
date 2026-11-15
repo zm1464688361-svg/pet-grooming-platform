@@ -116,7 +116,7 @@ function slotCard(s) {
       ${badge}
     </div>
     <div class="mt-3">
-      <div class="flex justify-between text-[10px] mb-1"><span class="${remaining === 1 ? 'text-[#e07a4b] font-medium' : 'text-[#5b7a6d]'}">已占用 ${occupied} 只</span><span class="text-[#2f8a63] font-semibold">剩余 ${remaining}</span></div>
+      <div class="flex justify-between text-[10px] mb-1"><span class="${remaining === 1 ? 'text-[#e07a4b] font-medium' : 'text-[#5b7a6d]'}">已占用 ${occupied} 只</span><span class="text-[#a2b5ab]">剩余 ${remaining} / 容量 ${s.maxCapacity || 3}</span></div>
       <div class="h-2 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full" style="width:${pct}%;background:${remaining === 0 ? '#cdd6d2' : '#7ad2a9'}"></div></div>
     </div>
     ${actions}
