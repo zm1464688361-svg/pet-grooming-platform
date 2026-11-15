@@ -48,6 +48,30 @@ func (c *Controller) PetList(r *ghttp.Request) {
 	response.OK(r, pets)
 }
 
+// Cancel POST /api/user/app/cancel 取消预约。
+func (c *Controller) Cancel(r *ghttp.Request) {
+	var req struct {
+		AppId   string `json:"appId"`
+		IdemKey string `json:"idemKey"`
+		Reason  string `json:"reason"`
+	}
+	if err := r.Parse(&req); err != nil || req.AppId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	res, err := logicUser.Cancel(r.Context(), auth.UserIdFrom(r.Context()), req.AppId, req.IdemKey, req.Reason)
+	if err != nil {
+		var biz *logicUser.BizError
+		if errors.As(err, &biz) {
+			response.Fail(r, biz.Code)
+			return
+		}
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	response.OKMsg(r, res.Message, res)
+}
+
 // Book POST /api/user/app/book 创建预约（幂等键可选）。
 func (c *Controller) Book(r *ghttp.Request) {
 	var req struct {
