@@ -32,6 +32,7 @@ type LedgerSummary struct {
 	RevenueAmount      int64 `json:"revenueAmount"`      // 已完成服务收入（仅 7）
 	RefundedAmount     int64 `json:"refundedAmount"`     // 已退款（退款成功）
 	UnrefundedAmount   int64 `json:"unrefundedAmount"`   // 未退款（退款中+失败）
+	NoShowAmount       int64 `json:"noShowAmount"`       // 未到店金额（标记未到店订单的预约款）
 }
 
 // LedgerSlotRow 按时段下钻明细行（与汇总同口径）。
@@ -133,7 +134,10 @@ func DailyLedger(ctx context.Context, date string) (*LedgerSummary, []*LedgerSlo
 		case consts.StatusCancelled:
 			add(a.SlotId, a.StartTime, func(s *LedgerSummary) { s.CancelledCount++ })
 		case consts.StatusNoShow:
-			add(a.SlotId, a.StartTime, func(s *LedgerSummary) { s.NoShowCount++ })
+			add(a.SlotId, a.StartTime, func(s *LedgerSummary) {
+				s.NoShowCount++
+				s.NoShowAmount += a.Price
+			})
 		}
 		_ = startTime
 

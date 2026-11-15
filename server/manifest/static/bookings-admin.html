@@ -94,6 +94,7 @@ function cardHtml(a) {
         ${canVerify ? '<a class="px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[10px] font-medium" href="frontdesk.html">去核销</a>' : ''}
         ${canNoShow ? '<a class="px-3 py-1.5 rounded-full border border-[#f3dcd4] text-[#c9563a] text-[10px]" href="no-show.html">标记未到店</a>' : ''}
         ${a.status === 6 || a.status === 7 ? '<a class="px-3 py-1.5 rounded-full bg-[#f0f7f3] text-[#3f8f6b] text-[10px] font-medium" href="service.html">服务进度</a>' : ''}
+        ${a.status === 7 ? '<a class="px-3 py-1.5 rounded-full border border-[#e6f0eb] text-[#4a6357] text-[10px]" href="service.html">宠物历史记录</a>' : ''}
       </div>
     </div>
   </div>`;

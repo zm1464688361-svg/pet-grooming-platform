@@ -68,9 +68,9 @@
 </div>
 <div class="flex-1">
 <p class="text-[12px] font-semibold text-[#22402f]">待核销预约</p>
-<p class="text-[10px] text-[#8aa398] mt-0.5">14:00 时段 2 单待核销 · 三重校验</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5" id="subVerify">统计中…</p>
 </div>
-<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#e07a4b] text-[11px] font-bold grid place-items-center">2</span>
+<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#e07a4b] text-[11px] font-bold grid place-items-center" id="badgeVerify">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
 </a>
 <a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="cancel-review.html">
@@ -79,7 +79,7 @@
 </div>
 <div class="flex-1">
 <p class="text-[12px] font-semibold text-[#22402f]">待审批取消申请</p>
-<p class="text-[10px] text-[#8aa398] mt-0.5">BK20261113021 · 距时段不足 2 小时</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5" id="subAudit">统计中…</p>
 </div>
 <span class="w-6 h-6 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[11px] font-bold grid place-items-center" id="badgeAudit">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
@@ -90,9 +90,9 @@
 </div>
 <div class="flex-1">
 <p class="text-[12px] font-semibold text-[#22402f]">退款失败待重试</p>
-<p class="text-[10px] text-[#8aa398] mt-0.5">RF20261115003 · CHANNEL_TIMEOUT</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5" id="subRefund">统计中…</p>
 </div>
-<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#c9563a] text-[11px] font-bold grid place-items-center">1</span>
+<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#c9563a] text-[11px] font-bold grid place-items-center" id="badgeRefund">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
 </a>
 <a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="payment-issue.html">
@@ -101,7 +101,7 @@
 </div>
 <div class="flex-1">
 <p class="text-[12px] font-semibold text-[#22402f]">支付异常单待处理</p>
-<p class="text-[10px] text-[#8aa398] mt-0.5">EX20261115001 · 渠道已扣款未回调</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5" id="subExc">统计中…</p>
 </div>
 <span class="w-6 h-6 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[11px] font-bold grid place-items-center" id="badgeExc">-</span>
 <iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
@@ -176,11 +176,13 @@ function setStaff(id) { localStorage.setItem('demo_staff', id); }
 async function loadWorkbench() {
   document.getElementById('bizDay').textContent = '营业日 ' + new Date().toLocaleDateString('zh-CN') + ' · 周' + '日一二三四五六'[new Date().getDay()];
   try {
-    const [ledger, audit, exc, slots] = await Promise.all([
+    const [ledger, audit, exc, slots, toVerify, refunds] = await Promise.all([
       api('/api/shop/ledger/daily', { role: 'staff' }),
       api('/api/shop/audit/list?page=1&size=1', { role: 'staff' }),
       api('/api/shop/exception/list?status=1&page=1&size=1', { role: 'staff' }),
       api('/api/user/slot/list', { role: 'user' }),
+      api('/api/shop/app/list?status=2&page=1&size=50', { role: 'staff' }),
+      api('/api/shop/refund/list?page=1&size=50', { role: 'staff' }),
     ]);
     const d = ledger.data || {};
     document.getElementById('cntToday').textContent = d.summary ? (d.summary.ValidCount + d.summary.FinishedCount) : '-';
@@ -188,7 +190,24 @@ async function loadWorkbench() {
     const pending = (audit.data ? audit.data.total : 0) + (exc.data ? exc.data.total : 0);
     document.getElementById('cntPending').textContent = pending;
     document.getElementById('badgeAudit').textContent = audit.data ? audit.data.total : 0;
+    document.getElementById('subAudit').textContent = (audit.data ? audit.data.total : 0)
+      ? '距时段开始不足 2 小时 · 需人工审核' : '暂无待审批申请';
     document.getElementById('badgeExc').textContent = exc.data ? exc.data.total : 0;
+    document.getElementById('subExc').textContent = (exc.data ? exc.data.total : 0)
+      ? '渠道已扣款未回调 · 待原路退款' : '暂无待处理异常单';
+    // 待核销：今日已确认(2)预约数
+    const today = new Date().toISOString().slice(0, 10);
+    const verifyList = (toVerify.data.list || []).filter(a => a.startTime.slice(0, 10) === today);
+    document.getElementById('badgeVerify').textContent = verifyList.length;
+    document.getElementById('subVerify').textContent = verifyList.length
+      ? '今日 ' + verifyList.length + ' 单待核销 · 三重校验'
+      : '今日暂无待核销预约';
+    // 退款失败/退款中待重试
+    const failRefunds = (refunds.data.list || []).filter(r => r.status !== 2);
+    document.getElementById('badgeRefund').textContent = failRefunds.length;
+    document.getElementById('subRefund').textContent = failRefunds.length
+      ? failRefunds[0].refundId + ' · ' + (failRefunds[0].status === 1 ? '退款中' : '退款失败待重试')
+      : '暂无待重试退款单';
     const list = (slots.data && (slots.data.slots || slots.data)) || [];
     const today = new Date().toISOString().slice(0, 10);
     document.getElementById('occupancy').innerHTML = list.filter(s => s.startTime.slice(0, 10) === today).map(s => {

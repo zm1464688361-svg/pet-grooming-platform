@@ -82,12 +82,18 @@ function excCard(e) {
       <div class="flex justify-between"><span class="text-[#a2b5ab]">系统预约状态</span><span class="text-[#c98a3c]">${e.appStatusName || '已关闭'}</span></div>
       <div class="flex justify-between"><span class="text-[#a2b5ab]">异常类型</span><span class="text-[#7a63b0]">${EXC_TYPE[e.excType] || '其他'}</span></div>
     </div>
-    <div class="mt-2 rounded-lg bg-[#faf8ff] px-2.5 py-2">
-      <p class="text-[9px] text-[#8574ab] font-medium">处置口径</p>
-      <p class="text-[10px] text-[#7d6f9c] mt-0.5 leading-relaxed">登记异常 → 发起原路退款（全额）→ 保持预约关闭、名额不恢复。预约状态不变。</p>
+    <div class="mt-2 rounded-lg bg-[#faf8ff] px-2.5 py-2.5">
+      <p class="text-[9px] text-[#8574ab] font-medium mb-1.5">处置顺序（必须逐步）</p>
+      <div class="space-y-1.5 text-[10px]">
+        <div class="flex items-center justify-between gap-2"><span class="flex items-center gap-1.5 text-[#5b5470]"><span class="w-4 h-4 rounded-full bg-[#e5dcf8] text-[#7a63b0] text-[9px] font-bold grid place-items-center shrink-0">1</span>核对渠道流水与台账是否一致</span><span class="text-[9px] text-[#a2b5ab]">待做</span></div>
+        <div class="flex items-center justify-between gap-2"><span class="flex items-center gap-1.5 text-[#5b5470]"><span class="w-4 h-4 rounded-full bg-[#e5dcf8] text-[#7a63b0] text-[9px] font-bold grid place-items-center shrink-0">2</span>确认金额后登记异常并转退款</span><span class="text-[9px] text-[#a2b5ab]">待做</span></div>
+        <div class="flex items-center justify-between gap-2"><span class="flex items-center gap-1.5 text-[#5b5470]"><span class="w-4 h-4 rounded-full bg-[#e5dcf8] text-[#7a63b0] text-[9px] font-bold grid place-items-center shrink-0">3</span>登记处置结果，关闭异常单</span><span class="text-[9px] text-[#a2b5ab]">待做</span></div>
+      </div>
+      <p class="text-[9px] text-[#a89bc7] mt-1.5 leading-relaxed">预约状态不变、名额不恢复；退款走全额原路退回（type=3）。</p>
     </div>
     <div class="mt-3">
-      <button class="w-full py-2.5 rounded-full bg-[#7a63b0] text-white text-[11px] font-semibold" onclick="processExc('${e.excId}',this)" type="button">确认核对无误，发起原路退款</button>
+      <button class="w-full py-2.5 rounded-full bg-[#7a63b0] text-white text-[11px] font-semibold" onclick="processExc('${e.excId}',this)" type="button">执行下一步处置 · 发起原路退款</button>
+      <p class="text-[9px] text-[#b6c7bf] text-center mt-1.5">处置记录会写入员工日志，C 端可查看到账</p>
     </div>
   </div>`;
 }

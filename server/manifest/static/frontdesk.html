@@ -67,7 +67,7 @@
 <span class="w-5 h-5 rounded-full bg-[#38a878] grid place-items-center shrink-0 mt-0.5"><iconify-icon class="text-white text-xs" icon="mdi:check"></iconify-icon></span>
 <div>
 <p class="text-[11px] font-medium text-[#22402f]">未过服务时段</p>
-<p class="text-[9px] text-[#8aa398] mt-0.5">当前 13:52 · 时段 14:00 - 15:00 尚未开始</p>
+<p class="text-[9px] text-[#8aa398] mt-0.5" id="timeHint">选择预约后自动校验</p>
 </div>
 </div>
 </div>
@@ -107,15 +107,8 @@
 <!-- 今日核销记录 -->
 <section class="mt-4">
 <h2 class="text-[12px] font-bold text-[#1d3a2e] mb-2">今日已核销</h2>
-<div class="rounded-2xl bg-white divide-y divide-[#f2f7f4] shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
-<div class="px-3.5 py-2.5 flex items-center justify-between">
-<div><p class="text-[11px] font-medium text-[#22402f]">奶糖 · 英短</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">BK20261115002 · 11-15 09:58</p></div>
-<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63]">核销成功</span>
-</div>
-<div class="px-3.5 py-2.5 flex items-center justify-between">
-<div><p class="text-[11px] font-medium text-[#22402f]">团团 · 边牧</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">BK20261115004 · 11-15 09:31</p></div>
-<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#fdeee5] text-[#c9563a]">核销失败 · 状态不符</span>
-</div>
+<div class="rounded-2xl bg-white divide-y divide-[#f2f7f4] shadow-[0_4px_14px_rgba(45,110,85,0.06)]" id="verifiedList">
+<div class="px-3.5 py-2.5 text-[11px] text-[#8aa398]">加载中…</div>
 </div>
 </section>
 </main>
@@ -142,6 +135,11 @@ function selectBooking(a) {
   document.getElementById('currentCode').textContent = a.appId;
   document.getElementById('bookingBrief').innerHTML =
     `<span class="font-medium text-[#22402f]">${a.petName}</span> · 宠主 ${a.userPhone} · 时段 ${fmtHM(a.startTime)} - ${fmtHM(a.endTime)}`;
+  const now = new Date();
+  const started = new Date(a.startTime) <= now;
+  document.getElementById('timeHint').textContent = started
+    ? `当前 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} · 时段 ${fmtHM(a.startTime)} - ${fmtHM(a.endTime)} ${now >= new Date(a.endTime) ? '已结束' : '进行中'}`
+    : `当前 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} · 时段 ${fmtHM(a.startTime)} - ${fmtHM(a.endTime)} 尚未开始`;
   document.getElementById('resultSuccess').classList.add('hidden');
   document.getElementById('resultFail').classList.add('hidden');
   const btn = document.getElementById('verifyBtn');
@@ -181,6 +179,16 @@ async function load(after) {
     document.getElementById('verifyCount').textContent = '待核销 ' + pendingList.length;
     if (after) after();
     if (pendingList.length && !currentAppId) selectBooking(pendingList[0]);
+  });
+  // 今日已核销（status=5，按时段开始日期为今天）
+  await call('/api/shop/app/list?status=5&page=1&size=20', { role: 'staff' }, d => {
+    const today = new Date().toISOString().slice(0, 10);
+    const list = (d.list || []).filter(a => a.startTime.slice(0, 10) === today);
+    document.getElementById('verifiedList').innerHTML = list.length ? list.map(a => `
+      <div class="px-3.5 py-2.5 flex items-center justify-between">
+        <div><p class="text-[11px] font-medium text-[#22402f]">${a.petName}</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">${a.appId} · ${fmtDT(a.startTime)}</p></div>
+        <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63]">核销成功</span>
+      </div>`).join('') : '<div class="px-3.5 py-2.5 text-[11px] text-[#8aa398]">今日暂无核销记录</div>';
   });
 }
 
