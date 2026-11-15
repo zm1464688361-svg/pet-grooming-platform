@@ -26,6 +26,9 @@ const (
 func countKey(slotId string) string { return keyCountPrefix + slotId }
 func petsKey(slotId string) string  { return keyPetsPrefix + slotId }
 
+// CountKey 导出计数 key（供对账判断使用）。
+func CountKey(slotId string) string { return countKey(slotId) }
+
 // Lua 返回原因
 const (
 	reasonOK            = "OK"

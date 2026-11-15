@@ -6,6 +6,7 @@ import (
 
 	_ "pet-grooming/internal/boot"
 	"pet-grooming/internal/cmd"
+	userCtl "pet-grooming/internal/controller/user"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 		group.Middleware(cmd.CORS)
 		group.Group("/api/user", func(group *ghttp.RouterGroup) {
 			group.Middleware(cmd.UserIdAuth)
-			// C 端路由在各 Task 中逐步注册
+			group.Bind(userCtl.New())
 		})
 		group.Group("/api/shop", func(group *ghttp.RouterGroup) {
 			group.Middleware(cmd.StaffAuth)

@@ -1,5 +1,10 @@
 package consts
 
+// 通用错误码（非业务校验类，兜底）
+const (
+	ErrInternal = 500 // 系统繁忙，请稍后重试
+)
+
 // C 端错误码（agentrules §18，禁止自创）
 const (
 	ErrNoPermission     = 40001 // 宠物不属于当前用户 / 无权操作该预约
@@ -31,6 +36,7 @@ const (
 
 // ErrorMessages 错误码 → 文案（固定，禁止修改）
 var ErrorMessages = map[int]string{
+	ErrInternal:         "系统繁忙，请稍后重试",
 	ErrNoPermission:     "宠物不属于当前用户 / 无权操作该预约",
 	ErrSlotUnavailable:  "时段不可预约或已开始",
 	ErrQuotaFull:        "名额已满",

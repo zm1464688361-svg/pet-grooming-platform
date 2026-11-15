@@ -18,6 +18,17 @@ const (
 // 有效预约状态（参与名额占用与唯一性校验）
 var ValidStatuses = []int{StatusPending, StatusConfirmed, StatusCancelAudit}
 
+// 业务固定常量（.agent 约束口径，禁止修改）
+const (
+	ShopId            = "shop_001" // 单门店
+	ItemId            = "item_wash_001"
+	PriceCent         = 9900 // 预约款固定 9900 分
+	MaxCapacity       = 3    // 单时段容量固定 3
+	LockMinutes       = 5    // 待支付锁定 5 分钟
+	CancelWindowHours = 2    // 取消窗口 2 小时（秒级比较，恰好 2h 按 ≥2h）
+	PayLockSeconds    = 30   // 支付幂等锁 30 秒
+)
+
 // IsValidStatus 判断状态是否为有效预约（占用名额）。
 func IsValidStatus(status int) bool {
 	return status == StatusPending || status == StatusConfirmed || status == StatusCancelAudit
