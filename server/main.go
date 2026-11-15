@@ -54,6 +54,7 @@ func main() {
 			group.POST("/app/noshow", shopAPI.AppNoShow)               // 标记未到店（店长）
 			group.GET("/exception/list", shopAPI.ExceptionList)        // 支付异常单列表（店长/客服）
 			group.POST("/exception/process", shopAPI.ExceptionProcess) // 处理异常单（店长/客服）
+			group.GET("/ledger/daily", shopAPI.LedgerDaily)            // 日清台账（店长）
 			// B 端其余路由在各 Task 中逐步注册
 		})
 		payAPI := payCtl.New()

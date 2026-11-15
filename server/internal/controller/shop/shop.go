@@ -321,6 +321,16 @@ func (c *Controller) ExceptionProcess(r *ghttp.Request) {
 	response.OKMsg(r, res.Message, res)
 }
 
+// LedgerDaily GET /api/shop/ledger/daily 日清台账（店长；date=YYYY-MM-DD，默认今天）。
+func (c *Controller) LedgerDaily(r *ghttp.Request) {
+	sum, slots, err := logicShop.DailyLedger(r.Context(), r.Get("date").String())
+	if err != nil {
+		replyFail(r, err)
+		return
+	}
+	response.OK(r, g.Map{"summary": sum, "slots": slots})
+}
+
 // parseTime 解析前端时间参数（仅解析展示层输入，业务判定一律取服务端时间）。
 func parseTime(s string) (time.Time, error) {
 	return time.ParseInLocation("2006-01-02 15:04:05", s, time.Local)
