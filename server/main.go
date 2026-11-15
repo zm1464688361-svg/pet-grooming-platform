@@ -18,7 +18,7 @@ func main() {
 	s.SetPort(8000)
 	s.SetIndexFolder(false)
 	s.AddStaticPath("/public", "public")
-	s.SetStaticPath("/ui", "manifest/static") // 前端页面（原型图实现）
+	s.AddStaticPath("/ui", "manifest/static") // 前端页面（原型图实现）
 
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.GET("/health", cmd.Health)
