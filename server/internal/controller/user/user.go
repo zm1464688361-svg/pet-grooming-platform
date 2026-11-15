@@ -72,6 +72,47 @@ func (c *Controller) Cancel(r *ghttp.Request) {
 	response.OKMsg(r, res.Message, res)
 }
 
+// MyAppList GET /api/user/app/list 我的预约列表（分页）。
+func (c *Controller) MyAppList(r *ghttp.Request) {
+	var req struct {
+		Page int `json:"page"`
+		Size int `json:"size"`
+	}
+	_ = r.Parse(&req)
+	if v := r.Get("page"); !v.IsNil() {
+		req.Page = v.Int()
+	}
+	if v := r.Get("size"); !v.IsNil() {
+		req.Size = v.Int()
+	}
+	list, total, err := logicUser.ListMyAppointments(r.Context(), auth.UserIdFrom(r.Context()), req.Page, req.Size)
+	if err != nil {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	response.OK(r, g.Map{"list": list, "total": total})
+}
+
+// MyAppDetail GET /api/user/app/detail 预约详情。
+func (c *Controller) MyAppDetail(r *ghttp.Request) {
+	appId := r.Get("appId").String()
+	if appId == "" {
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	d, err := logicUser.GetMyAppointmentDetail(r.Context(), auth.UserIdFrom(r.Context()), appId)
+	if err != nil {
+		var biz *logicUser.BizError
+		if errors.As(err, &biz) {
+			response.Fail(r, biz.Code)
+			return
+		}
+		response.Fail(r, consts.ErrInternal)
+		return
+	}
+	response.OK(r, d)
+}
+
 // Book POST /api/user/app/book 创建预约（幂等键可选）。
 func (c *Controller) Book(r *ghttp.Request) {
 	var req struct {
