@@ -2,6 +2,11 @@
 package cmd
 
 import (
+	"mime"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/gogf/gf/v2/net/ghttp"
 
 	payCtl "pet-grooming/internal/controller/pay"
@@ -9,10 +14,29 @@ import (
 	userCtl "pet-grooming/internal/controller/user"
 )
 
+// UIStatic 前端静态资源（带禁缓存头，页面更新即时生效）。
+func UIStatic(r *ghttp.Request) {
+	path := r.Get("path").String()
+	if path == "" || strings.HasSuffix(path, "/") {
+		path += "home.html"
+	}
+	fp := filepath.Join("manifest/static", filepath.Clean("/"+path))
+	data, err := os.ReadFile(fp)
+	if err != nil {
+		r.Response.WriteStatus(404)
+		return
+	}
+	r.Response.Header().Set("Cache-Control", "no-store, must-revalidate")
+	r.Response.Header().Set("Content-Type", mime.TypeByExtension(filepath.Ext(fp)))
+	r.Response.WriteHeader(200)
+	r.Response.Write(data)
+}
+
 // BindRoutes 注册全部 API 路由与中间件。
 func BindRoutes(s *ghttp.Server) {
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.GET("/health", Health)
+		group.GET("/ui/*path", UIStatic) // 前端页面（禁缓存）
 		group.Middleware(CORS)
 		ctl := userCtl.New()
 		group.Group("/api/user", func(group *ghttp.RouterGroup) {

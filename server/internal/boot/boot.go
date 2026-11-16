@@ -41,6 +41,6 @@ func NewServer() *ghttp.Server {
 	s.SetPort(8000)
 	s.SetIndexFolder(false)
 	s.AddStaticPath("/public", "public")
-	s.AddStaticPath("/ui", "manifest/static") // 前端页面（原型图实现）
+	// 前端页面由 cmd.UIStatic 路由服务（禁缓存头；静态服务优先级高于路由，故不注册 AddStaticPath）
 	return s
 }
