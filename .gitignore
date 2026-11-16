@@ -8,6 +8,8 @@ server/main
 # 运行日志（本地）
 server/_server.log
 server/_server.err
+server/server_run.log
+.playwright-cli/
 
 # 本地临时文件
 .agent/_c_unpacked/
