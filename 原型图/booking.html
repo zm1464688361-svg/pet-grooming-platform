@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>预约下单 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-[#eef4f1]">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="home.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">确认预约</h1>
+<span class="ml-auto text-[11px] text-[#8aa398]">BK20261115001 待生成</span>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-28">
+<!-- 门店 -->
+<section class="mt-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-[#eaf7f0] grid place-items-center">
+<iconify-icon class="text-[#38a878] text-xl" icon="mdi:storefront-outline"></iconify-icon>
+</div>
+<div>
+<p class="text-[13px] font-bold text-[#22402f]">毛球家宠物洗护 · 望京店</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">shop_001 · 朝阳区望京SOHO T1 一层</p>
+</div>
+</div>
+</section>
+<!-- 选择时段 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between">
+<h2 class="text-[14px] font-bold text-[#1d3a2e]">选择时段</h2>
+<span class="text-[11px] text-[#8aa398]">11月15日 · 今天</span>
+</div>
+<div class="mt-3 space-y-2">
+<button class="w-full rounded-xl border border-[#eef2f0] bg-[#fafcfb] px-3.5 py-3 flex items-center justify-between opacity-60 cursor-not-allowed" onclick="pickSlot(this, '10:00', false)" type="button">
+<div class="text-left">
+<p class="text-[13px] font-semibold text-[#9aaba3]">10:00 - 11:00</p>
+<p class="text-[10px] text-[#b6c7bf] mt-0.5">已占用 3 / 剩余 0</p>
+</div>
+<span class="text-[11px] px-2.5 py-1 rounded-full bg-[#eef2f0] text-[#a2b5ab]">名额已满</span>
+</button>
+<button class="slot-btn w-full rounded-xl border border-[#e6f0eb] bg-white px-3.5 py-3 flex items-center justify-between" data-slot="14:00" onclick="pickSlot(this, '14:00', true)" type="button">
+<div class="text-left">
+<p class="text-[13px] font-semibold text-[#22402f]">14:00 - 15:00</p>
+<p class="text-[10px] text-[#e07a4b] mt-0.5">已占用 2 / 仅剩 1</p>
+</div>
+<span class="check-dot w-5 h-5 rounded-full border-2 border-[#d5e2db]"></span>
+</button>
+<button class="slot-btn w-full rounded-xl border border-[#e6f0eb] bg-white px-3.5 py-3 flex items-center justify-between" data-slot="16:00" onclick="pickSlot(this, '16:00', true)" type="button">
+<div class="text-left">
+<p class="text-[13px] font-semibold text-[#22402f]">16:00 - 17:00</p>
+<p class="text-[10px] text-[#5b7a6d] mt-0.5">已占用 1 / 剩余 2</p>
+</div>
+<span class="check-dot w-5 h-5 rounded-full border-2 border-[#d5e2db]"></span>
+</button>
+</div>
+<p class="text-[10px] text-[#a2b5ab] mt-2.5">已开始或已结束的时段不展示；剩余名额为 0 时按钮置灰。</p>
+</section>
+<!-- 选择宠物 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between">
+<h2 class="text-[14px] font-bold text-[#1d3a2e]">选择宠物</h2>
+<span class="text-[11px] text-[#8aa398]">资料只读</span>
+</div>
+<div class="mt-3 space-y-2">
+<button class="pet-btn w-full rounded-xl border-2 border-[#38a878] bg-[#f1fbf6] px-3 py-2.5 flex items-center gap-3" onclick="pickPet(this, '豆豆')" type="button">
+<div class="w-10 h-10 rounded-full bg-[#d9f2e6] grid place-items-center shrink-0">
+<iconify-icon class="text-[#2f8a63] text-xl" icon="mdi:dog"></iconify-icon>
+</div>
+<div class="text-left flex-1">
+<p class="text-[13px] font-semibold text-[#22402f]">豆豆</p>
+<p class="text-[10px] text-[#7d958a] mt-0.5">柯基 · 2 岁 · 12.5kg</p>
+</div>
+<span class="w-5 h-5 rounded-full bg-[#38a878] grid place-items-center">
+<iconify-icon class="text-white text-xs" icon="mdi:check"></iconify-icon>
+</span>
+</button>
+<button class="pet-btn w-full rounded-xl border border-[#e6f0eb] bg-white px-3 py-2.5 flex items-center gap-3" onclick="pickPet(this, '奶糖')" type="button">
+<div class="w-10 h-10 rounded-full bg-[#fdeee5] grid place-items-center shrink-0">
+<iconify-icon class="text-[#e07a4b] text-xl" icon="mdi:cat"></iconify-icon>
+</div>
+<div class="text-left flex-1">
+<p class="text-[13px] font-semibold text-[#22402f]">奶糖</p>
+<p class="text-[10px] text-[#7d958a] mt-0.5">英短 · 1 岁 · 4.2kg</p>
+</div>
+<span class="w-5 h-5 rounded-full border-2 border-[#d5e2db]"></span>
+</button>
+</div>
+</section>
+<!-- 项目与价格 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[14px] font-bold text-[#1d3a2e]">项目与价格</h2>
+<div class="mt-3 flex items-center justify-between text-[12px]">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#eaf7f0] grid place-items-center">
+<iconify-icon class="text-[#38a878]" icon="mdi:shower-head"></iconify-icon>
+</div>
+<div>
+<p class="font-semibold text-[#22402f]">宠物洗护 · 基础全套</p>
+<p class="text-[10px] text-[#a2b5ab]">item_wash_001</p>
+</div>
+</div>
+<span class="font-bold text-[#e07a4b]">¥99.00</span>
+</div>
+<div class="mt-3 pt-3 border-t border-dashed border-[#e6f0eb] space-y-1.5 text-[11px] text-[#7d958a]">
+<div class="flex justify-between"><span>预约款（全额预付）</span><span class="text-[#22402f]">¥99.00</span></div>
+<div class="flex justify-between"><span>优惠 / 会员</span><span class="text-[#a2b5ab]">暂无</span></div>
+<div class="flex justify-between"><span>实付金额</span><span class="text-[16px] font-bold text-[#e07a4b]">¥99.00</span></div>
+</div>
+</section>
+<p class="text-[10px] leading-relaxed text-[#a2b5ab] mt-3 px-1">提交后系统将占用该时段名额并锁定 5 分钟，超时未支付将自动关闭订单并释放名额。</p>
+</main>
+<div class="shrink-0 bg-white border-t border-[#eef4f1] px-4 py-3 flex items-center gap-3">
+<div class="flex-1">
+<p class="text-[10px] text-[#8aa398]">应付</p>
+<p class="text-[18px] font-bold text-[#e07a4b] leading-tight">¥99.00</p>
+</div>
+<button class="px-6 py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold shadow-[0_6px_14px_rgba(56,168,120,0.28)]" id="submitBtn" onclick="submitBooking()" type="button">提交预约 · 锁定名额</button>
+</div>
+</div>
+<script>
+    var currentSlot = '14:00';
+    var currentPet = '豆豆';
+
+    function pickSlot(btn, slot, available) {
+      if (!available) { return; }
+      document.querySelectorAll('.slot-btn').forEach(function (b) {
+        b.className = 'slot-btn w-full rounded-xl border border-[#e6f0eb] bg-white px-3.5 py-3 flex items-center justify-between';
+        var dot = b.querySelector('.check-dot');
+        dot.className = 'check-dot w-5 h-5 rounded-full border-2 border-[#d5e2db]';
+      });
+      btn.className = 'slot-btn w-full rounded-xl border-2 border-[#38a878] bg-[#f1fbf6] px-3.5 py-3 flex items-center justify-between';
+      btn.querySelector('.check-dot').className = 'check-dot w-5 h-5 rounded-full bg-[#38a878] grid place-items-center';
+      currentSlot = slot;
+    }
+
+    function pickPet(btn, name) {
+      document.querySelectorAll('.pet-btn').forEach(function (b) {
+        b.className = 'pet-btn w-full rounded-xl border border-[#e6f0eb] bg-white px-3 py-2.5 flex items-center gap-3';
+        b.querySelector('span:last-child').className = 'w-5 h-5 rounded-full border-2 border-[#d5e2db]';
+      });
+      btn.className = 'pet-btn w-full rounded-xl border-2 border-[#38a878] bg-[#f1fbf6] px-3 py-2.5 flex items-center gap-3';
+      var badge = btn.querySelector('span:last-child');
+      badge.className = 'w-5 h-5 rounded-full bg-[#38a878] grid place-items-center';
+      currentPet = name;
+    }
+
+    function submitBooking() {
+      var params = 'slot=' + encodeURIComponent(currentSlot) + '&pet=' + encodeURIComponent(currentPet);
+      window.location.href = 'lock.html?' + params;
+    }
+
+    (function init() {
+      var query = new URLSearchParams(window.location.search);
+      var slot = query.get('slot');
+      if (!slot) { return; }
+      document.querySelectorAll('.slot-btn').forEach(function (b) {
+        if (b.getAttribute('data-slot') === slot) { pickSlot(b, slot, true); }
+      });
+    })();
+  </script>
+</body>
+</html>

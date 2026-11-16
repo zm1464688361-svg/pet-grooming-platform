@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>毛球家宠物洗护 · 望京店</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<!-- 顶部品牌区 -->
+<header class="shrink-0 bg-gradient-to-b from-[#d9f2e6] to-[#f0faf5] px-5 pt-3 pb-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-8 h-8 rounded-full bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#38a878] text-lg" icon="mdi:paw"></iconify-icon>
+</span>
+<span class="text-[11px] tracking-wide text-[#5b7a6d]">望京店 · 营业中</span>
+</div>
+<a class="w-8 h-8 rounded-full bg-white/80 grid place-items-center text-[#4a6357] shadow-sm" href="bookings.html">
+<iconify-icon class="text-lg" icon="mdi:clipboard-text-clock-outline"></iconify-icon>
+</a>
+</div>
+<div class="mt-4 flex items-start justify-between">
+<div>
+<h1 class="text-[22px] leading-tight font-bold text-[#1d3a2e]">毛球家宠物洗护</h1>
+<p class="text-[12px] mt-1.5 text-[#5b7a6d] flex items-center gap-1">
+<iconify-icon class="text-sm" icon="mdi:map-marker"></iconify-icon>
+            朝阳区望京SOHO T1 一层 · 距你 1.2km
+          </p>
+<div class="mt-2.5 flex items-center gap-2 text-[11px]">
+<span class="px-2 py-1 rounded-full bg-white/90 text-[#3f8f6b] font-medium">猫狗全犬种</span>
+<span class="px-2 py-1 rounded-full bg-white/90 text-[#3f8f6b] font-medium">低温烘干</span>
+<span class="px-2 py-1 rounded-full bg-white/90 text-[#c98a3c] font-medium">★ 4.9</span>
+</div>
+</div>
+<div class="w-[74px] h-[74px] rounded-[22px] bg-[#bfe8d5] grid place-items-center shrink-0 shadow-[0_8px_18px_rgba(56,168,120,0.22)]">
+<iconify-icon class="text-[42px] text-[#2f8a63]" icon="mdi:dog-side"></iconify-icon>
+</div>
+</div>
+</header>
+<!-- 主滚动区 -->
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-5 pb-24">
+<!-- 服务项目 -->
+<section class="mt-1">
+<div class="flex items-center justify-between mb-2.5">
+<h2 class="text-[15px] font-bold text-[#1d3a2e]">洗护服务</h2>
+<span class="text-[11px] text-[#8aa398]">全额预付 · 无额外收费</span>
+</div>
+<a class="block rounded-2xl bg-white p-4 shadow-[0_6px_18px_rgba(45,110,85,0.07)] active:scale-[0.99] transition" href="booking.html">
+<div class="flex gap-3">
+<div class="w-[64px] h-[64px] rounded-xl bg-gradient-to-br from-[#e6f6ee] to-[#cfeee0] grid place-items-center shrink-0">
+<iconify-icon class="text-[28px] text-[#38a878]" icon="mdi:shower-head"></iconify-icon>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h3 class="text-[14px] font-bold text-[#22402f]">宠物洗护 · 基础全套</h3>
+<span class="text-[16px] font-bold text-[#e07a4b]">¥99</span>
+</div>
+<p class="text-[11px] text-[#7d958a] mt-1 leading-relaxed">洗澡 + 吹干 + 耳道清洁 + 指甲修剪 + 肛门腺</p>
+<p class="text-[10px] text-[#a2b5ab] mt-1.5">item_wash_001 · 约 60 分钟</p>
+</div>
+</div>
+</a>
+</section>
+<!-- 可预约时段 -->
+<section class="mt-5">
+<div class="flex items-end justify-between mb-2.5">
+<h2 class="text-[15px] font-bold text-[#1d3a2e]">今日可约时段</h2>
+<span class="text-[11px] text-[#8aa398]">每时段 3 只</span>
+</div>
+<div class="flex gap-2 text-[12px] mb-3">
+<button class="day-btn px-3.5 py-1.5 rounded-full bg-[#38a878] text-white font-medium" data-day="0" onclick="switchDay(this)">今天 11/15</button>
+<button class="day-btn px-3.5 py-1.5 rounded-full bg-white text-[#5b7a6d] font-medium" data-day="1" onclick="switchDay(this)">明天 11/16</button>
+<button class="day-btn px-3.5 py-1.5 rounded-full bg-white text-[#5b7a6d] font-medium" data-day="2" onclick="switchDay(this)">后天 11/17</button>
+</div>
+<div class="space-y-2.5" id="slotList">
+<!-- 时段：已满 -->
+<div class="rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-[46px] h-[46px] rounded-xl bg-[#f4f6f5] grid place-items-center shrink-0">
+<span class="text-[13px] font-bold text-[#9aaba3]">10:00</span>
+</div>
+<div>
+<div class="text-[13px] font-semibold text-[#5c6f66]">10:00 - 11:00</div>
+<div class="text-[11px] text-[#a2b5ab] mt-0.5">已占用 3 / 剩余 0</div>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-full bg-[#eceeed] text-[#a9b6b0] text-[12px] font-medium cursor-not-allowed" disabled="">名额已满</button>
+</div>
+<div class="mt-2.5 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden">
+<div class="h-full w-full bg-[#cdd6d2]"></div>
+</div>
+</div>
+<!-- 时段：剩余 1 -->
+<a class="block rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)] active:scale-[0.99] transition" href="booking.html?slot=14:00">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-[46px] h-[46px] rounded-xl bg-[#eaf7f0] grid place-items-center shrink-0">
+<span class="text-[13px] font-bold text-[#38a878]">14:00</span>
+</div>
+<div>
+<div class="text-[13px] font-semibold text-[#22402f]">14:00 - 15:00</div>
+<div class="text-[11px] text-[#e07a4b] mt-0.5 font-medium">已占用 2 / 仅剩 1 个名额</div>
+</div>
+</div>
+<span class="px-3.5 py-2 rounded-full bg-[#38a878] text-white text-[12px] font-medium">立即预约</span>
+</div>
+<div class="mt-2.5 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden">
+<div class="h-full w-2/3 bg-[#7ad2a9]"></div>
+</div>
+</a>
+<!-- 时段：剩余 2 -->
+<a class="block rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)] active:scale-[0.99] transition" href="booking.html?slot=16:00">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-[46px] h-[46px] rounded-xl bg-[#eaf7f0] grid place-items-center shrink-0">
+<span class="text-[13px] font-bold text-[#38a878]">16:00</span>
+</div>
+<div>
+<div class="text-[13px] font-semibold text-[#22402f]">16:00 - 17:00</div>
+<div class="text-[11px] text-[#5b7a6d] mt-0.5">已占用 1 / 剩余 2 个名额</div>
+</div>
+</div>
+<span class="px-3.5 py-2 rounded-full bg-[#38a878] text-white text-[12px] font-medium">立即预约</span>
+</div>
+<div class="mt-2.5 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden">
+<div class="h-full w-1/3 bg-[#7ad2a9]"></div>
+</div>
+</a>
+</div>
+</section>
+<!-- 温馨提示 -->
+<section class="mt-5 rounded-2xl bg-[#fff8ee] border border-[#f7e7cd] p-3.5">
+<div class="flex items-start gap-2">
+<iconify-icon class="text-[18px] text-[#e0a250] shrink-0 mt-0.5" icon="mdi:lightbulb-on-outline"></iconify-icon>
+<div>
+<p class="text-[12px] font-semibold text-[#8a6425]">预约小贴士</p>
+<p class="text-[11px] text-[#a1834e] mt-1 leading-relaxed">下单后名额锁定 5 分钟，请及时完成支付；时段开始前 2 小时以上可自助取消，不足 2 小时需人工审核。</p>
+</div>
+</div>
+</section>
+<!-- 我的预约入口 -->
+<section class="mt-4 mb-2">
+<a class="flex items-center justify-between rounded-2xl bg-white p-3.5 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" href="booking-detail.html">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-[#fdeee5] grid place-items-center">
+<iconify-icon class="text-[#e07a4b] text-lg" icon="mdi:calendar-check-outline"></iconify-icon>
+</div>
+<div>
+<p class="text-[12px] font-semibold text-[#22402f]">最近一笔预约 · 已确认</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">BK20261115001 · 今天 16:00</p>
+</div>
+</div>
+<iconify-icon class="text-[#b6c7bf] text-xl" icon="mdi:chevron-right"></iconify-icon>
+</a>
+</section>
+</main>
+<!-- 底部 Tab -->
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="home.html">
+<iconify-icon class="text-[22px]" icon="mdi:home-variant"></iconify-icon>
+<span class="text-[10px] font-medium">首页</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="bookings.html">
+<iconify-icon class="text-[22px]" icon="mdi:calendar-blank-outline"></iconify-icon>
+<span class="text-[10px]">我的预约</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:store-cog-outline"></iconify-icon>
+<span class="text-[10px]">门店端</span>
+</a>
+</nav>
+</div>
+<script>
+    function switchDay(btn) {
+      document.querySelectorAll('.day-btn').forEach(function (b) {
+        b.className = 'day-btn px-3.5 py-1.5 rounded-full bg-white text-[#5b7a6d] font-medium';
+      });
+      btn.className = 'day-btn px-3.5 py-1.5 rounded-full bg-[#38a878] text-white font-medium';
+    }
+  </script>
+</body>
+</html>

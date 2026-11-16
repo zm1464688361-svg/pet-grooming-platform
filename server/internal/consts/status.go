@@ -18,6 +18,11 @@ const (
 // 有效预约状态（参与名额占用与唯一性校验）
 var ValidStatuses = []int{StatusPending, StatusConfirmed, StatusCancelAudit}
 
+// 占用名额状态（红线 4.1.4：已核销(5)/服务中(6)/服务完成(7)/未到店(8) 名额永久占用）。
+// 建单容量与同宠物唯一校验必须统计此全集，防止核销后重复预约绕过容量。
+var OccupiedStatuses = []int{StatusPending, StatusConfirmed, StatusCancelAudit,
+	StatusVerified, StatusInService, StatusFinished, StatusNoShow}
+
 // 业务固定常量（.agent 约束口径，禁止修改）
 const (
 	ShopId            = "shop_001" // 单门店

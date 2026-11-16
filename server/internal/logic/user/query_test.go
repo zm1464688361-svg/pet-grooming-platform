@@ -26,11 +26,20 @@ func TestListBookableSlots(t *testing.T) {
 		t.Fatalf("seed 中 3 个未来时段均应可约，got %d", len(slots))
 	}
 	for _, s := range slots {
-		if s.Remaining != consts.MaxCapacity {
-			t.Fatalf("无预约时段剩余名额应为 %d，got %d", consts.MaxCapacity, s.Remaining)
+		// 剩余名额 = 容量 - 占用名额状态(1/2/3/5/6/7/8)的订单数（Redis 为缓存，允许演示数据占用）
+		occ, err := g.DB().Model("appointment").
+			Where("slot_id", s.SlotId).
+			WhereIn("status", consts.OccupiedStatuses).
+			Count()
+		if err != nil {
+			t.Fatalf("count appointments: %v", err)
 		}
-		if s.IsFull {
-			t.Fatalf("空时段不应为已满")
+		expect := consts.MaxCapacity - occ
+		if expect < 0 {
+			expect = 0
+		}
+		if s.Remaining != expect {
+			t.Fatalf("slot %s remaining should be %d (occupied %d), got %d", s.SlotId, expect, occ, s.Remaining)
 		}
 	}
 

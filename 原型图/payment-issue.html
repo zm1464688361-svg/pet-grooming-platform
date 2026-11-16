@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>支付异常单处置 · 门店端</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-2.5 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="workbench.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<div class="flex-1">
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">支付异常单</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">店长 / 客服共用视角 · 按顺序处置</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[10px] font-medium">待处理 1</span>
+</div>
+<div class="flex gap-2 mt-2.5">
+<button class="view-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium" onclick="switchView('manager', this)">店长视角</button>
+<button class="view-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]" onclick="switchView('cs', this)">客服视角</button>
+</div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<!-- 产生条件 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[12px] font-bold text-[#1d3a2e] flex items-center gap-1.5">
+<iconify-icon class="text-[#7a63b0] text-base" icon="mdi:help-circle-outline"></iconify-icon>
+          异常单如何产生
+        </h2>
+<div class="mt-2.5 grid grid-cols-1 gap-1.5 text-[10px] text-[#7d958a]">
+<div class="flex gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#7a63b0] font-semibold shrink-0">01</span><span>渠道已扣款，但支付回调超时未到达系统</span></div>
+<div class="flex gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#7a63b0] font-semibold shrink-0">02</span><span>锁定 5 分钟超时关单，但渠道随后返回支付成功</span></div>
+<div class="flex gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2"><span class="text-[#7a63b0] font-semibold shrink-0">03</span><span>同一预约出现两条不同渠道流水号</span></div>
+</div>
+</section>
+<!-- 待处理清单 -->
+<section class="mt-3">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-[12px] font-bold text-[#1d3a2e]">待处理清单</h2>
+<span class="text-[10px] text-[#a2b5ab]">挂账金额 ¥99.00</span>
+</div>
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#e5dcf8]">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">EX20261115001</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">关联 BK20261115009 · 豆豆 · 16:00 时段</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[9px] font-semibold" id="issueStatus">待处理</span>
+</div>
+<div class="mt-2.5 space-y-1.5 text-[10px]">
+<div class="flex justify-between"><span class="text-[#a2b5ab]">渠道流水号</span><span class="text-[#4a6357]">T202611150009</span></div>
+<div class="flex justify-between"><span class="text-[#a2b5ab]">渠道扣款</span><span class="text-[#22402f] font-semibold">¥99.00（已扣）</span></div>
+<div class="flex justify-between"><span class="text-[#a2b5ab]">系统预约状态</span><span class="text-[#c98a3c]">待支付（锁定已超时关闭）</span></div>
+<div class="flex justify-between"><span class="text-[#a2b5ab]">异常类型</span><span class="text-[#7a63b0]">渠道已扣款未回调</span></div>
+</div>
+<div class="mt-2 rounded-lg bg-[#faf8ff] px-2.5 py-2">
+<p class="text-[9px] text-[#8574ab] font-medium">建议处置</p>
+<p class="text-[10px] text-[#7d6f9c] mt-0.5 leading-relaxed" id="suggestion">店长：先核对渠道流水与台账挂账，确认后转客服发起退款。</p>
+</div>
+<!-- 处置顺序 -->
+<div class="mt-3">
+<p class="text-[10px] font-semibold text-[#4a6357] mb-1.5">处置顺序（必须逐步）</p>
+<div class="space-y-1.5">
+<div class="flex items-center gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2" id="step1">
+<span class="w-4 h-4 rounded-full bg-[#e0e8e4] text-[9px] text-[#7d958a] grid place-items-center shrink-0">1</span>
+<span class="text-[10px] text-[#4a6357] flex-1">核对渠道流水与预约号是否一致</span>
+<span class="text-[9px] text-[#a2b5ab]">待做</span>
+</div>
+<div class="flex items-center gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2 opacity-60" id="step2">
+<span class="w-4 h-4 rounded-full bg-[#e0e8e4] text-[9px] text-[#7d958a] grid place-items-center shrink-0">2</span>
+<span class="text-[10px] text-[#4a6357] flex-1">确认是否恢复名额或转退款</span>
+<span class="text-[9px] text-[#a2b5ab]">待做</span>
+</div>
+<div class="flex items-center gap-2 rounded-lg bg-[#f7fbf9] px-2.5 py-2 opacity-60" id="step3">
+<span class="w-4 h-4 rounded-full bg-[#e0e8e4] text-[9px] text-[#7d958a] grid place-items-center shrink-0">3</span>
+<span class="text-[10px] text-[#4a6357] flex-1">登记处置结果，关闭异常单</span>
+<span class="text-[9px] text-[#a2b5ab]">待做</span>
+</div>
+</div>
+</div>
+<div class="mt-3" id="actionBox">
+<button class="w-full py-2.5 rounded-full bg-[#7a63b0] text-white text-[11px] font-semibold" onclick="advanceStep()" type="button">执行下一步处置</button>
+<p class="text-[9px] text-[#b6c7bf] text-center mt-1.5">处置记录会写入预约日志，C 端可查看结果</p>
+</div>
+<div class="hidden mt-2.5 rounded-xl bg-[#eef9f3] px-3 py-2.5" id="doneBox">
+<p class="text-[11px] font-semibold text-[#2f8a63]">异常单已关闭</p>
+<p class="text-[10px] text-[#7d958a] mt-1 leading-relaxed" id="doneDesc">已发起原路退款，退款单 RF20261115005 生成，退款成功累计退款金额。</p>
+<a class="mt-2 inline-flex px-3 py-1.5 rounded-full bg-white text-[10px] font-medium text-[#3f8f6b]" href="refund-tracking.html">去退款跟进</a>
+</div>
+</div>
+</section>
+<!-- 已关闭异常单 -->
+<section class="mt-4">
+<h2 class="text-[12px] font-bold text-[#1d3a2e] mb-2">近期已关闭</h2>
+<div class="rounded-2xl bg-white divide-y divide-[#f2f7f4] shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="px-3.5 py-2.5 flex items-center justify-between">
+<div><p class="text-[11px] font-medium text-[#22402f]">EX20261114002</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">重复回调 · 关闭无损失</p></div>
+<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#f0f2f1] text-[#7d958a]">已关闭</span>
+</div>
+<div class="px-3.5 py-2.5 flex items-center justify-between">
+<div><p class="text-[11px] font-medium text-[#22402f]">EX20261113005</p><p class="text-[9px] text-[#a2b5ab] mt-0.5">已原路退款 ¥99.00 · 客服周宁</p></div>
+<span class="text-[9px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63]">退款完成</span>
+</div>
+</div>
+</section>
+</main>
+<div class="hidden absolute left-1/2 -translate-x-1/2 bottom-24 z-40 px-4 py-2.5 rounded-full bg-[#22402f] text-white text-[11px] shadow-lg" id="toast"></div>
+</div>
+<script>
+    var step = 0;
+    var viewMode = 'manager';
+
+    function switchView(mode, btn) {
+      viewMode = mode;
+      document.querySelectorAll('.view-btn').forEach(function (b) {
+        b.className = 'view-btn px-3 py-1.5 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[11px]';
+      });
+      btn.className = 'view-btn px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[11px] font-medium';
+      var suggestion = document.getElementById('suggestion');
+      if (mode === 'manager') {
+        suggestion.textContent = '店长：先核对渠道流水与台账挂账，确认后转客服发起退款。';
+      } else {
+        suggestion.textContent = '客服：确认店长核对结果后发起原路退款，并跟踪退款单状态，不修改预约状态。';
+      }
+    }
+
+    function markStep(id, state) {
+      var el = document.getElementById(id);
+      var badge = el.querySelector('span:first-child');
+      var tail = el.querySelector('span:last-child');
+      el.classList.remove('opacity-60');
+      if (state === 'doing') {
+        badge.className = 'w-4 h-4 rounded-full bg-[#7a63b0] text-[9px] text-white grid place-items-center shrink-0';
+        tail.className = 'text-[9px] text-[#7a63b0] font-medium';
+        tail.textContent = '已完成';
+      }
+    }
+
+    function advanceStep() {
+      step = step + 1;
+      if (step === 1) {
+        markStep('step1');
+        document.getElementById('step2').classList.remove('opacity-60');
+        document.getElementById('actionBox').querySelector('button').textContent = '确认转客服退款';
+      } else if (step === 2) {
+        markStep('step2');
+        document.getElementById('step3').classList.remove('opacity-60');
+        document.getElementById('actionBox').querySelector('button').textContent = '关闭异常单';
+      } else {
+        markStep('step3');
+        document.getElementById('issueStatus').textContent = '已关闭';
+        document.getElementById('issueStatus').className = 'px-2 py-1 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-semibold';
+        document.getElementById('actionBox').classList.add('hidden');
+        document.getElementById('doneBox').classList.remove('hidden');
+        if (viewMode === 'cs') {
+          document.getElementById('doneDesc').textContent = '已发起原路退款，退款单 RF20261115005 生成，退款状态与预约状态相互独立。';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -145,9 +145,10 @@ func Remaining(ctx context.Context, slotId string, capacity int) (int, error) {
 
 // RebuildQuota 对账重建：以 MySQL 有效预约（状态 1/2/3）为准重建计数与宠物集合。
 func RebuildQuota(ctx context.Context, slotId string) error {
+	// 对账重建统计占用名额状态全集（1/2/3 + 5/6/7/8，红线：核销后名额永久占用）
 	vals, err := g.DB().Model("appointment").
 		Where("slot_id", slotId).
-		WhereIn("status", consts.ValidStatuses).
+		WhereIn("status", consts.OccupiedStatuses).
 		Array("pet_id")
 	if err != nil {
 		return err

@@ -53,9 +53,10 @@ func markPaid(t *testing.T, appId string) {
 
 func TestDailyLedger(t *testing.T) {
 	ctx := staffCtx(consts.RoleManager, consts.ShopId)
-	slotId := newSlotRow(t, ctx, consts.ShopId, time.Now().Add(24*time.Hour), time.Now().Add(25*time.Hour), consts.SlotActive)
+	// 用远未来日期隔离测试数据，避免被演示种子数据污染
+	slotId := newSlotRow(t, ctx, consts.ShopId, time.Now().Add(365*24*time.Hour), time.Now().Add(365*24*time.Hour+time.Hour), consts.SlotActive)
 	defer cleanupSlot(t, ctx, slotId)
-	date := time.Now().Add(24 * time.Hour).Format("2006-01-02")
+	date := time.Now().Add(365 * 24 * time.Hour).Format("2006-01-02")
 
 	// 五类计数样本
 	aValid := ledgerApp(t, ctx, slotId, "pet_2001", "user_1001", consts.StatusConfirmed)   // 有效(2)
@@ -156,8 +157,8 @@ func TestDailyLedger(t *testing.T) {
 
 func TestLedgerExcludesOtherDays(t *testing.T) {
 	ctx := staffCtx(consts.RoleManager, consts.ShopId)
-	// 昨天的时段（不在查询日期内）
-	slotId := newSlotRow(t, ctx, consts.ShopId, time.Now().Add(-24*time.Hour), time.Now().Add(-23*time.Hour), consts.SlotActive)
+	// 时段在查询日期前一天（远未来日期隔离，避免演示数据污染）
+	slotId := newSlotRow(t, ctx, consts.ShopId, time.Now().Add(364*24*time.Hour), time.Now().Add(364*24*time.Hour+time.Hour), consts.SlotActive)
 	defer cleanupSlot(t, ctx, slotId)
 
 	appId := ledgerApp(t, ctx, slotId, "pet_2001", "user_1001", consts.StatusFinished)
@@ -167,7 +168,7 @@ func TestLedgerExcludesOtherDays(t *testing.T) {
 	}()
 	markPaid(t, appId)
 
-	date := time.Now().Add(24 * time.Hour).Format("2006-01-02")
+	date := time.Now().Add(365 * 24 * time.Hour).Format("2006-01-02")
 	sum, _, err := DailyLedger(ctx, date)
 	if err != nil {
 		t.Fatalf("ledger: %v", err)

@@ -185,10 +185,9 @@ async function loadWorkbench() {
       api('/api/shop/refund/list?page=1&size=50', { role: 'staff' }),
     ]);
     const d = ledger.data || {};
-    document.getElementById('cntToday').textContent = d.summary ? (d.summary.ValidCount + d.summary.FinishedCount) : '-';
-    document.getElementById('cntRevenue').textContent = d.summary ? '¥' + fmtYuan(d.summary.RevenueAmount) : '-';
-    const pending = (audit.data ? audit.data.total : 0) + (exc.data ? exc.data.total : 0);
-    document.getElementById('cntPending').textContent = pending;
+    const sm = d.summary || {};
+    document.getElementById('cntToday').textContent = (sm.validCount || 0) + (sm.finishedCount || 0);
+    document.getElementById('cntRevenue').textContent = '¥' + fmtYuan(sm.revenueAmount || 0);
     document.getElementById('badgeAudit').textContent = audit.data ? audit.data.total : 0;
     document.getElementById('subAudit').textContent = (audit.data ? audit.data.total : 0)
       ? '距时段开始不足 2 小时 · 需人工审核' : '暂无待审批申请';
@@ -196,7 +195,7 @@ async function loadWorkbench() {
     document.getElementById('subExc').textContent = (exc.data ? exc.data.total : 0)
       ? '渠道已扣款未回调 · 待原路退款' : '暂无待处理异常单';
     // 待核销：今日已确认(2)预约数
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toLocaleDateString('sv-SE');
     const verifyList = (toVerify.data.list || []).filter(a => a.startTime.slice(0, 10) === today);
     document.getElementById('badgeVerify').textContent = verifyList.length;
     document.getElementById('subVerify').textContent = verifyList.length
@@ -208,8 +207,10 @@ async function loadWorkbench() {
     document.getElementById('subRefund').textContent = failRefunds.length
       ? failRefunds[0].refundId + ' · ' + (failRefunds[0].status === 1 ? '退款中' : '退款失败待重试')
       : '暂无待重试退款单';
+    // 待处理 = 四类待办合计（与原型一致）
+    document.getElementById('cntPending').textContent =
+      verifyList.length + (audit.data ? audit.data.total : 0) + failRefunds.length + (exc.data ? exc.data.total : 0);
     const list = (slots.data && (slots.data.slots || slots.data)) || [];
-    const today = new Date().toISOString().slice(0, 10);
     document.getElementById('occupancy').innerHTML = list.filter(s => s.startTime.slice(0, 10) === today).map(s => {
       const occ = 3 - s.remaining, pct = Math.round(occ / 3 * 100);
       return `<div>

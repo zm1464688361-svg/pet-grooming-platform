@@ -84,4 +84,19 @@ func TestRebuildQuotaWithOrders(t *testing.T) {
 	if err != nil || ok.Int() != 1 {
 		t.Fatalf("pet set should be rebuilt, ok=%v err=%v", ok, err)
 	}
+
+	// 状态改为服务完成(7)后重建：名额仍应占用（红线 4.1.4）
+	if _, err := g.DB().Model("appointment").Data(g.Map{"status": consts.StatusFinished}).Where("app_id", appId).Update(); err != nil {
+		t.Fatalf("finish: %v", err)
+	}
+	if err := RebuildQuota(ctx, slotId); err != nil {
+		t.Fatalf("rebuild after finish: %v", err)
+	}
+	rem2, err := Remaining(ctx, slotId, consts.MaxCapacity)
+	if err != nil {
+		t.Fatalf("remaining after finish: %v", err)
+	}
+	if rem2 != consts.MaxCapacity-1 {
+		t.Fatalf("finished order should still occupy quota: remaining should be %d, got %d", consts.MaxCapacity-1, rem2)
+	}
 }

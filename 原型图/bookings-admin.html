@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>预约查询 · 店长端</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-2.5 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="workbench.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<div class="flex-1">
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">预约查询</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">店长视角 · 含双向备注</p>
+</div>
+<a class="text-[10px] px-2.5 py-1.5 rounded-full bg-[#f0f7f3] text-[#4a8f6f]" href="frontdesk.html">前台核销台</a>
+</div>
+<div class="mt-2.5 flex items-center gap-2 rounded-xl bg-[#f7fbf9] border border-[#eef4f1] px-3 py-2">
+<iconify-icon class="text-[#8aa398] text-sm" icon="mdi:magnify"></iconify-icon>
+<input class="flex-1 bg-transparent text-[11px] outline-none placeholder:text-[#b6c7bf]" id="searchInput" oninput="searchBooking()" placeholder="搜索预约号 / 宠物名 / 手机号" type="text"/>
+</div>
+<div class="flex gap-1.5 mt-2 overflow-x-auto no-scrollbar pb-0.5">
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#38a878] text-white text-[10px] font-medium" onclick="filterStatus('all', this)">全部</button>
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]" onclick="filterStatus('待核销', this)">待核销</button>
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]" onclick="filterStatus('服务中', this)">服务中</button>
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]" onclick="filterStatus('已完成', this)">已完成</button>
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]" onclick="filterStatus('未到店', this)">未到店</button>
+<button class="fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]" onclick="filterStatus('已取消', this)">已取消</button>
+</div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<p class="mt-3 text-[10px] text-[#a2b5ab]" id="resultHint">共 3 条结果 · 按预约时间排序</p>
+<div class="mt-2 space-y-3" id="bookingList">
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-key="bk20261115001 豆豆 林小满" data-status="待核销">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#eaf7f0] grid place-items-center"><iconify-icon class="text-[#38a878]" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">豆豆 · 柯基 · 林小满</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115001 · 14:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63] text-[9px] font-semibold">已确认 · 待核销</span>
+</div>
+<div class="mt-2.5 rounded-lg bg-[#f7fbf9] px-2.5 py-2 text-[10px] text-[#7d958a] leading-relaxed">
+<span class="text-[#3f8f6b] font-medium">门店备注：</span>豆豆怕吹风机，使用低风速。已排班小雅。
+          </div>
+<div class="mt-2.5 flex items-center justify-between">
+<span class="text-[11px] font-bold text-[#22402f]">¥99.00 <span class="text-[9px] font-normal text-[#a2b5ab]">已支付</span></span>
+<div class="flex gap-2">
+<a class="px-3 py-1.5 rounded-full bg-[#38a878] text-white text-[10px] font-medium" href="frontdesk.html">去核销</a>
+<a class="px-3 py-1.5 rounded-full border border-[#f3dcd4] text-[#c9563a] text-[10px]" href="no-show.html">标记未到店</a>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-key="bk20261115002 奶糖 苏禾" data-status="服务中">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#fdeee5] grid place-items-center"><iconify-icon class="text-[#e07a4b]" icon="mdi:cat"></iconify-icon></div>
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">奶糖 · 英短 · 苏禾</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261115002 · 10:00 时段</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-[#e9f1fe] text-[#3a6fb0] text-[9px] font-semibold">服务中</span>
+</div>
+<div class="mt-2.5 rounded-lg bg-[#f7fbf9] px-2.5 py-2 text-[10px] text-[#7d958a] leading-relaxed">
+<span class="text-[#3f8f6b] font-medium">门店备注：</span>奶糖应激，建议独立包间操作。
+          </div>
+<div class="mt-2.5 flex items-center justify-between">
+<span class="text-[11px] font-bold text-[#22402f]">¥99.00 <span class="text-[9px] font-normal text-[#a2b5ab]">已核销收入</span></span>
+<a class="px-3 py-1.5 rounded-full bg-[#f0f7f3] text-[#3f8f6b] text-[10px] font-medium" href="service.html">查看服务进度</a>
+</div>
+</div>
+<div class="rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" data-key="bk20261108007 豆豆 林小满" data-status="已完成">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#eaf7f0] grid place-items-center"><iconify-icon class="text-[#38a878]" icon="mdi:dog"></iconify-icon></div>
+<div>
+<p class="text-[12px] font-bold text-[#22402f]">豆豆 · 柯基 · 林小满</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">BK20261108007 · 11/08 16:00</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-[#f0f2f1] text-[#7d958a] text-[9px] font-semibold">服务完成</span>
+</div>
+<div class="mt-2.5 flex items-center justify-between">
+<span class="text-[11px] font-bold text-[#22402f]">¥99.00 <span class="text-[9px] font-normal text-[#a2b5ab]">已核销收入</span></span>
+<a class="px-3 py-1.5 rounded-full border border-[#e6f0eb] text-[#4a6357] text-[10px]" href="service.html">宠物历史记录</a>
+</div>
+</div>
+</div>
+<div class="hidden mt-10 flex flex-col items-center text-center" id="emptyState">
+<div class="w-16 h-16 rounded-full bg-[#eef7f2] grid place-items-center">
+<iconify-icon class="text-[30px] text-[#a8c7b8]" icon="mdi:clipboard-search-outline"></iconify-icon>
+</div>
+<p class="text-[12px] font-medium text-[#5b7a6d] mt-3">没有匹配的预约</p>
+<p class="text-[10px] text-[#a2b5ab] mt-1">试试更换关键词或状态筛选</p>
+</div>
+</main>
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:view-dashboard-outline"></iconify-icon>
+<span class="text-[10px]">工作台</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="bookings-admin.html">
+<iconify-icon class="text-[22px]" icon="mdi:clipboard-search-outline"></iconify-icon>
+<span class="text-[10px] font-medium">预约查询</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="ledger.html">
+<iconify-icon class="text-[22px]" icon="mdi:book-open-variant"></iconify-icon>
+<span class="text-[10px]">台账</span>
+</a>
+</nav>
+</div>
+<script>
+    var activeStatus = 'all';
+
+    function applyFilter() {
+      var keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+      var visible = 0;
+      document.querySelectorAll('#bookingList > div').forEach(function (card) {
+        var status = card.getAttribute('data-status');
+        var key = card.getAttribute('data-key');
+        var statusMatch = activeStatus === 'all' || status === activeStatus;
+        var keyMatch = keyword === '' || key.indexOf(keyword) >= 0;
+        if (statusMatch && keyMatch) {
+          card.classList.remove('hidden');
+          visible = visible + 1;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('resultHint').textContent = '共 ' + visible + ' 条结果 · 按预约时间排序';
+      var empty = document.getElementById('emptyState');
+      if (visible === 0) {
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+      }
+    }
+
+    function filterStatus(status, btn) {
+      activeStatus = status;
+      document.querySelectorAll('.fb').forEach(function (b) {
+        b.className = 'fb shrink-0 px-2.5 py-1 rounded-full bg-[#f2f7f4] text-[#5b7a6d] text-[10px]';
+      });
+      btn.className = 'fb shrink-0 px-2.5 py-1 rounded-full bg-[#38a878] text-white text-[10px] font-medium';
+      applyFilter();
+    }
+
+    function searchBooking() {
+      applyFilter();
+    }
+  </script>
+</body>
+</html>

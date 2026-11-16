@@ -102,10 +102,10 @@ func Book(ctx context.Context, in *BookInput) (*BookResult, error) {
 			return err
 		}
 
-		// 4.2 容量校验（有效状态 1/2/3）
+		// 4.2 容量校验（占用名额状态 1/2/3 + 5/6/7/8，红线：核销后名额永久占用）
 		cnt, err := tx.Model("appointment").Ctx(ctx).
 			Where("slot_id", in.SlotId).
-			WhereIn("status", consts.ValidStatuses).
+			WhereIn("status", consts.OccupiedStatuses).
 			Count()
 		if err != nil {
 			return err
@@ -114,11 +114,11 @@ func Book(ctx context.Context, in *BookInput) (*BookResult, error) {
 			return NewBiz(consts.ErrQuotaFull)
 		}
 
-		// 4.3 同宠物唯一校验（uk_pet_slot 兜底）
+		// 4.3 同宠物唯一校验（占用名额状态全集；uk_pet_slot 兜底）
 		dup, err := tx.Model("appointment").Ctx(ctx).
 			Where("pet_id", in.PetId).
 			Where("slot_id", in.SlotId).
-			WhereIn("status", consts.ValidStatuses).
+			WhereIn("status", consts.OccupiedStatuses).
 			Count()
 		if err != nil {
 			return err

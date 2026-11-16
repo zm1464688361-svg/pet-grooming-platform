@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>退款详情 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 py-3 flex items-center gap-3 border-b border-[#eef4f1]">
+<a class="w-8 h-8 grid place-items-center text-[#4a6357]" href="booking-detail.html">
+<iconify-icon class="text-xl" icon="mdi:arrow-left"></iconify-icon>
+</a>
+<h1 class="text-[15px] font-bold text-[#1d3a2e]">退款详情</h1>
+<span class="ml-auto text-[10px] px-2 py-1 rounded-full bg-[#f2f7f4] text-[#7d958a]">退款单独立于预约状态</span>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-28">
+<!-- 退款状态 -->
+<section class="mt-3 rounded-3xl bg-white p-5 shadow-[0_4px_14px_rgba(45,110,85,0.06)] border border-[#f6ddd2]">
+<div class="flex items-start justify-between">
+<div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#fdeee5] text-[#c9563a] text-[11px] font-semibold">
+<iconify-icon class="text-sm" icon="mdi:alert-circle-outline"></iconify-icon>
+              退款失败 · 待门店重试
+            </span>
+<p class="text-[26px] font-bold text-[#1d3a2e] mt-3 leading-none">¥99.00</p>
+<p class="text-[11px] text-[#8aa398] mt-1.5">退款单 RF20261115003</p>
+</div>
+<div class="w-14 h-14 rounded-full bg-[#fdeee5] grid place-items-center shrink-0">
+<iconify-icon class="text-[28px] text-[#e07a4b]" icon="mdi:cash-refund"></iconify-icon>
+</div>
+</div>
+<div class="mt-4 rounded-xl bg-[#fdf6f2] px-3 py-2.5">
+<p class="text-[11px] font-semibold text-[#b8683f]">失败原因</p>
+<p class="text-[11px] text-[#a97a63] mt-1 leading-relaxed">模拟渠道返回 CHANNEL_TIMEOUT：原支付订单超过可退窗口响应超时。已通知客服跟进重试，退款失败不影响预约状态，也不会恢复名额。</p>
+</div>
+</section>
+<!-- 金额 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[13px] font-bold text-[#1d3a2e] mb-3">金额与口径</h2>
+<div class="space-y-2.5 text-[12px]">
+<div class="flex justify-between"><span class="text-[#8aa398]">预约款（已支付）</span><span class="font-medium text-[#22402f]">¥99.00</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">核销收入</span><span class="font-medium text-[#a2b5ab]">¥0.00（未核销）</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">应退金额</span><span class="font-medium text-[#22402f]">¥99.00</span></div>
+<div class="flex justify-between"><span class="text-[#8aa398]">已退金额</span><span class="font-semibold text-[#c9563a]">¥0.00</span></div>
+<div class="flex justify-between pt-2.5 border-t border-dashed border-[#e6f0eb]"><span class="text-[#8aa398]">申请时间</span><span class="font-medium text-[#22402f]">11-15 12:31:08</span></div>
+</div>
+</section>
+<!-- 关联预约 -->
+<a class="mt-3 flex items-center justify-between rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]" href="booking-detail.html">
+<div>
+<p class="text-[10px] text-[#a2b5ab]">关联预约</p>
+<p class="text-[12px] font-semibold text-[#22402f] mt-0.5">BK20261115001 · 豆豆 · 11/15 14:00</p>
+<p class="text-[10px] text-[#c98a3c] mt-1">预约状态：待审核取消（审批期间冻结）</p>
+</div>
+<iconify-icon class="text-[#b6c7bf] text-xl" icon="mdi:chevron-right"></iconify-icon>
+</a>
+<!-- 退款进度 -->
+<section class="mt-3 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<h2 class="text-[13px] font-bold text-[#1d3a2e] mb-3">退款进度</h2>
+<ol class="relative pl-5 space-y-3.5">
+<span class="absolute left-[5px] top-1.5 bottom-1.5 w-px bg-[#e4efea]"></span>
+<li class="relative">
+<span class="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-[#38a878] ring-4 ring-[#eaf7f0]"></span>
+<p class="text-[12px] font-medium text-[#22402f]">宠主提交取消申请</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">11-15 12:31:08</p>
+</li>
+<li class="relative">
+<span class="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-[#38a878] ring-4 ring-[#eaf7f0]"></span>
+<p class="text-[12px] font-medium text-[#22402f]">客服同意取消，生成退款单</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">11-15 12:40:22 · 客服 周宁</p>
+</li>
+<li class="relative">
+<span class="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-[#e05a3a] ring-4 ring-[#fdeee5]"></span>
+<p class="text-[12px] font-medium text-[#c9563a]">渠道退款失败：CHANNEL_TIMEOUT</p>
+<p class="text-[10px] text-[#a2b5ab] mt-0.5">11-15 12:41:05 · 待客服重试</p>
+</li>
+<li class="relative">
+<span class="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full border-2 border-[#cddcd5] bg-white ring-4 ring-white"></span>
+<p class="text-[12px] font-medium text-[#a2b5ab]">等待重试成功 / 到账</p>
+<p class="text-[10px] text-[#b6c7bf] mt-0.5">重试仅改退款单状态，不改预约状态</p>
+</li>
+</ol>
+</section>
+<div class="mt-3 rounded-2xl bg-[#fff8ee] border border-[#f7e7cd] p-3.5 flex items-start gap-2">
+<iconify-icon class="text-[#e0a250] text-base mt-0.5 shrink-0" icon="mdi:headset"></iconify-icon>
+<p class="text-[10px] leading-relaxed text-[#a1834e]">如退款长时间未到账，可联系门店客服。客服会在「退款跟进」中重试渠道打款，成功后本页状态自动更新。</p>
+</div>
+</main>
+<div class="shrink-0 bg-white border-t border-[#eef4f1] px-4 py-3 flex gap-3">
+<a class="flex-1 py-3 rounded-full border border-[#d9e7e0] text-[13px] font-medium text-[#4a6357] text-center" href="refund-tracking.html">门店退款跟进</a>
+<button class="flex-1 py-3 rounded-full bg-[#38a878] text-white text-[13px] font-semibold" onclick="queryRefund()" type="button">刷新退款状态</button>
+</div>
+</div>
+<script>
+    function queryRefund() {
+      window.location.href = 'refund.html?retried=1';
+    }
+  </script>
+</body>
+</html>

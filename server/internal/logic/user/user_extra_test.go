@@ -107,24 +107,36 @@ func TestListBookableSlotsSkipsPaused(t *testing.T) {
 	}
 }
 
-func TestListMyAppointmentsStatusFilter(t *testing.T) {
+func TestListMyAppointmentsPaging(t *testing.T) {
 	ctx := context.Background()
 	slotId, appId := makePaidOrder(t, ctx, "pet_2002")
 	defer func() {
 		_, _ = g.DB().Model("payment").Where("app_id", appId).Delete()
 		cleanupSlot(t, ctx, slotId)
 	}()
-	rows, total, err := ListMyAppointments(ctx, "user_1001", consts.StatusConfirmed, 1)
+	rows, total, err := ListMyAppointments(ctx, "user_1001", 1, 100)
 	if err != nil {
 		t.Fatalf("list: %v", err)
 	}
-	if total < 1 {
-		t.Fatal("status=2 filter should include the order")
+	if total < 1 || len(rows) < 1 {
+		t.Fatal("list should include the new order")
 	}
+	found := false
 	for _, row := range rows {
-		if row.Status != consts.StatusConfirmed {
-			t.Fatalf("filter leaked status=%d", row.Status)
+		if row.AppId == appId {
+			found = true
 		}
+	}
+	if !found {
+		t.Fatal("new order should be in page 1")
+	}
+	// 数据隔离：其他用户查不到
+	_, total2, err := ListMyAppointments(ctx, "user_9999", 1, 100)
+	if err != nil {
+		t.Fatalf("list other user: %v", err)
+	}
+	if total2 != 0 {
+		t.Fatalf("user isolation broken: total=%d", total2)
 	}
 }
 

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>门店端工作台 · 毛球家宠物洗护</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<style>
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{scrollbar-width:none}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+</style>
+</head>
+<body class="w-full h-full m-0 overflow-hidden flex items-center justify-center bg-[#e8f4ef]">
+<div class="w-full h-full max-w-[393px] max-h-[852px] bg-[#f7fbf9] flex flex-col overflow-hidden relative text-[#2b3a34]">
+<header class="shrink-0 bg-white px-4 pt-3 pb-3 border-b border-[#eef4f1]">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-[#d9f2e6] grid place-items-center">
+<iconify-icon class="text-[#2f8a63] text-lg" icon="mdi:store-cog"></iconify-icon>
+</div>
+<div class="flex-1">
+<h1 class="text-[14px] font-bold text-[#1d3a2e]">门店端工作台</h1>
+<p class="text-[10px] text-[#8aa398] mt-0.5">毛球家宠物洗护 · shop_001</p>
+</div>
+<a class="text-[10px] px-2.5 py-1.5 rounded-full bg-[#f0f7f3] text-[#4a8f6f] flex items-center gap-1" href="home.html">
+<iconify-icon class="text-xs" icon="mdi:arrow-left-right"></iconify-icon>
+          C 端
+        </a>
+</div>
+<div class="mt-3 flex items-center gap-2 rounded-xl bg-[#f7fbf9] px-3 py-2">
+<iconify-icon class="text-[#38a878] text-sm" icon="mdi:calendar-today"></iconify-icon>
+<span class="text-[11px] text-[#5b7a6d]">营业日 2026-11-15 · 周日</span>
+<span class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#e8f6ef] text-[#2f8a63] font-medium">营业中</span>
+</div>
+</header>
+<main class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar px-4 pb-24">
+<!-- 今日概览 -->
+<section class="mt-3 grid grid-cols-3 gap-2">
+<div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
+<p class="text-[10px] text-[#8aa398]">今日预约</p>
+<p class="text-[20px] font-bold text-[#1d3a2e] mt-1 leading-none">6<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">单</span></p>
+</div>
+<div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
+<p class="text-[10px] text-[#8aa398]">已核销收入</p>
+<p class="text-[20px] font-bold text-[#2f8a63] mt-1 leading-none">¥198</p>
+</div>
+<div class="rounded-2xl bg-white p-3 shadow-[0_4px_12px_rgba(45,110,85,0.05)]">
+<p class="text-[10px] text-[#8aa398]">待处理</p>
+<p class="text-[20px] font-bold text-[#e07a4b] mt-1 leading-none">5<span class="text-[10px] font-normal text-[#8aa398] ml-0.5">项</span></p>
+</div>
+</section>
+<!-- 待办处理清单 -->
+<section class="mt-4">
+<div class="flex items-center justify-between mb-2.5">
+<h2 class="text-[14px] font-bold text-[#1d3a2e] flex items-center gap-1.5">
+            待办处理清单
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-[#fdeee5] text-[#c9563a] font-medium">避免漏单</span>
+</h2>
+<span class="text-[10px] text-[#a2b5ab]">按紧急度排序</span>
+</div>
+<div class="space-y-2">
+<a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="frontdesk.html">
+<div class="w-10 h-10 rounded-xl bg-[#eaf7f0] grid place-items-center shrink-0">
+<iconify-icon class="text-[#38a878] text-xl" icon="mdi:qrcode-scan"></iconify-icon>
+</div>
+<div class="flex-1">
+<p class="text-[12px] font-semibold text-[#22402f]">待核销预约</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">14:00 时段 2 单待核销 · 三重校验</p>
+</div>
+<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#e07a4b] text-[11px] font-bold grid place-items-center">2</span>
+<iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
+</a>
+<a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="cancel-review.html">
+<div class="w-10 h-10 rounded-xl bg-[#fdf3e3] grid place-items-center shrink-0">
+<iconify-icon class="text-[#c98a3c] text-xl" icon="mdi:file-document-alert-outline"></iconify-icon>
+</div>
+<div class="flex-1">
+<p class="text-[12px] font-semibold text-[#22402f]">待审批取消申请</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">BK20261113021 · 距时段不足 2 小时</p>
+</div>
+<span class="w-6 h-6 rounded-full bg-[#fdf3e3] text-[#c98a3c] text-[11px] font-bold grid place-items-center">1</span>
+<iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
+</a>
+<a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="refund-tracking.html">
+<div class="w-10 h-10 rounded-xl bg-[#fdeee5] grid place-items-center shrink-0">
+<iconify-icon class="text-[#e07a4b] text-xl" icon="mdi:cash-refund"></iconify-icon>
+</div>
+<div class="flex-1">
+<p class="text-[12px] font-semibold text-[#22402f]">退款失败待重试</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">RF20261115003 · CHANNEL_TIMEOUT</p>
+</div>
+<span class="w-6 h-6 rounded-full bg-[#fdeee5] text-[#c9563a] text-[11px] font-bold grid place-items-center">1</span>
+<iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
+</a>
+<a class="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-[0_4px_12px_rgba(45,110,85,0.05)]" href="payment-issue.html">
+<div class="w-10 h-10 rounded-xl bg-[#f2eefb] grid place-items-center shrink-0">
+<iconify-icon class="text-[#7a63b0] text-xl" icon="mdi:credit-card-alert-outline"></iconify-icon>
+</div>
+<div class="flex-1">
+<p class="text-[12px] font-semibold text-[#22402f]">支付异常单待处理</p>
+<p class="text-[10px] text-[#8aa398] mt-0.5">EX20261115001 · 渠道已扣款未回调</p>
+</div>
+<span class="w-6 h-6 rounded-full bg-[#f2eefb] text-[#7a63b0] text-[11px] font-bold grid place-items-center">1</span>
+<iconify-icon class="text-[#c3d3cb]" icon="mdi:chevron-right"></iconify-icon>
+</a>
+</div>
+</section>
+<!-- 角色入口 -->
+<section class="mt-4">
+<h2 class="text-[14px] font-bold text-[#1d3a2e] mb-2.5">切换角色</h2>
+<div class="grid grid-cols-2 gap-2.5">
+<a class="rounded-2xl bg-gradient-to-br from-[#e6f6ee] to-[#f6fcf9] p-3.5 border border-[#d9efe3]" href="slots.html">
+<div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#2f8a63] text-lg" icon="mdi:account-tie"></iconify-icon>
+</div>
+<p class="text-[13px] font-bold text-[#1d3a2e] mt-2">店长 · 陈可</p>
+<p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">时段发布 · 未到店标记<br/>当日台账 · 支付异常</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-[#2f8a63] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
+</a>
+<a class="rounded-2xl bg-gradient-to-br from-[#e9f1fe] to-[#f7faff] p-3.5 border border-[#dae6fa]" href="frontdesk.html">
+<div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#3a6fb0] text-lg" icon="mdi:account-voice"></iconify-icon>
+</div>
+<p class="text-[13px] font-bold text-[#1d3a2e] mt-2">前台 · 何蕾</p>
+<p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">预约检索 · 三重校验核销<br/>核销结果反馈</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-[#3a6fb0] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
+</a>
+<a class="rounded-2xl bg-gradient-to-br from-[#fdf0e7] to-[#fffaf6] p-3.5 border border-[#f7e2d3]" href="service.html">
+<div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#d97c46] text-lg" icon="mdi:content-cut"></iconify-icon>
+</div>
+<p class="text-[13px] font-bold text-[#1d3a2e] mt-2">服务人员 · 小雅</p>
+<p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">开始 / 完成登记<br/>宠物历史记录</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-[#d97c46] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
+</a>
+<a class="rounded-2xl bg-gradient-to-br from-[#f3effc] to-[#fbf9ff] p-3.5 border border-[#e5dcf8]" href="cancel-review.html">
+<div class="w-9 h-9 rounded-xl bg-white grid place-items-center shadow-sm">
+<iconify-icon class="text-[#7a63b0] text-lg" icon="mdi:headset"></iconify-icon>
+</div>
+<p class="text-[13px] font-bold text-[#1d3a2e] mt-2">客服 · 周宁</p>
+<p class="text-[10px] text-[#6f8b7d] mt-1 leading-relaxed">取消审批 · 退款跟进<br/>异常单处置</p>
+<div class="mt-2 flex items-center gap-1 text-[10px] text-[#7a63b0] font-medium">进入 <iconify-icon class="text-xs" icon="mdi:arrow-right"></iconify-icon></div>
+</a>
+</div>
+</section>
+<!-- 今日时段占用 -->
+<section class="mt-4 rounded-2xl bg-white p-4 shadow-[0_4px_14px_rgba(45,110,85,0.06)]">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-[13px] font-bold text-[#1d3a2e]">今日时段占用</h2>
+<a class="text-[10px] text-[#38a878]" href="slots.html">管理时段</a>
+</div>
+<div class="space-y-2.5">
+<div>
+<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">10:00 - 11:00</span><span class="text-[#a2b5ab]">已约 3 / 3 · 剩余 0</span></div>
+<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-full bg-[#cdd6d2]"></div></div>
+</div>
+<div>
+<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">14:00 - 15:00</span><span class="text-[#e07a4b]">已约 2 / 3 · 剩余 1</span></div>
+<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-2/3 bg-[#7ad2a9]"></div></div>
+</div>
+<div>
+<div class="flex justify-between text-[11px]"><span class="text-[#5b7a6d]">16:00 - 17:00</span><span class="text-[#2f8a63]">已约 1 / 3 · 剩余 2</span></div>
+<div class="mt-1 h-1.5 rounded-full bg-[#eef2f0] overflow-hidden"><div class="h-full w-1/3 bg-[#7ad2a9]"></div></div>
+</div>
+</div>
+</section>
+<!-- 其他入口 -->
+<section class="mt-4 grid grid-cols-3 gap-2">
+<a class="rounded-xl bg-white py-3 flex flex-col items-center gap-1.5 shadow-[0_3px_10px_rgba(45,110,85,0.05)]" href="bookings-admin.html">
+<iconify-icon class="text-[#38a878] text-lg" icon="mdi:clipboard-search-outline"></iconify-icon>
+<span class="text-[10px] text-[#5b7a6d]">预约查询</span>
+</a>
+<a class="rounded-xl bg-white py-3 flex flex-col items-center gap-1.5 shadow-[0_3px_10px_rgba(45,110,85,0.05)]" href="ledger.html">
+<iconify-icon class="text-[#38a878] text-lg" icon="mdi:book-open-variant"></iconify-icon>
+<span class="text-[10px] text-[#5b7a6d]">当日台账</span>
+</a>
+<a class="rounded-xl bg-white py-3 flex flex-col items-center gap-1.5 shadow-[0_3px_10px_rgba(45,110,85,0.05)]" href="no-show.html">
+<iconify-icon class="text-[#38a878] text-lg" icon="mdi:account-off-outline"></iconify-icon>
+<span class="text-[10px] text-[#5b7a6d]">未到店标记</span>
+</a>
+</section>
+</main>
+<nav class="shrink-0 bg-white border-t border-[#e6f0eb] px-2 pt-1.5 pb-2 flex items-center justify-around">
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="home.html">
+<iconify-icon class="text-[22px]" icon="mdi:home-variant-outline"></iconify-icon>
+<span class="text-[10px]">C 端首页</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#9aaba3]" href="bookings.html">
+<iconify-icon class="text-[22px]" icon="mdi:calendar-blank-outline"></iconify-icon>
+<span class="text-[10px]">我的预约</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 w-16 text-[#38a878]" href="workbench.html">
+<iconify-icon class="text-[22px]" icon="mdi:store-cog"></iconify-icon>
+<span class="text-[10px] font-medium">工作台</span>
+</a>
+</nav>
+</div>
+</body>
+</html>
